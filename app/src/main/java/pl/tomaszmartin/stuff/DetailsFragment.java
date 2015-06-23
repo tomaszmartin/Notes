@@ -33,7 +33,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     private final String TAG = DetailsFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
-    private static final int SELECT_IMAGE_REQUEST_CODE = 1;
+    private static final int IMAGE_REQUEST_CODE = 1;
+    private static final int AUDIO_REQUEST_CODE = 2;
     private EditText textView;
     private EditText titleView;
     private View rootView;
@@ -80,7 +81,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_IMAGE_REQUEST_CODE && data != null) {
+            if (requestCode == IMAGE_REQUEST_CODE && data != null) {
                 if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null) {
                     imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
                 } else {
@@ -88,6 +89,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
                 }
 
                 setImage(imageUri, imageView);
+            } else if (requestCode == AUDIO_REQUEST_CODE) {
+
             }
         }
     }
@@ -102,7 +105,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             image.setAction(Intent.ACTION_OPEN_DOCUMENT);
         }
 
-        startActivityForResult(image, SELECT_IMAGE_REQUEST_CODE);
+        startActivityForResult(image, IMAGE_REQUEST_CODE);
     }
 
 
@@ -215,7 +218,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         } else if (id == R.id.action_draw) {
             Intent intent = new Intent(getActivity(), DrawingActivity.class);
             intent.putExtra(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
-            startActivityForResult(intent, SELECT_IMAGE_REQUEST_CODE);
+            startActivityForResult(intent, IMAGE_REQUEST_CODE);
 
             return true;
         } else if (id == R.id.action_remove_image) {
@@ -224,7 +227,14 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             imageUri = Uri.parse("");
 
             return true;
+        } else if (id == R.id.action_record) {
+            Intent intent = new Intent(getActivity(), RecordActivity.class);
+            intent.putExtra(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
+            startActivityForResult(intent, AUDIO_REQUEST_CODE);
+
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

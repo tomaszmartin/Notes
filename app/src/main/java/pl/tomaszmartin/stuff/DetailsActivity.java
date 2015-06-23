@@ -30,7 +30,6 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         int id = getIntent().getIntExtra(NoteEntry.COLUMN_ID, -1);
-        Log.d(TAG, "onCreate called with id " + id);
         attachFragment(id);
     }
 

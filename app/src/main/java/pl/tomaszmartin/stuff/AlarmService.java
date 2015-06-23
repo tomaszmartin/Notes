@@ -15,16 +15,14 @@ import android.util.Log;
 public class AlarmService extends Service {
 
     private NotificationManager manager;
-    private String tag = "___AlarmService";
+    private final String TAG = AlarmService.class.getSimpleName();
 
     @Override
     public IBinder onBind(Intent arg0) {
-        // TODO Auto-generated method stub return null;
         return null;
     }
 
     @Override public void onCreate()  {
-        // TODO Auto-generated method stub
         super.onCreate();
     }
 
@@ -33,7 +31,7 @@ public class AlarmService extends Service {
         super.onStartCommand(intent, flags, startId);
 
         int noteId = intent.getIntExtra("id", 0);
-        Log.d(tag, "onStartCommand() called with " + noteId);
+        Log.d(TAG, "onStartCommand() called with " + noteId);
         String noteTitle = NotesFactory.get(this).getNote(noteId).getTitle();
         String noteDescription = NotesFactory.get(this).getNote(noteId).getDescription();
 
