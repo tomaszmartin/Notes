@@ -1,6 +1,7 @@
 package pl.tomaszmartin.stuff;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -27,18 +28,23 @@ public class RecordActivity extends AppCompatActivity {
         }
 
         int id = getIntent().getIntExtra(NoteEntry.COLUMN_ID, -1);
-        attachFragment(id);
+        if (savedInstanceState == null) {
+            attachFragment(id);
+        }
     }
 
     private void attachFragment(int id) {
+
         Bundle bundle = new Bundle();
         bundle.putInt(NoteEntry.COLUMN_ID, id);
-        RecordFragment recordFragment = new RecordFragment();
-        recordFragment.setArguments(bundle);
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, recordFragment)
-                .commit();
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG);
+        if (fragment == null) {
+            fragment = new RecordFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, fragment, TAG)
+                    .commit();
+        }
     }
 
 }

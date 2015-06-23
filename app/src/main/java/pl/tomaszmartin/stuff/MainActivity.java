@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Set toolbar as the action bar
+        // TODO: on API 16 in ActionMode color is mixed
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

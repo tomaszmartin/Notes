@@ -3,6 +3,7 @@ package pl.tomaszmartin.stuff;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,15 +31,9 @@ public class DetailsActivity extends AppCompatActivity {
         }
 
         int id = getIntent().getIntExtra(NoteEntry.COLUMN_ID, -1);
-        attachFragment(id);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        int noteId = getIntent().getIntExtra(NoteEntry.COLUMN_ID, -1);
-
-        attachFragment(noteId);
+        if (savedInstanceState == null) {
+            attachFragment(id);
+        }
     }
 
     @Override
@@ -63,11 +58,14 @@ public class DetailsActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putInt(NoteEntry.COLUMN_ID, id);
-        DetailsFragment detailsFragment = new DetailsFragment();
-        detailsFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, detailsFragment)
-                .commit();
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG);
+        if (fragment == null) {
+            fragment = new DetailsFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, fragment, TAG)
+                    .commit();
+        }
     }
 
     private void setAlarm(long time, int id) {

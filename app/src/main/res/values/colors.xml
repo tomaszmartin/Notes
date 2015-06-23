@@ -3,6 +3,7 @@
 
     <color name="primary">@color/deep_purple_500</color>
     <color name="primary_dark">@color/deep_purple_700</color>
+    <color name="primary_light">@color/deep_purple_400</color>
     <color name="primary_accent">@color/deep_purple_500</color>
     <color name="background">@color/deep_purple_500</color>
     <color name="primary_translucent">@color/deep_purple_t50</color>

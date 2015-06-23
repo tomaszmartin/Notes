@@ -39,7 +39,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private EditText titleView;
     private View rootView;
     private ImageView imageView;
-    private Uri imageUri;
+    private Uri imageUri = Uri.parse("");
     private Cursor cursor;
 
     @Override
@@ -67,22 +67,21 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
         ImageTransformation imageTransformation = new ImageTransformation();
 
-        Picasso
-                .with(getActivity())
-                .load(imageUri)
-                .transform(imageTransformation)
-                .into(imageView);
-
-        Log.d(TAG, "looks like Picasso did load image with uri: " + imageUri.toString());
-
+        if (imageUri != null && !imageUri.toString().isEmpty()) {
+            Picasso
+                    .with(getActivity())
+                    .load(imageUri)
+                    .transform(imageTransformation)
+                    .into(imageView);
+        }
     }
 
-    // TODO: after clicking back button on DrawingFragment the image is no longer changing nor saving
+    // TODO: after clicking back button on DrawingFragment the image is no longer changing nor saving until stopping fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == IMAGE_REQUEST_CODE && data != null) {
-                if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == IMAGE_REQUEST_CODE) {
+                if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null && !data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI).isEmpty()) {
                     imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
                 } else {
                     imageUri = data.getData();
@@ -99,7 +98,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         Intent image = new Intent();
         image.setType("image/*");
 
-        if (Build.VERSION.SDK_INT < 19) {
+        if (Build.VERSION.SDK_INT <= 19) {
             image.setAction(Intent.ACTION_GET_CONTENT);
         } else {
             image.setAction(Intent.ACTION_OPEN_DOCUMENT);
@@ -143,6 +142,9 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     public ContentValues getValues() {
+        if (imageUri == null) {
+            imageUri = Uri.parse("");
+        }
         ContentValues values = new ContentValues();
 
         values.put(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
