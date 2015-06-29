@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +49,10 @@ public class MainFragment extends Fragment
         // Set up the initial view
         rootView = inflater.inflate(R.layout.main_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.grid);
+
+        // Set view for an empty list view
+        TextView emptyView = (TextView) rootView.findViewById(R.id.empty_list);
+        listView.setEmptyView(emptyView);
         
         adapter = new NotesAdapter(getActivity(), null, 0);
         listView.setAdapter(adapter);

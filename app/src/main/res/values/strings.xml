@@ -71,5 +71,6 @@
     <string name="action_image">Add image</string>
     <string name="action_draw">Add drawing</string>
     <string name="action_voice">Add voice record</string>
+    <string name="info_empty_list">You don\'t have any notes yet!</string>
 
 </resources>

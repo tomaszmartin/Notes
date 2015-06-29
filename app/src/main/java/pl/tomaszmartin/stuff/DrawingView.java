@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -13,12 +16,13 @@ import android.view.View;
 /**
  * Created by tomaszmartin on 22.06.2015.
  */
+
 public class DrawingView extends View {
 
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
-    private int colorPaint = getContext().getResources().getColor(android.R.color.black);
-    private int strokeWidth = 10;
+    private int paintColor = getResources().getColor(android.R.color.black);
+    private float strokeSize = 10;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
 
@@ -30,16 +34,16 @@ public class DrawingView extends View {
     private void setupDrawing() {
         drawPath = new Path();
         drawPaint = new Paint();
-        drawPaint.setColor(colorPaint);
+        drawPaint.setColor(paintColor);
 
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(strokeWidth);
+        drawPaint.setStrokeWidth(strokeSize);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.MITER);
         drawPaint.setStrokeCap(Paint.Cap.BUTT);
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
-
+        setLayerType(View.LAYER_TYPE_SOFTWARE, drawPaint);
     }
 
     @Override
@@ -81,6 +85,37 @@ public class DrawingView extends View {
 
         invalidate();
         return true;
+    }
+
+    public void setColor(int colorId) {
+        invalidate();
+        paintColor = getResources().getColor(colorId);
+        drawPaint.setColor(paintColor);
+    }
+
+    public void setBrushSize(int size) {
+        float pixelSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                size, getResources().getDisplayMetrics());
+        strokeSize = pixelSize;
+        drawPaint.setStrokeWidth(strokeSize);
+    }
+
+    public void setErasing(boolean isErasing) {
+        if(isErasing) {
+            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        } else {
+            drawPaint.setXfermode(null);
+        }
+    }
+
+    public void serDrawing(boolean isDrawing) {
+        boolean isErasing = !isDrawing;
+        setErasing(isErasing);
+    }
+
+    public void clearDrawing() {
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
     }
 
 }

@@ -60,7 +60,7 @@
         android:id="@+id/item_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
+        android:lines="3"
         android:paddingTop="4dp"
         android:text="@string/lorem_long"
         android:textColor="@color/icon_grey"

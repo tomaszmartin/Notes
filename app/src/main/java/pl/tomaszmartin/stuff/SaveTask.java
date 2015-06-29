@@ -49,8 +49,8 @@ public class SaveTask extends AsyncTask<Saveable, Void, Void> {
     }
 
     private void saveToDatabase(Saveable saveable) {
-        Uri uri = saveable.getUri();
         ContentValues values = saveable.getValues();
+        Uri uri = saveable.getUri();
         Context context = saveable.getContext();
 
         if (values.size() > 0 && uri != null && values != null) {

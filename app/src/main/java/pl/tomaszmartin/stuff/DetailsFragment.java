@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -27,6 +29,8 @@ import android.widget.TimePicker;
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import java.io.File;
 import java.util.Date;
 
 public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Saveable {
@@ -39,7 +43,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private EditText titleView;
     private View rootView;
     private ImageView imageView;
-    private Uri imageUri = Uri.parse("");
+    private boolean hasResult = false;
+    private Uri imageUri;
     private Cursor cursor;
 
     @Override
@@ -61,13 +66,13 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     private void setImage(Uri imageUri, ImageView imageView) {
 
-        if (imageView.getVisibility() == View.GONE) {
+        //if (imageView.getVisibility() == View.GONE) {
             imageView.setVisibility(View.VISIBLE);
-        }
-
+        //}
         ImageTransformation imageTransformation = new ImageTransformation();
 
         if (imageUri != null && !imageUri.toString().isEmpty()) {
+            Log.d(TAG, "file path as uri is " + imageUri.toString());
             Picasso
                     .with(getActivity())
                     .load(imageUri)
@@ -82,12 +87,16 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == IMAGE_REQUEST_CODE) {
                 if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null && !data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI).isEmpty()) {
+                    // For images saved in the provider
                     imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
                 } else {
                     imageUri = data.getData();
                 }
 
+                // Has to set this flag to true so onLoadFinished won't load previous image
+                hasResult = true;
                 setImage(imageUri, imageView);
+
             } else if (requestCode == AUDIO_REQUEST_CODE) {
 
             }
@@ -261,7 +270,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         if (cursor != null && cursor.moveToFirst()) {
             String title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
             String fileName = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME));
-            if (imageUri == null) {
+            if (!hasResult && imageUri == null) {
                 imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_IMAGE_URI)));
             }
             if (!title.isEmpty()) {
@@ -271,7 +280,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
                 LoadNoteTask loadTask = new LoadNoteTask(getActivity(), textView);
                 loadTask.execute(fileName);
             }
-            if (!imageUri.toString().isEmpty()) {
+            if (!hasResult && !imageUri.toString().isEmpty()) {
                 setImage(imageUri, imageView);
             }
 
