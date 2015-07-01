@@ -42,7 +42,8 @@ public class DrawingView extends View {
         drawPaint.setStrokeJoin(Paint.Join.MITER);
         drawPaint.setStrokeCap(Paint.Cap.BUTT);
 
-        canvasPaint = new Paint(Paint.DITHER_FLAG);
+        canvasPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
         setLayerType(View.LAYER_TYPE_SOFTWARE, drawPaint);
     }
 
@@ -106,11 +107,13 @@ public class DrawingView extends View {
         } else {
             drawPaint.setXfermode(null);
         }
+        invalidate();
     }
 
-    public void serDrawing(boolean isDrawing) {
+    public void setDrawing(boolean isDrawing) {
         boolean isErasing = !isDrawing;
         setErasing(isErasing);
+        invalidate();
     }
 
     public void clearDrawing() {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame"
     android:layout_width="match_parent"
@@ -20,4 +20,23 @@
         android:gravity="center"
         android:padding="16dp"/>
 
-</FrameLayout>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/coordinator">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@mipmap/ic_add"
+            android:layout_gravity="bottom|right"
+            app:backgroundTint="@color/red_500"
+            app:fabSize="normal"
+            app:borderWidth="0dp"
+            />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>

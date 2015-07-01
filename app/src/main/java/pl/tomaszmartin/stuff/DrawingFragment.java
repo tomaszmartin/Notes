@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import java.io.ByteArrayOutputStream;
@@ -30,14 +31,15 @@ import java.util.UUID;
 /**
  * Created by tomaszmartin on 22.06.2015.
  */
+
 public class DrawingFragment extends Fragment implements View.OnClickListener {
 
     private final String TAG = DrawingFragment.class.getSimpleName();
     private DrawingView drawingView;
-    private Paint currentPaint;
     private Button saveButton;
+    private ImageButton drawButton;
+    private ImageButton eraseButton;
     private View rootView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +48,10 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
         drawingView = (DrawingView) rootView.findViewById(R.id.drawing_view);
         saveButton = (Button) rootView.findViewById(R.id.save_button);
         saveButton.setOnClickListener(this);
+        drawButton = (ImageButton) rootView.findViewById(R.id.draw_button);
+        drawButton.setOnClickListener(this);
+        eraseButton = (ImageButton) rootView.findViewById(R.id.erase_button);
+        eraseButton.setOnClickListener(this);
 
         return rootView;
     }
@@ -84,6 +90,10 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
         int id = v.getId();
         if (id == R.id.save_button) {
             saveImage();
+        } else if (id == R.id.draw_button) {
+            drawingView.setDrawing(true);
+        } else if (id == R.id.erase_button) {
+            drawingView.setErasing(true);
         }
     }
 

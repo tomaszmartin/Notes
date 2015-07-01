@@ -1,5 +1,6 @@
 package pl.tomaszmartin.stuff;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.StrictMode;
 import android.support.design.widget.TabLayout;
@@ -17,18 +18,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SelectionListener {
 
     // TODO: add support for tablet layout
+    private boolean isTwoPane = false;
+    private final String DETAILS_TAG = DetailsFragment.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             StrictMode.setThreadPolicy(buildPolicy());
+        }
+
+        // Check if the app is in two pane mode (sw600dp)
+        if (findViewById(R.id.details_container) != null) {
+            isTwoPane = true;
         }
 
         // Set toolbar as the action bar
@@ -41,6 +48,23 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        // If the app is in two pane mode add details fragment
+        // and whether the fragemnt has already been created
+        if (isTwoPane && savedInstanceState != null) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(NotesContract.NoteEntry.COLUMN_ID, 0);
+
+
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(DETAILS_TAG);
+            if (fragment == null) {
+                fragment = new DetailsFragment();
+            }
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.details_container, fragment, DETAILS_TAG)
+                    .commit();
+        }
 
         // Set the menu icon in toolbar
         if (getSupportActionBar() != null) {
@@ -76,6 +100,23 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new MainFragment(), getString(R.string.notes));
         adapter.addFragment(new MainFragment(), getString(R.string.articles));
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onItemSelected(int id) {
+        if (isTwoPane) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(NotesContract.NoteEntry.COLUMN_ID, id);
+            DetailsFragment fragment = new DetailsFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.details_container, fragment, DETAILS_TAG)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
+            startActivity(intent);
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -65,14 +65,12 @@ public class MainFragment extends Fragment
                 Cursor cursor = adapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
                     int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
-                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                    intent.putExtra(NoteEntry.COLUMN_ID, noteId);
-                    startActivity(intent);
+                    ((SelectionListener) getActivity()).onItemSelected(noteId);
                 }
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
         return rootView;
@@ -91,7 +89,6 @@ public class MainFragment extends Fragment
     }
 
     public void deleteNote(int position) {
-        // TODO: implement helper method for deleting note
         Cursor cursor = adapter.getCursor();
         if (cursor != null && cursor.moveToPosition(position)) {
             int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));

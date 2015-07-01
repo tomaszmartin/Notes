@@ -64,9 +64,8 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer id) {
-        Log.d(TAG, "Note inserted with id " + id);
-        Intent intent = new Intent(context, DetailsActivity.class);
-        intent.putExtra(NoteEntry.COLUMN_ID, id);
-        context.startActivity(intent);
+        ((SelectionListener) context).onItemSelected(id);
     }
+
+
 }
