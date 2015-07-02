@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +72,7 @@ public class MainFragment extends Fragment
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
         return rootView;
@@ -94,6 +96,13 @@ public class MainFragment extends Fragment
             int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
             DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getActivity());
             deleteNoteTask.execute(noteId);
+
+            // Google Analytics event tracking
+            ((AnalyticsApplication) getActivity().getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
+                    .setCategory("Note deleted")
+                    .setAction("Note id " + position)
+                    .setLabel(TAG)
+                    .build());
         }
     }
 
@@ -208,9 +217,20 @@ public class MainFragment extends Fragment
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.fab) {
-            AddNoteTask task = new AddNoteTask(getActivity());
-            task.execute(null, null, null);
+            addNote();
         }
+    }
+
+    private void addNote() {
+        AddNoteTask task = new AddNoteTask(getActivity());
+        task.execute(null, null, null);
+        // Google Analytics event tracking
+
+        ((AnalyticsApplication) getActivity().getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("Note added")
+                .setAction("New note")
+                .setLabel(TAG)
+                .build());
     }
 
 }

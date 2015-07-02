@@ -10,7 +10,7 @@ import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 /**
  * Created by tomaszmartin on 23.06.15.
  */
-public class RecordActivity extends AppCompatActivity {
+public class RecordActivity extends AnalyticsActivity {
 
     private String TAG = RecordActivity.class.getSimpleName();
 

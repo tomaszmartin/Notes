@@ -14,15 +14,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SelectionListener {
+public class MainActivity extends AnalyticsActivity implements SelectionListener {
 
     // TODO: add support for tablet layout
     private boolean isTwoPane = false;
     private final String DETAILS_TAG = DetailsFragment.class.getSimpleName();
+    private final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,12 @@ public class MainActivity extends AppCompatActivity implements SelectionListener
             intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
             startActivity(intent);
         }
+
+        ((AnalyticsApplication) getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory("Note selected")
+                .setAction("Note id: " + id)
+                .setLabel(TAG)
+                .build());
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

@@ -13,7 +13,7 @@ import android.view.Menu;
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AnalyticsActivity {
 
     private String TAG = DetailsActivity.class.getSimpleName();
 

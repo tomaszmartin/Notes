@@ -11,7 +11,7 @@ import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 /**
  * Created by tomaszmartin on 22.06.2015.
  */
-public class DrawingActivity extends AppCompatActivity {
+public class DrawingActivity extends AnalyticsActivity {
 
     private String TAG  = DrawingActivity.class.getSimpleName();
 
