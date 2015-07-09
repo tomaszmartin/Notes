@@ -33,7 +33,7 @@ import com.squareup.picasso.Transformation;
 import java.io.File;
 import java.util.Date;
 
-public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Saveable {
+public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Saveable, View.OnLongClickListener {
 
     private final String TAG = DetailsFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
@@ -52,10 +52,14 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.details_fragment, container, false);
 
-        // get a handle of all the necessary views
+        // Get a handle of all the necessary views
         textView = (EditText) rootView.findViewById(R.id.text_edit);
         imageView = (ImageView) rootView.findViewById(R.id.image);
         titleView = (EditText) rootView.findViewById(R.id.title_edit);
+
+        imageView.setOnLongClickListener(this);
+
+        // Get the id of note and start loading contents
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(NoteEntry.COLUMN_ID)) {
             getLoaderManager().initLoader(DETAIL_LOADER, null, this);
@@ -290,6 +294,11 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoaderReset(Loader loader) {
 
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        return false;
     }
 
     public class ImageTransformation implements Transformation {

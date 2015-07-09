@@ -91,9 +91,9 @@ public class DrawingFragment extends Fragment implements View.OnClickListener {
         if (id == R.id.save_button) {
             saveImage();
         } else if (id == R.id.draw_button) {
-            drawingView.setDrawing(true);
+            drawingView.setDrawing();
         } else if (id == R.id.erase_button) {
-            drawingView.setErasing(true);
+            drawingView.setErasing();
         }
     }
 

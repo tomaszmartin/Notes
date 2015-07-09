@@ -11,13 +11,12 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="android:actionModeBackground">@color/primary</item>
         <item name="actionModeBackground">@color/primary</item>
-        <item name="android:actionModeCloseDrawable">@mipmap/ic_arrow_left</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow_left_white_24dp</item>
         <item name="android:title">@string/notes</item>
         <item name="android:actionModeCopyDrawable">@mipmap/ic_copy</item>
         <item name="android:actionModeCutDrawable">@mipmap/ic_cut</item>
         <item name="android:actionModePasteDrawable">@mipmap/ic_paste</item>
         <item name="android:actionModeSelectAllDrawable">@mipmap/ic_select_all</item>
-        <item name="android:textColorHint">@color/white</item>
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">

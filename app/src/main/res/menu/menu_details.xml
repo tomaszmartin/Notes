@@ -13,52 +13,59 @@
     <item
         android:id="@+id/action_send"
         android:title="@string/action_send"
-        android:orderInCategory="8"
+        android:orderInCategory="99"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_size"
         android:title="@string/action_size"
-        android:orderInCategory="7"
+        android:orderInCategory="98"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_tag"
         android:title="@string/action_tag"
-        android:orderInCategory="6"
+        android:orderInCategory="97"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_alarm"
         android:title="@string/action_alarm"
-        android:orderInCategory="5"
+        android:orderInCategory="96"
         android:icon="@mipmap/ic_bell"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_remove_image"
         android:title="@string/action_remove_image"
-        android:orderInCategory="4" />
+        android:orderInCategory="95" />
 
     <item
         android:id="@+id/action_record"
         android:title="@string/action_voice"
-        android:orderInCategory="3"
+        android:orderInCategory="94"
         android:icon="@mipmap/ic_microphone"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_image"
         android:title="@string/action_image"
-        android:orderInCategory="2"
+        android:orderInCategory="93"
         android:icon="@mipmap/ic_file_image_box"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_draw"
         android:title="@string/action_draw"
-        android:orderInCategory="1"
+        android:orderInCategory="92"
         android:icon="@mipmap/ic_brush"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_attachment"
+        android:title="@string/action_attachment"
+        android:orderInCategory="91"
+        android:icon="@drawable/ic_attachment_white_24dp"
         app:showAsAction="always" />
 
 </menu>

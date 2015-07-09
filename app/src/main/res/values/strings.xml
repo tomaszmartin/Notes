@@ -10,6 +10,7 @@
     <string name="action_change_image">Change image</string>
     <string name="downloading_article">Downloading article&#8230;</string>
     <string name="lists">Lists</string>
+    <string name="action_attachment">Add attachment</string>
     <string name="note">Note</string>
     <string name="retry">Retry</string>
     <string name="deleted_single">Item has been deleted.</string>

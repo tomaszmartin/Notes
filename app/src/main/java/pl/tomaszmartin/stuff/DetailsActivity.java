@@ -21,6 +21,10 @@ public class DetailsActivity extends AnalyticsActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_activity);
+
+        // For better performance and avoiding overdraw
+        getWindow().setBackgroundDrawable(null);
+
         // Set toolbar as the action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -22,7 +22,8 @@ public class DrawingView extends View {
     private Path drawPath;
     private Paint drawPaint, canvasPaint;
     private int paintColor = getResources().getColor(android.R.color.black);
-    private float strokeSize = 10;
+    private int backgroundColor = getResources().getColor(android.R.color.white);
+    private float strokeSize = 4;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
 
@@ -39,12 +40,10 @@ public class DrawingView extends View {
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeWidth(strokeSize);
         drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.MITER);
-        drawPaint.setStrokeCap(Paint.Cap.BUTT);
+        drawPaint.setStrokeJoin(Paint.Join.ROUND);
+        drawPaint.setStrokeCap(Paint.Cap.ROUND);
 
-        canvasPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        setLayerType(View.LAYER_TYPE_SOFTWARE, drawPaint);
+        canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
 
     @Override
@@ -52,7 +51,7 @@ public class DrawingView extends View {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
         canvasBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         drawCanvas = new Canvas(canvasBitmap);
-        drawCanvas.drawColor(getResources().getColor(android.R.color.white));
+        drawCanvas.drawColor(backgroundColor);
     }
 
     @Override
@@ -101,19 +100,14 @@ public class DrawingView extends View {
         drawPaint.setStrokeWidth(strokeSize);
     }
 
-    public void setErasing(boolean isErasing) {
-        if(isErasing) {
-            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        } else {
-            drawPaint.setXfermode(null);
-        }
-        invalidate();
+    public void setErasing() {
+        //drawPaint.setColor(backgroundColor);
+        drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
-    public void setDrawing(boolean isDrawing) {
-        boolean isErasing = !isDrawing;
-        setErasing(isErasing);
-        invalidate();
+    public void setDrawing() {
+        //drawPaint.setColor(paintColor);
+        drawPaint.setXfermode(null);
     }
 
     public void clearDrawing() {
