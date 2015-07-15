@@ -37,11 +37,11 @@ public class NotesAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
-        long dateInMilliseconds = cursor.getLong(NoteEntry.NUMCOL_DATE_LAST_MODIFIED);
+        long dateInMilliseconds = cursor.getLong(cursor.getColumnIndex(NoteEntry.COLUMN_DATE_LAST_MODIFIED));
         viewHolder.dateView.setText(new SimpleDateFormat("dd MMMM").format(new Date(dateInMilliseconds)));
-        String title = cursor.getString(NoteEntry.NUMCOL_TITLE);
+        String title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
         viewHolder.titleView.setText(title);
-        String description = cursor.getString(NoteEntry.NUMCOL_DESCRIPTION);
+        String description = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_DESCRIPTION));
         viewHolder.descriptionView.setText(description);
     }
 

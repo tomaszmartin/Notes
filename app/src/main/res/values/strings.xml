@@ -43,6 +43,7 @@
     <string name="action_size">Change size</string>
     <string name="action_tag">Add tag</string>
     <string name="action_read_later">Read later</string>
+    <string name="action_search">Search</string>
     <string name="action_present">Present View</string>
     <string name="action_edit">Edit View</string>
     <string name="new_note">New note</string>
@@ -74,5 +75,8 @@
     <string name="action_voice">Add voice record</string>
     <string name="action_save">Save</string>
     <string name="info_empty_list">You don\'t have any notes yet!</string>
+    <string name="search_hint">Search…</string>
+    <string name="search_label">Search</string>
+    <string name="edit_note_action">Edit note</string>
 
 </resources>

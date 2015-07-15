@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.tomaszmartin.stuff"
-    >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.tomaszmartin.stuff">
 
     <permission
         android:name="pl.tomaszmartin.stuff.permission.C2D_MESSAGE"
@@ -14,17 +12,16 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="pl.tomaszmartin.stuff.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".AnalyticsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/NoActionBar"
-        android:name=".AnalyticsApplication"
-        >
+        android:theme="@style/NoActionBar">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -34,47 +31,59 @@
         <activity
             android:name="pl.tomaszmartin.stuff.MainActivity"
             android:label="@string/app_name"
-            >
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_details_acitivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".DetailsActivity"
             android:label="@string/title_activity_details_acitivity"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity"></activity>
 
         <activity
             android:name=".DrawingActivity"
             android:label="@string/action_draw"
-            android:parentActivityName=".DetailsActivity"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop"
+            android:parentActivityName=".DetailsActivity"></activity>
 
         <activity
             android:name=".RecordActivity"
             android:label="@string/action_voice"
-            android:parentActivityName=".DetailsActivity"
-            android:launchMode="singleTop">
-        </activity>
+            android:launchMode="singleTop"
+            android:parentActivityName=".DetailsActivity"></activity>
 
         <service
             android:name=".AlarmService"
-            android:enabled="true"
-            />
+            android:enabled="true" />
 
-        <receiver
-            android:name=".AlarmReceiver"
-            />
+        <receiver android:name=".AlarmReceiver" />
 
         <provider
-            android:authorities="pl.tomaszmartin.stuff"
             android:name=".NotesProvider"
-            />
+            android:authorities="pl.tomaszmartin.stuff" />
 
         <!-- Google Analytics components -->
         <receiver
@@ -88,7 +97,7 @@
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <receiver
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
@@ -102,13 +111,13 @@
 
         <!-- Google Cloud Messaging components -->
         <!--<receiver-->
-            <!--android:name=".GcmBroadcastReceiver"-->
-            <!--android:permission="com.google.android.c2dm.permission.SEND" >-->
+        <!--android:name=".GcmBroadcastReceiver"-->
+        <!--android:permission="com.google.android.c2dm.permission.SEND" >-->
 
-            <!--<intent-filter>-->
-                <!--<action android:name="com.google.c2dm.intent.RECEIVE" />-->
-                <!--<category android:name="pl.tomaszmartin.sunhine" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="com.google.c2dm.intent.RECEIVE" />-->
+        <!--<category android:name="pl.tomaszmartin.sunhine" />-->
+        <!--</intent-filter>-->
 
         <!--</receiver>-->
 

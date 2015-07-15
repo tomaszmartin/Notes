@@ -1,26 +1,31 @@
 package pl.tomaszmartin.stuff;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.google.android.gms.analytics.HitBuilders;
 
-public class MainActivity extends AnalyticsActivity implements SelectionListener {
+/**
+ * Created by tomaszmartin on 12.07.2015.
+ */
+public class SearchActivity extends AnalyticsActivity implements SelectionListener {
 
     // TODO: add support for tablet layout
     private boolean isTwoPane = false;
     private final String DETAILS_TAG = DetailsFragment.class.getSimpleName();
-    private final String TAG = MainActivity.class.getSimpleName();
-    private MenuItem searchItem;
+    private final String TAG = SearchActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +64,14 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
 
         // Set the menu icon in toolbar
         if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left_white_24dp);
         }
 
-        attachFragment(null);
+        String query = getIntent().getStringExtra(SearchManager.QUERY);
+        attachFragment(query);
 
     }
 
@@ -71,11 +79,7 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
     protected void onNewIntent(Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Intent searchIntent = new Intent(this, SearchActivity.class);
-            searchIntent.putExtra(SearchManager.QUERY, query);
-            searchItem.collapseActionView();
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            attachFragment(query);
         } else if (intent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri data = intent.getData();
             int id = Integer.parseInt(data.getLastPathSegment());
@@ -88,11 +92,12 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
         getMenuInflater().inflate(R.menu.menu_main, menu);
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchItem = menu.findItem(R.id.action_search);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView =
                 (SearchView) searchItem.getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchItem.expandActionView();
 
         return true;
     }
@@ -101,6 +106,9 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            return true;
+        } else if (id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
 
@@ -152,4 +160,9 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }

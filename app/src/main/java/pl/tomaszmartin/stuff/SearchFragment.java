@@ -1,6 +1,5 @@
 package pl.tomaszmartin.stuff;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,19 +23,17 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by tomaszmartin on 24.03.15.
+ * Created by tomaszmartin on 12.07.2015.
  */
-
-public class MainFragment extends Fragment
+public class SearchFragment extends Fragment
         implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>,
         AbsListView.MultiChoiceModeListener, View.OnClickListener {
 
-    private String TAG = MainFragment.class.getSimpleName();
+    private String TAG = SearchFragment.class.getSimpleName();
     private static final int NOTES_LOADER = 0;
     private NotesAdapter adapter;
     private ListView listView;
@@ -44,7 +41,7 @@ public class MainFragment extends Fragment
     private ArrayList<Long> selectedPositions = new ArrayList<>();
     private int numberOfItemsSelected;
 
-    private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
+    private static final String[] NOTES_COLUMNS = NotesContract.NoteEntry.NOTE_COLUMNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +53,7 @@ public class MainFragment extends Fragment
         // Set view for an empty list view
         TextView emptyView = (TextView) rootView.findViewById(R.id.empty_list);
         listView.setEmptyView(emptyView);
-        
+
         adapter = new NotesAdapter(getActivity(), null, 0);
         listView.setAdapter(adapter);
 
@@ -67,7 +64,7 @@ public class MainFragment extends Fragment
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Cursor cursor = adapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
-                    int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
+                    int noteId = cursor.getInt(cursor.getColumnIndex(NotesContract.NoteEntry.COLUMN_ID));
                     ((SelectionListener) getActivity()).onItemSelected(noteId);
                 }
             }
@@ -94,7 +91,7 @@ public class MainFragment extends Fragment
     public void deleteNote(int position) {
         Cursor cursor = adapter.getCursor();
         if (cursor != null && cursor.moveToPosition(position)) {
-            int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
+            int noteId = cursor.getInt(cursor.getColumnIndex(NotesContract.NoteEntry.COLUMN_ID));
             DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getActivity());
             deleteNoteTask.execute(noteId);
 
@@ -125,11 +122,11 @@ public class MainFragment extends Fragment
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
         // Sort by date of creation, ascending
-        String sortOrder = NoteEntry.COLUMN_DATE_CREATED + " ASC";
+        String sortOrder = NotesContract.NoteEntry.COLUMN_DATE_CREATED + " ASC";
         Uri notesUri;
-        if (getArguments() != null && getArguments().getString(NoteEntry.COLUMN_TITLE) != null) {
-            String query = getArguments().getString(NoteEntry.COLUMN_TITLE, "");
-            notesUri = NoteEntry.buildQueryUri(query);
+        if (getArguments() != null && getArguments().getString(NotesContract.NoteEntry.COLUMN_TITLE) != null) {
+            String query = getArguments().getString(NotesContract.NoteEntry.COLUMN_TITLE, "");
+            notesUri = NotesContract.NoteEntry.buildQueryUri(query);
             Log.d(TAG, "loader created with uri: " + notesUri.toString());
         } else {
             notesUri = NotesContract.NoteEntry.buildAllNotesUri();
@@ -184,14 +181,14 @@ public class MainFragment extends Fragment
             //TODO: change this method, its ugly
 
             ArrayList<Integer> positionsToDelete = new ArrayList<Integer>();
-            for (Long position: selectedPositions) {
+            for (Long position : selectedPositions) {
                 positionsToDelete.add(position.intValue());
             }
 
             // Sorts the array in ascending order
             Collections.sort(positionsToDelete);
 
-            for (Integer position: positionsToDelete) {
+            for (Integer position : positionsToDelete) {
                 //TODO: implement method for archiving notes
                 deleteNote(position);
             }

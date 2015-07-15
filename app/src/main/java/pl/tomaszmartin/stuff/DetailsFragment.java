@@ -7,33 +7,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TimePicker;
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import java.io.File;
 import java.util.Date;
 
-public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, Saveable, View.OnLongClickListener {
+public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private final String TAG = DetailsFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
@@ -57,7 +58,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         imageView = (ImageView) rootView.findViewById(R.id.image);
         titleView = (EditText) rootView.findViewById(R.id.title_edit);
 
-        imageView.setOnLongClickListener(this);
+        // Regitser image so it will invoke a context menu on long press
+        registerForContextMenu(imageView);
 
         // Get the id of note and start loading contents
         Bundle arguments = getArguments();
@@ -85,7 +87,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    // TODO: after clicking back button on DrawingFragment the image is no longer changing nor saving until stopping fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && data != null) {
@@ -125,8 +126,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public void onPause() {
         super.onPause();
         if (cursor != null) {
-            SaveTask saveTask = new SaveTask();
-            saveTask.execute(this);
+            SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
+            saveToFileTask.execute(getContents());
+            SaveToDatabaseTask saveToDatabaseTask = new SaveToDatabaseTask(this.getActivity(), getUri());
+            saveToDatabaseTask.execute(getValues());
         }
     }
 
@@ -152,6 +155,12 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     public Uri getUri() {
         return NoteEntry.buildNoteUri(cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
+    }
+
+    private void removeImage() {
+        ImageView imageView = (ImageView) getActivity().findViewById(R.id.image);
+        imageView.setVisibility(View.GONE);
+        imageUri = Uri.parse("");
     }
 
     public ContentValues getValues() {
@@ -182,11 +191,11 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private String getDescription() {
-        String desc = textView.getText().toString();
-        int maxCharInDescription = 320;
-        if (desc.length() > maxCharInDescription) {
-            String start = desc.substring(0, maxCharInDescription);
-            String stop = desc.substring(maxCharInDescription);
+        String desc = getContents();
+        final int MAX_CHAR_IN_DESCRIPTION = 320;
+        if (desc.length() > MAX_CHAR_IN_DESCRIPTION) {
+            String start = desc.substring(0, MAX_CHAR_IN_DESCRIPTION);
+            String stop = desc.substring(MAX_CHAR_IN_DESCRIPTION);
             if (stop.indexOf(" ") < 10) {
                 stop = stop.substring(0, stop.indexOf(" "));
                 desc = start + stop;
@@ -228,18 +237,11 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             return true;
         } else if (id == R.id.action_image) {
             pickImage();
-
             return true;
         } else if (id == R.id.action_draw) {
             Intent intent = new Intent(getActivity(), DrawingActivity.class);
             intent.putExtra(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
             startActivityForResult(intent, IMAGE_REQUEST_CODE);
-
-            return true;
-        } else if (id == R.id.action_remove_image) {
-            ImageView imageView = (ImageView) getActivity().findViewById(R.id.image);
-            imageView.setVisibility(View.GONE);
-            imageUri = Uri.parse("");
 
             return true;
         } else if (id == R.id.action_record) {
@@ -293,12 +295,24 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoaderReset(Loader loader) {
-
+        // Do nothing
     }
 
     @Override
-    public boolean onLongClick(View v) {
-        return false;
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.image_menu, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_remove_image) {
+            removeImage();
+        } else if (id == R.id.action_change_image) {
+            pickImage();
+        }
+        return super.onContextItemSelected(item);
     }
 
     public class ImageTransformation implements Transformation {

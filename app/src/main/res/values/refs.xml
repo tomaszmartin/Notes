@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item type="layout" name="abc_search_dropdown_item_icons_2line">@layout/suggestion_row</item>
+</resources>

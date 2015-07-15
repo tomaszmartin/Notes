@@ -22,27 +22,24 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextAppearance="@style/actionbar_text" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+        <LinearLayout
+            android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@color/white"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/tab_text"
-            app:tabTextColor="@color/white_translucent"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"/>
+            android:orientation="horizontal"
+            >
+
+        </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_below="@id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_below="@id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"

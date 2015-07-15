@@ -1,5 +1,6 @@
 package pl.tomaszmartin.stuff;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -7,7 +8,13 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
+import android.util.Log;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by tomaszmartin on 14.06.2015.
@@ -19,8 +26,8 @@ public class NotesProvider extends ContentProvider {
     private NotesDatabaseHelper notesDatabaseHelper;
 
     private static final int NOTES = 100;
-    private static final int NOTES_WITH_TYPE = 101;
-    private static final int NOTES_WITH_TYPE_AND_CATEGORY = 102;
+    private static final int NOTES_WITH_QUERY = 101;
+    private static final int NOTES_WITH_QUERY_SUGGESTION = 102;
     private static final int NOTE = 103;
 
     private static UriMatcher buildUriMatcher() {
@@ -31,11 +38,11 @@ public class NotesProvider extends ContentProvider {
         // * matches text
         matcher.addURI(NotesContract.CONTENT_AUTHORITY, NotesContract.PATH_NOTES, NOTES);
 
-        // For getting a specific type of notes
-        matcher.addURI(NotesContract.CONTENT_AUTHORITY, NotesContract.PATH_NOTES + "/#", NOTES_WITH_TYPE);
+        // For searching notes
+        matcher.addURI(NotesContract.CONTENT_AUTHORITY, NotesContract.PATH_NOTES + "/" + NotesContract.PATH_QUERY + "/*", NOTES_WITH_QUERY);
 
-        // For getting a specific type of notes from a specific category
-        matcher.addURI(NotesContract.CONTENT_AUTHORITY, NotesContract.PATH_NOTES + "/#/#", NOTES_WITH_TYPE_AND_CATEGORY);
+        // For searching notes
+        matcher.addURI(NotesContract.CONTENT_AUTHORITY, NotesContract.PATH_SUGGESTION + "/*", NOTES_WITH_QUERY_SUGGESTION);
 
         // For getting a single note
         matcher.addURI(NotesContract.CONTENT_AUTHORITY, NotesContract.PATH_NOTES + "/" + NotesContract.PATH_SINGLE_NOTE + "/#", NOTE);
@@ -55,12 +62,12 @@ public class NotesProvider extends ContentProvider {
         switch (match) {
             case NOTES:
                 return NotesContract.NoteEntry.CONTENT_DIR_TYPE;
-            case NOTES_WITH_TYPE:
-                return NotesContract.NoteEntry.CONTENT_DIR_TYPE;
-            case NOTES_WITH_TYPE_AND_CATEGORY:
+            case NOTES_WITH_QUERY:
                 return NotesContract.NoteEntry.CONTENT_DIR_TYPE;
             case NOTE:
                 return NotesContract.NoteEntry.CONTENT_ITEM_TYPE;
+            case NOTES_WITH_QUERY_SUGGESTION:
+                return SearchManager.SUGGEST_MIME_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -81,28 +88,36 @@ public class NotesProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
-            case NOTES_WITH_TYPE:
+            case NOTES_WITH_QUERY:
+                String where = NotesContract.NoteEntry.COLUMN_TITLE + " LIKE '%" + uri.getLastPathSegment() + "%'";
                 cursor = notesDatabaseHelper.getReadableDatabase().query(
                         NotesContract.NoteEntry.TABLE_NAME,
                         projection,
-                        NotesContract.NoteEntry.COLUMN_TYPE + " = '" + uri.getPathSegments().get(1),
+                        where,
                         null,
                         null,
                         null,
                         sortOrder
                 );
                 break;
-            case NOTES_WITH_TYPE_AND_CATEGORY:
+            case NOTES_WITH_QUERY_SUGGESTION:
+                String whereSuggestion = NotesContract.NoteEntry.COLUMN_TITLE + " LIKE '%" + uri.getLastPathSegment() + "%'";
+                String[] columns = {
+                        NotesContract.NoteEntry.COLUMN_ID + " AS " + BaseColumns._ID,
+                        NotesContract.NoteEntry.COLUMN_TITLE + " AS " + SearchManager.SUGGEST_COLUMN_TEXT_1,
+                        NotesContract.NoteEntry.COLUMN_DESCRIPTION + " AS " + SearchManager.SUGGEST_COLUMN_TEXT_2,
+                        NotesContract.NoteEntry.COLUMN_ID + " AS " + SearchManager.SUGGEST_COLUMN_INTENT_DATA_ID
+                };
                 cursor = notesDatabaseHelper.getReadableDatabase().query(
                         NotesContract.NoteEntry.TABLE_NAME,
-                        projection,
-                        NotesContract.NoteEntry.COLUMN_TYPE + " = '" + uri.getPathSegments().get(1) +
-                        " AND " + NotesContract.NoteEntry.COLUMN_CATEGORY + uri.getPathSegments().get(2),
+                        columns,
+                        whereSuggestion,
                         null,
                         null,
                         null,
-                        sortOrder
+                        null
                 );
+                Log.d(TAG, "cursor is of size " + cursor.getCount());
                 break;
             case NOTE:
                 cursor = notesDatabaseHelper.getReadableDatabase().query(
