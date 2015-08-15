@@ -2,6 +2,7 @@ package pl.tomaszmartin.stuff;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -45,5 +46,7 @@ public class LoadNoteTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String contents) {
         view.setText(contents);
+        view.setVisibility(View.VISIBLE);
     }
+
 }

@@ -2,123 +2,98 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/list_item_selector">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@color/white">
+        android:layout_weight="0.70"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="15dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/item_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:paddingBottom="4dp"
+            android:text="@string/lorem_short"
+            android:textSize="16sp" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="0.30"
-                android:layout_height="match_parent"
-                android:src="@color/primary"
-                android:scaleType="centerCrop"
-                android:id="@+id/image"
-                />
+        <TextView
+            android:id="@+id/item_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:paddingTop="0dp"
+            android:text="@string/lorem_long"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="4dp">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="0.70"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/category"
+                    android:src="@drawable/ic_calendar_text_grey600_18dp" />
 
                 <TextView
-                    android:id="@+id/item_title"
-                    android:layout_width="match_parent"
+                    android:id="@+id/date_edit"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:text="@string/lorem_short"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/item_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lines="2"
-                    android:paddingTop="0dp"
-                    android:text="@string/lorem_long"
-                    android:textColor="@color/icon_grey"
+                    android:gravity="end|center_vertical"
+                    android:paddingLeft="4dp"
+                    android:text="@string/date"
                     android:textSize="12sp" />
-
-                <LinearLayout
-                    android:id="@+id/data"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingTop="4dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@string/category"
-                            android:src="@mipmap/ic_calendar" />
-
-                        <TextView
-                            android:id="@+id/date_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end|center_vertical"
-                            android:paddingLeft="4dp"
-                            android:text="@string/date"
-                            android:textColor="@color/icon_grey"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="top"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@string/category"
-                            android:src="@mipmap/ic_label" />
-
-                        <TextView
-                            android:id="@+id/cat_edit"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end|center_vertical"
-                            android:paddingLeft="4dp"
-                            android:text="@string/date"
-                            android:textColor="@color/icon_grey"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/category"
+                    android:src="@drawable/ic_label_outline_grey600_18dp" />
+
+                <TextView
+                    android:id="@+id/cat_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end|center_vertical"
+                    android:paddingLeft="4dp"
+                    android:text="@string/no_tags"
+                    android:textColor="@color/icon_grey"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+
 
 </LinearLayout>
+

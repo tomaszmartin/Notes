@@ -117,7 +117,6 @@ public class NotesProvider extends ContentProvider {
                         null,
                         null
                 );
-                Log.d(TAG, "cursor is of size " + cursor.getCount());
                 break;
             case NOTE:
                 cursor = notesDatabaseHelper.getReadableDatabase().query(

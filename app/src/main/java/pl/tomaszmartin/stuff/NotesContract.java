@@ -18,7 +18,7 @@ public class NotesContract {
 
     public static final String PATH_NOTES = "notes";
     public static final String PATH_SINGLE_NOTE = "note";
-    public static final String PATH_QUERY = "quote";
+    public static final String PATH_QUERY = "query";
     public static final String PATH_SUGGESTION = SearchManager.SUGGEST_URI_PATH_QUERY;
 
     public static final class NoteEntry implements BaseColumns {

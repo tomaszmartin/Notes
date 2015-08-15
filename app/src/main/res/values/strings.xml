@@ -8,7 +8,6 @@
     <string name="reminders">Reminders</string>
     <string name="action_remove_image">Remove image</string>
     <string name="action_change_image">Change image</string>
-    <string name="downloading_article">Downloading article&#8230;</string>
     <string name="lists">Lists</string>
     <string name="action_attachment">Add attachment</string>
     <string name="note">Note</string>
@@ -24,7 +23,6 @@
     <string name="action_alarm">Add alarm</string>
     <string name="empty_cat">no category</string>
     <string name="undo">Undo</string>
-    <string name="text_error_blank">This field cannot be blank</string>
     <string name="hours_ago">hours ago</string>
     <string name="days_ago">day ago</string>
     <string name="category">Category</string>
@@ -78,5 +76,45 @@
     <string name="search_hint">Search…</string>
     <string name="search_label">Search</string>
     <string name="edit_note_action">Edit note</string>
+    <string name="action_hastag">Add hashtag</string>
+    <string name="pick_date">Date</string>
+    <string name="pick_time">Time</string>
+    <string name="no_tags">No tags</string>
+    <string name="action_share">Share</string>
+    <string name="tags">Tags</string>
+    <string name="title_activity_tags">TagsActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="tag">Tag</string>
+    <string name="tag_name">#tagname</string>
+    <string name="tag_description">This is a default tag.</string>
+    <string name="hint_tag_name">Tag name</string>
+    <string name="hint_tag_description">Description</string>
+    <string name="title_search_activity">Search</string>
+    <string name="action_filter">Filter</string>
+    <string name="action_sort">Sort</string>
+    <string name="everything">Everything</string>
+    <string name="proffesional">Professional</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_tag">#general</string>
+    <string name="font_size_preference">fontSize</string>
+    <string name="font_size_preference_title">Font size</string>
+    <string name="font_size_preference_default">Normal</string>
+
+    <string-array name="font_size_preference_values">
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+    </string-array>
+    <string-array name="font_size_preference_options">
+        <item>@string/font_size_small</item>
+        <item>@string/font_size_normal</item>
+        <item>@string/font_size_big</item>
+    </string-array>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_big">Big</string>
+
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

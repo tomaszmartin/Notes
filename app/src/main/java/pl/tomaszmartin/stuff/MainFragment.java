@@ -1,6 +1,7 @@
 package pl.tomaszmartin.stuff;
 
-import android.content.Intent;
+import android.app.SearchManager;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,9 +10,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.util.Log;
 import android.view.ActionMode;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,11 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.android.gms.analytics.HitBuilders;
-
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +57,7 @@ public class MainFragment extends Fragment
         listView = (ListView) rootView.findViewById(R.id.grid);
 
         // Set view for an empty list view
-        TextView emptyView = (TextView) rootView.findViewById(R.id.empty_list);
+        View emptyView = rootView.findViewById(R.id.empty_list);
         listView.setEmptyView(emptyView);
         
         adapter = new NotesAdapter(getActivity(), null, 0);
@@ -68,7 +71,7 @@ public class MainFragment extends Fragment
                 Cursor cursor = adapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
                     int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
-                    ((SelectionListener) getActivity()).onItemSelected(noteId);
+                    ((OnSelectListener) getActivity()).onItemSelected(noteId);
                 }
             }
         });
@@ -110,16 +113,8 @@ public class MainFragment extends Fragment
     public void showSnackbar(String text, String action) {
         Snackbar.make(getActivity().findViewById(R.id.coordinator), text, Snackbar.LENGTH_LONG)
                 .setActionTextColor(getResources().getColor(R.color.red_500))
-                .setAction(action, undoDeleteNotesListener)
                 .show();
     }
-
-    View.OnClickListener undoDeleteNotesListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            // TODO: implement archiving method
-        }
-    };
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -181,7 +176,6 @@ public class MainFragment extends Fragment
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
-            //TODO: change this method, its ugly
 
             ArrayList<Integer> positionsToDelete = new ArrayList<Integer>();
             for (Long position: selectedPositions) {
@@ -192,7 +186,6 @@ public class MainFragment extends Fragment
             Collections.sort(positionsToDelete);
 
             for (Integer position: positionsToDelete) {
-                //TODO: implement method for archiving notes
                 deleteNote(position);
             }
 
@@ -233,8 +226,8 @@ public class MainFragment extends Fragment
     private void addNote() {
         AddNoteTask task = new AddNoteTask(getActivity());
         task.execute(null, null, null);
-        // Google Analytics event tracking
 
+        // Google Analytics event tracking
         ((AnalyticsApplication) getActivity().getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
                 .setCategory("Note added")
                 .setAction("New note")

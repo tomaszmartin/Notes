@@ -7,6 +7,7 @@
     <color name="primary_accent">@color/deep_purple_500</color>
     <color name="background">@color/deep_purple_500</color>
     <color name="primary_translucent">@color/deep_purple_t50</color>
+    <color name="divider">@color/grey_500</color>
     <color name="primary_accent_translucent">@color/white_translucent</color>
     <color name="fab">@color/red_500</color>
     <color name="fab_dark">@color/red_700</color>
@@ -169,6 +170,7 @@
     <color name="green_a200">#69F0AE</color>
     <color name="green_a400">#00E676</color>
     <color name="green_a700">#00C853</color>
+    <color name="green_t50">#884CAF50</color>
 
     <color name="light_green_50">#f1f8e9</color>
     <color name="light_green_100">#dcedc8</color>

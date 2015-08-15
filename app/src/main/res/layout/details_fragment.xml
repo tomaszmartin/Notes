@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:focusable="false"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -27,9 +26,9 @@
         android:background="@color/primary"
         android:elevation="4dp"
         android:orientation="vertical"
-        android:paddingRight="16dp"
-        android:paddingLeft="56dp"
         android:paddingBottom="16dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         android:paddingTop="16dp">
 
         <!-- Cannot use TextInputLayout for now, there is a problem with animation -->
@@ -38,22 +37,23 @@
             android:id="@+id/hint_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="10sp"
             android:text="@string/title"
-            />
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/title_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/text_background"
+            android:hint="@string/title"
             android:inputType="textCapSentences|textMultiLine"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:hint="@string/title"
             android:textSize="20sp"
             android:textStyle="normal" />
+
+        <!-- -->
 
     </LinearLayout>
 
@@ -64,37 +64,54 @@
         android:layout_below="@id/subhead"
         android:background="@color/white"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:elevation="4dp"
                 android:scaleType="center"
-                android:visibility="gone"
-                android:longClickable="true"
-                />
-
+                android:visibility="gone" />
 
             <EditText
                 android:id="@+id/text_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:hint="@string/note_content_hint"
-                android:inputType="textMultiLine|textCapSentences"
-                android:paddingTop="16dp"
                 android:autoLink="email|web"
                 android:background="@null"
+                android:gravity="top"
+                android:hint="@string/note"
+                android:inputType="textMultiLine|textCapSentences"
                 android:textColor="@color/icon_grey"
                 android:textColorHint="@color/icon_grey"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:paddingBottom="8dp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/hash_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="@string/default_tag"
+                android:textColor="@color/icon_grey"
+                android:textColorHint="@color/icon_grey"
+                android:textSize="14sp"
+                android:paddingBottom="16dp"
+                android:visibility="visible"
+                android:clickable="true"
+                />
 
         </LinearLayout>
 

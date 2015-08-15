@@ -6,20 +6,34 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.google.android.gms.analytics.HitBuilders;
 
-public class MainActivity extends AnalyticsActivity implements SelectionListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AnalyticsActivity implements OnSelectListener, OnAddListener {
 
     // TODO: add support for tablet layout
     private boolean isTwoPane = false;
     private final String DETAILS_TAG = DetailsFragment.class.getSimpleName();
     private final String TAG = MainActivity.class.getSimpleName();
+    private DrawerLayout drawer;
     private MenuItem searchItem;
 
     @Override
@@ -31,56 +45,90 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
             StrictMode.setThreadPolicy(buildPolicy());
         }
 
-        // Check if the app is in two pane mode
-        if (findViewById(R.id.details_container) != null) {
-            isTwoPane = true;
-        }
-
         // Set toolbar as the action bar
         // TODO: on API 16 in ActionMode color is mixed
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // If the app is in two pane mode add details fragment and whether the fragment has already been created
-        if (isTwoPane && savedInstanceState != null) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(NotesContract.NoteEntry.COLUMN_ID, 0);
-
-
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(DETAILS_TAG);
-            if (fragment == null) {
-                fragment = new DetailsFragment();
-            }
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.details_container, fragment, DETAILS_TAG)
-                    .commit();
-        }
+        // Set up navigation
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
 
         // Set the menu icon in toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         }
 
         attachFragment(null);
 
     }
 
+    private void setupViewPager(final ViewPager viewPager) {
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new MainFragment(), getString(R.string.all));
+        adapter.addFragment(new MainFragment(), getString(R.string.personal));
+        adapter.addFragment(new MainFragment(), getString(R.string.work));
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        public final List<Fragment> mFragmentList = new ArrayList<>();
+        public final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
+        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEARCH)) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Intent searchIntent = new Intent(this, SearchActivity.class);
             searchIntent.putExtra(SearchManager.QUERY, query);
             searchItem.collapseActionView();
             startActivity(searchIntent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        } else if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+        } else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri data = intent.getData();
             int id = Integer.parseInt(data.getLastPathSegment());
             onItemSelected(id);
         }
+    }
+
+    // For a ViewPager configuration
+    private void setupViewPager(int pagerId, int tabLayoutId) {
+        ViewPager viewPager = (ViewPager) findViewById(pagerId);
+        setupViewPager(viewPager);
+        TabLayout tabLayout = (TabLayout) findViewById(tabLayoutId);
+        tabLayout.setupWithViewPager(viewPager);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
     }
 
     @Override
@@ -93,6 +141,12 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
                 (SearchView) searchItem.getActionView();
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                return false;
+            }
+        });
 
         return true;
     }
@@ -102,6 +156,8 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == android.R.id.home) {
+            drawer.openDrawer(Gravity.LEFT);
         }
 
         return super.onOptionsItemSelected(item);
@@ -113,19 +169,9 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
 
     @Override
     public void onItemSelected(int id) {
-        if (isTwoPane) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(NotesContract.NoteEntry.COLUMN_ID, id);
-            DetailsFragment fragment = new DetailsFragment();
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.details_container, fragment, DETAILS_TAG)
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, DetailsActivity.class);
-            intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
+        startActivity(intent);
 
         ((AnalyticsApplication) getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
                 .setCategory("Note selected")
@@ -150,6 +196,11 @@ public class MainActivity extends AnalyticsActivity implements SelectionListener
                 .add(R.id.container, fragment, TAG)
                 .commit();
 
+    }
+
+    @Override
+    public void onItemAdded(int id) {
+        onItemSelected(id);
     }
 
 }

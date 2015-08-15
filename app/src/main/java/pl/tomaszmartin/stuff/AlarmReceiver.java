@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 
 /**
  * Created by tomaszmartin on 03.05.15.
@@ -11,14 +12,14 @@ import android.util.Log;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private String tag = "___AlarmReceiver";
+    private String TAG = AlarmReceiver.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int id = intent.getIntExtra("id", 0);
-        Log.d(tag, "onReceive() called with " + id);
+        int id = intent.getIntExtra(NoteEntry.COLUMN_ID, 0);
+
         Intent service = new Intent(context, AlarmService.class);
-        service.putExtra("id", id);
+        service.putExtra(NoteEntry.COLUMN_ID, id);
         context.startService(service);
     }
 }

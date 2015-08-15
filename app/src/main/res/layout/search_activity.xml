@@ -9,11 +9,8 @@
     android:fitsSystemWindows="true">
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -34,8 +31,7 @@
                 android:id="@+id/bottom_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
             </LinearLayout>
 
@@ -48,25 +44,6 @@
             android:layout_below="@id/app_bar">
 
         </FrameLayout>
-
-        <android.support.design.widget.CoordinatorLayout
-            android:id="@+id/coordinator"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_margin="16dp"
-                android:src="@mipmap/ic_add"
-                app:backgroundTint="@color/red_500"
-                app:borderWidth="0dp"
-                app:fabSize="normal"
-                />
-
-        </android.support.design.widget.CoordinatorLayout>
 
     </RelativeLayout>
 

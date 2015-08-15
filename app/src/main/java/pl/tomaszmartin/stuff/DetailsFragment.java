@@ -1,38 +1,45 @@
 package pl.tomaszmartin.stuff;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.TimePicker;
+import android.widget.TextView;
+
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.util.Date;
+
+/**
+ * Created by tomaszmartin on 02.07.15.
+ */
 
 public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -40,9 +47,9 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int DETAIL_LOADER = 1;
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
-    private EditText textView;
+    private EditText contentView;
     private EditText titleView;
-    private View rootView;
+    private TextView tagView;
     private ImageView imageView;
     private boolean hasResult = false;
     private Uri imageUri;
@@ -51,14 +58,17 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.details_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.details_fragment, container, false);
 
         // Get a handle of all the necessary views
-        textView = (EditText) rootView.findViewById(R.id.text_edit);
-        imageView = (ImageView) rootView.findViewById(R.id.image);
+        contentView = (EditText) rootView.findViewById(R.id.text_edit);
+        contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
+        tagView = (TextView) rootView.findViewById(R.id.hash_tag);
+        tagView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
         titleView = (EditText) rootView.findViewById(R.id.title_edit);
+        imageView = (ImageView) rootView.findViewById(R.id.image);
 
-        // Regitser image so it will invoke a context menu on long press
+        // Register image so it will invoke a context menu on long press
         registerForContextMenu(imageView);
 
         // Get the id of note and start loading contents
@@ -72,18 +82,16 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     private void setImage(Uri imageUri, ImageView imageView) {
 
-        //if (imageView.getVisibility() == View.GONE) {
-            imageView.setVisibility(View.VISIBLE);
-        //}
+        imageView.setVisibility(View.VISIBLE);
         ImageTransformation imageTransformation = new ImageTransformation();
 
         if (imageUri != null && !imageUri.toString().isEmpty()) {
-            Log.d(TAG, "file path as uri is " + imageUri.toString());
             Picasso
                     .with(getActivity())
                     .load(imageUri)
                     .transform(imageTransformation)
                     .into(imageView);
+
         }
     }
 
@@ -108,6 +116,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
+    // Picks an image from Android gallery
     public void pickImage() {
         Intent image = new Intent();
         image.setType("image/*");
@@ -121,15 +130,21 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         startActivityForResult(image, IMAGE_REQUEST_CODE);
     }
 
-
     @Override
     public void onPause() {
         super.onPause();
         if (cursor != null) {
+            // Saves note content into a .txt file
             SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
             saveToFileTask.execute(getContents());
+
+            // Saves note data into NotesProvider
             SaveToDatabaseTask saveToDatabaseTask = new SaveToDatabaseTask(this.getActivity(), getUri());
-            saveToDatabaseTask.execute(getValues());
+            saveToDatabaseTask.execute(getContentValues());
+
+            Log.d(TAG, "Note has been saved");
+        } else {
+            Log.d(TAG, "Note has note been changed and is not saved");
         }
     }
 
@@ -140,30 +155,19 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    public int getSaveType() {
-        return Saveable.SAVE_DATABASE_AND_FILE;
-    }
-
-    public Context getContext() {
-        return getActivity();
-    }
-
+    // Returns uri for current note
     public Uri getUri() {
         return NoteEntry.buildNoteUri(cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
     }
 
+    // Removes image from current note
     private void removeImage() {
         ImageView imageView = (ImageView) getActivity().findViewById(R.id.image);
         imageView.setVisibility(View.GONE);
         imageUri = Uri.parse("");
     }
 
-    public ContentValues getValues() {
+    public ContentValues getContentValues() {
         if (imageUri == null) {
             imageUri = Uri.parse("");
         }
@@ -187,7 +191,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     public String getContents() {
-        return textView.getText().toString();
+        return contentView.getText().toString();
     }
 
     private String getDescription() {
@@ -224,35 +228,32 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
             return true;
         } else if (id == R.id.action_size) {
+            changeTextSize(contentView, 1);
 
             return true;
         } else if (id == R.id.action_alarm) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-            View view = getActivity().getLayoutInflater().inflate(R.layout.datetime_picker, null);
-            final TimePicker timePicker = (TimePicker) view.findViewById(R.id.time);
-            final DatePicker datePicker = (DatePicker) view.findViewById(R.id.date);
-            dialog.setView(view);
-            dialog.show();
+            showDialog();
 
             return true;
         } else if (id == R.id.action_image) {
             pickImage();
             return true;
-        } else if (id == R.id.action_draw) {
-            Intent intent = new Intent(getActivity(), DrawingActivity.class);
-            intent.putExtra(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
-            startActivityForResult(intent, IMAGE_REQUEST_CODE);
-
-            return true;
-        } else if (id == R.id.action_record) {
-            Intent intent = new Intent(getActivity(), RecordActivity.class);
-            intent.putExtra(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
-            startActivityForResult(intent, AUDIO_REQUEST_CODE);
-
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDialog() {
+        final String DIALOG_TAG = "alert_dialog_tag";
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        Fragment previousFragment = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        if (previousFragment != null) {
+            fragmentTransaction.remove(previousFragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+
+        AlarmDialogFragment alarmDialogFragment = new AlarmDialogFragment();
+        alarmDialogFragment.show(getFragmentManager(), DIALOG_TAG);
     }
 
     @Override
@@ -283,7 +284,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
                 titleView.setText(title);
             }
             if (!fileName.isEmpty()) {
-                LoadNoteTask loadTask = new LoadNoteTask(getActivity(), textView);
+                LoadNoteTask loadTask = new LoadNoteTask(getActivity(), contentView);
                 loadTask.execute(fileName);
             }
             if (!hasResult && !imageUri.toString().isEmpty()) {
@@ -341,6 +342,20 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             return "square()";
         }
 
+    }
+
+    private void changeTextSize(EditText view, int delta) {
+        float currentSize = view.getTextSize();
+        float defaultSize = 160f;
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        float dp = (currentSize / (displayMetrics.densityDpi / defaultSize)) + delta;
+
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, dp);
+    }
+
+    private int getFontSize() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        return Integer.valueOf(prefs.getString(getString(R.string.font_size_preference), getString(R.string.font_size_preference_default)));
     }
 
 }

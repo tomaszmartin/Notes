@@ -19,12 +19,18 @@
         <item name="android:actionModeSelectAllDrawable">@mipmap/ic_select_all</item>
         <item name="android:textColorHint">@color/white</item>
         <item name="searchViewStyle">@style/SearchView</item>
-        <item name="android:itemBackground">@color/primary</item>
-        <item name="android:itemTextAppearance">@style/menuTextApearance</item>
 
     </style>
 
-    <style name="menuTextApearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
+    <style name="TagTextInput" parent="TextAppearance.AppCompat">
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+
+    <style name="menuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
         <item name="android:textColor">@color/white</item>
     </style>
 

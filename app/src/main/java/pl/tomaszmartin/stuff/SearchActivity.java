@@ -1,6 +1,5 @@
 package pl.tomaszmartin.stuff;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,7 +18,7 @@ import com.google.android.gms.analytics.HitBuilders;
 /**
  * Created by tomaszmartin on 12.07.2015.
  */
-public class SearchActivity extends AnalyticsActivity implements SelectionListener {
+public class SearchActivity extends AnalyticsActivity implements OnSelectListener {
 
     // TODO: add support for tablet layout
     private boolean isTwoPane = false;
@@ -30,37 +28,16 @@ public class SearchActivity extends AnalyticsActivity implements SelectionListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.search_activity);
 
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             StrictMode.setThreadPolicy(buildPolicy());
-        }
-
-        // Check if the app is in two pane mode
-        if (findViewById(R.id.details_container) != null) {
-            isTwoPane = true;
         }
 
         // Set toolbar as the action bar
         // TODO: on API 16 in ActionMode color is mixed
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // If the app is in two pane mode add details fragment and whether the fragment has already been created
-        if (isTwoPane && savedInstanceState != null) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(NotesContract.NoteEntry.COLUMN_ID, 0);
-
-
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(DETAILS_TAG);
-            if (fragment == null) {
-                fragment = new DetailsFragment();
-            }
-
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.details_container, fragment, DETAILS_TAG)
-                    .commit();
-        }
 
         // Set the menu icon in toolbar
         if (getSupportActionBar() != null) {
@@ -121,19 +98,9 @@ public class SearchActivity extends AnalyticsActivity implements SelectionListen
 
     @Override
     public void onItemSelected(int id) {
-        if (isTwoPane) {
-            Bundle bundle = new Bundle();
-            bundle.putInt(NotesContract.NoteEntry.COLUMN_ID, id);
-            DetailsFragment fragment = new DetailsFragment();
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.details_container, fragment, DETAILS_TAG)
-                    .commit();
-        } else {
-            Intent intent = new Intent(this, DetailsActivity.class);
-            intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
+        startActivity(intent);
 
         ((AnalyticsApplication) getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
                 .setCategory("Note selected")
@@ -152,7 +119,7 @@ public class SearchActivity extends AnalyticsActivity implements SelectionListen
         if (currFragment != null) {
             getSupportFragmentManager().beginTransaction().remove(currFragment).commit();
         }
-        Fragment fragment = new MainFragment();
+        Fragment fragment = new SearchFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment, TAG)

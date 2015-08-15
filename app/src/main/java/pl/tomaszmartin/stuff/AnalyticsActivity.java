@@ -9,6 +9,7 @@ import com.google.android.gms.analytics.Tracker;
 /**
  * Created by tomaszmartin on 02.07.15.
  */
+
 public class AnalyticsActivity extends AppCompatActivity {
 
     private Tracker tracker;
@@ -28,7 +29,7 @@ public class AnalyticsActivity extends AppCompatActivity {
     }
 
     private void pushScreen() {
-        Log.i(TAG, "Setting screen name: " + this.getClass().getSimpleName());
+        Log.d(TAG, "Setting screen name: " + this.getClass().getSimpleName());
         tracker.setScreenName(this.getClass().getSimpleName());
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }

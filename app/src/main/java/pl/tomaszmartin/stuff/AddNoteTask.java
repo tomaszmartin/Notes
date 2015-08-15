@@ -3,11 +3,10 @@ package pl.tomaszmartin.stuff;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.util.Log;
+
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import java.util.UUID;
 /**
  * Created by tomaszmartin on 15.06.2015.
  */
+
 public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
 
     private final String TAG = AddNoteTask.class.getSimpleName();
@@ -64,7 +64,12 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer id) {
-        ((SelectionListener) context).onItemSelected(id);
+
+        try {
+            ((OnAddListener) context).onItemAdded(id);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/action_send"
-        android:title="@string/action_send"
+        android:title="@string/action_share"
         android:orderInCategory="99"
         app:showAsAction="never" />
 
@@ -17,37 +17,24 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/action_tag"
+        android:title="@string/action_hastag"
+        android:icon="@drawable/ic_label_white_18dp"
+        android:orderInCategory="97"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/action_alarm"
         android:title="@string/action_alarm"
         android:orderInCategory="96"
-        android:icon="@drawable/ic_bell_white_24dp"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_record"
-        android:title="@string/action_voice"
-        android:orderInCategory="94"
-        android:icon="@drawable/ic_microphone_white_24dp"
+        android:icon="@drawable/ic_alarm_white_18dp"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_image"
         android:title="@string/action_image"
-        android:orderInCategory="93"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_draw"
-        android:title="@string/action_draw"
-        android:orderInCategory="92"
-        android:icon="@drawable/ic_brush_white_24dp"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_attachment"
-        android:title="@string/action_attachment"
-        android:orderInCategory="91"
-        android:icon="@drawable/ic_attachment_white_24dp"
+        android:orderInCategory="95"
+        android:icon="@drawable/ic_panorama_white_18dp"
         app:showAsAction="ifRoom" />
 
 </menu>

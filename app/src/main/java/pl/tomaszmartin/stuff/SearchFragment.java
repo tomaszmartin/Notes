@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -47,11 +48,11 @@ public class SearchFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Set up the initial view
-        rootView = inflater.inflate(R.layout.main_fragment, container, false);
+        rootView = inflater.inflate(R.layout.search_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.grid);
 
         // Set view for an empty list view
-        TextView emptyView = (TextView) rootView.findViewById(R.id.empty_list);
+        RelativeLayout emptyView = (RelativeLayout) rootView.findViewById(R.id.empty_list);
         listView.setEmptyView(emptyView);
 
         adapter = new NotesAdapter(getActivity(), null, 0);
@@ -65,13 +66,10 @@ public class SearchFragment extends Fragment
                 Cursor cursor = adapter.getCursor();
                 if (cursor != null && cursor.moveToPosition(position)) {
                     int noteId = cursor.getInt(cursor.getColumnIndex(NotesContract.NoteEntry.COLUMN_ID));
-                    ((SelectionListener) getActivity()).onItemSelected(noteId);
+                    ((OnSelectListener) getActivity()).onItemSelected(noteId);
                 }
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(this);
 
         return rootView;
     }
