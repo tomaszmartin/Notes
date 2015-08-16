@@ -1,6 +1,7 @@
 package pl.tomaszmartin.stuff;
 
 import android.app.Activity;
+import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,11 +12,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -54,6 +57,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private boolean hasResult = false;
     private Uri imageUri;
     private Cursor cursor;
+    private int noteId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -232,7 +236,19 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
             return true;
         } else if (id == R.id.action_alarm) {
-            showDialog();
+            Bundle args = new Bundle();
+            args.putInt(NoteEntry.COLUMN_ID, getArguments().getInt(NoteEntry.COLUMN_ID));
+            DialogFragment alertFragment = new AlarmDialogFragment();
+            alertFragment.setArguments(args);
+            showDialog("alertDialog", alertFragment);
+
+            return true;
+        }else if (id == R.id.action_tag) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(R.layout.dialog_tag);
+            builder.setPositiveButton("OK", null);
+            builder.setNegativeButton("CANCEL", null);
+            builder.create().show();
 
             return true;
         } else if (id == R.id.action_image) {
@@ -243,17 +259,16 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return super.onOptionsItemSelected(item);
     }
 
-    private void showDialog() {
-        final String DIALOG_TAG = "alert_dialog_tag";
+    private void showDialog(String tag, DialogFragment dialogFragment) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment previousFragment = getFragmentManager().findFragmentByTag(DIALOG_TAG);
+        Fragment previousFragment = getFragmentManager().findFragmentByTag(tag);
         if (previousFragment != null) {
             fragmentTransaction.remove(previousFragment);
         }
         fragmentTransaction.addToBackStack(null);
 
-        AlarmDialogFragment alarmDialogFragment = new AlarmDialogFragment();
-        alarmDialogFragment.show(getFragmentManager(), DIALOG_TAG);
+        dialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialogStyle);
+        dialogFragment.show(getFragmentManager(), tag);
     }
 
     @Override
@@ -355,7 +370,15 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     private int getFontSize() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        return Integer.valueOf(prefs.getString(getString(R.string.font_size_preference), getString(R.string.font_size_preference_default)));
+        int size = 14;
+        try {
+            size =  Integer.valueOf(prefs.getString(getString(R.string.font_size_preference),
+                    getString(R.string.font_size_default)));
+        } catch (NumberFormatException e) {
+
+        }
+
+        return size;
     }
 
 }

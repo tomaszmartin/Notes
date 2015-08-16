@@ -16,7 +16,7 @@ public class SettingsFragment extends PreferenceFragment implements
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Preference screen is visible");
         super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.settings);
+        addPreferencesFromResource(R.xml.prefs);
         bindPreference(findPreference(getString(R.string.font_size_preference)));
     }
 

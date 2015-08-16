@@ -65,7 +65,6 @@
         android:background="@color/white"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="16dp"
         >
 
         <LinearLayout
@@ -108,7 +107,7 @@
                 android:textColor="@color/icon_grey"
                 android:textColorHint="@color/icon_grey"
                 android:textSize="14sp"
-                android:paddingBottom="16dp"
+                android:paddingBottom="32dp"
                 android:visibility="visible"
                 android:clickable="true"
                 />

@@ -6,6 +6,7 @@
         android:defaultValue="@string/font_size_preference_default"
         android:entryValues="@array/font_size_preference_values"
         android:entries="@array/font_size_preference_options"
+        android:layout="@layout/prefs_item"
         />
 
 </PreferenceScreen>

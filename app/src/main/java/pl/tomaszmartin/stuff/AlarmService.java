@@ -10,6 +10,9 @@ import android.database.Cursor;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import java.util.Date;
+
 import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
 
 /**
@@ -20,6 +23,7 @@ public class AlarmService extends Service {
 
     private NotificationManager manager;
     private final String TAG = AlarmService.class.getSimpleName();
+    public static final String TIME = "alarm_time";
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -34,24 +38,30 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        // Retrieving all the values and objects
         int id = intent.getIntExtra(NoteEntry.COLUMN_ID, 0);
         ContentResolver resolver = getContentResolver();
         Cursor cursor = resolver.query(NoteEntry.buildNoteUri(id), null, null, null, null);
-        String title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
-        String description = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_DESCRIPTION));
-
+        String title = "";
+        String description = "";
+        if (cursor != null && cursor.moveToFirst()) {
+            title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
+            description = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_DESCRIPTION));
+        }
         manager = (NotificationManager) this.getApplicationContext().
                 getSystemService(this.getApplicationContext().NOTIFICATION_SERVICE);
 
+        // Creating intent for alarm
         Intent details = new Intent(this.getApplicationContext(), DetailsActivity.class);
         details.putExtra(NoteEntry.COLUMN_ID, id);
         details.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP| Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingNotificationIntent = PendingIntent
                 .getActivity(this.getApplicationContext(), id, details, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Setting the notification
         Notification notification = new NotificationCompat.Builder(this)
                 .setDefaults(Notification.DEFAULT_SOUND|Notification.DEFAULT_LIGHTS|Notification.DEFAULT_VIBRATE)
-                .setSmallIcon(R.mipmap.ic_bell)
+                .setSmallIcon(R.drawable.ic_bell_white_24dp)
                 .setContentTitle(title)
                 .setContentText(description)
                 .setColor(getResources().getColor(R.color.primary))

@@ -17,7 +17,7 @@
             android:background="@color/primary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextAppearance="@style/actionbar_text" />
+            app:titleTextAppearance="@style/actionBarText" />
 
         <RelativeLayout
             android:id="@+id/container"
