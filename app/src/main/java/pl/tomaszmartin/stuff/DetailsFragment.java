@@ -1,7 +1,6 @@
 package pl.tomaszmartin.stuff;
 
 import android.app.Activity;
-import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,7 +9,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -18,9 +16,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -33,7 +28,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -50,27 +47,23 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int DETAIL_LOADER = 1;
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
-    private EditText contentView;
-    private EditText titleView;
-    private TextView tagView;
-    private ImageView imageView;
+    @Bind(R.id.content_view) EditText contentView;
+    @Bind(R.id.title_view) EditText titleView;
+    @Bind(R.id.tag_label) TextView tagView;
+    @Bind(R.id.image_view) ImageView imageView;
     private boolean hasResult = false;
     private Uri imageUri;
     private Cursor cursor;
-    private int noteId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.details_fragment, container, false);
+        ButterKnife.bind(this, rootView);
 
         // Get a handle of all the necessary views
-        contentView = (EditText) rootView.findViewById(R.id.text_edit);
         contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
-        tagView = (TextView) rootView.findViewById(R.id.hash_tag);
         tagView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
-        titleView = (EditText) rootView.findViewById(R.id.title_edit);
-        imageView = (ImageView) rootView.findViewById(R.id.image);
 
         // Register image so it will invoke a context menu on long press
         registerForContextMenu(imageView);
@@ -120,7 +113,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    // Picks an image from Android gallery
+    // Picks an image from gallery
     public void pickImage() {
         Intent image = new Intent();
         image.setType("image/*");
@@ -137,7 +130,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onPause() {
         super.onPause();
-        if (cursor != null) {
+        if (cursor != null && cursor.getCount() > 0) {
             // Saves note content into a .txt file
             SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
             saveToFileTask.execute(getContents());
@@ -165,10 +158,11 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     // Removes image from current note
-    private void removeImage() {
-        ImageView imageView = (ImageView) getActivity().findViewById(R.id.image);
-        imageView.setVisibility(View.GONE);
-        imageUri = Uri.parse("");
+    public void removeImage() {
+        if (imageView != null) {
+            imageView.setVisibility(View.GONE);
+            imageUri = Uri.parse("");
+        }
     }
 
     public ContentValues getContentValues() {
@@ -216,13 +210,13 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return desc;
     }
 
+    // For handling menu options
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
 
             return true;
         } else if (id == R.id.action_send) {
-            EditText contentView = (EditText) getActivity().findViewById(R.id.text_edit);
             String content = contentView.getText().toString();
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -236,39 +230,39 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
             return true;
         } else if (id == R.id.action_alarm) {
-            Bundle args = new Bundle();
-            args.putInt(NoteEntry.COLUMN_ID, getArguments().getInt(NoteEntry.COLUMN_ID));
-            DialogFragment alertFragment = new AlarmDialogFragment();
-            alertFragment.setArguments(args);
-            showDialog("alertDialog", alertFragment);
+            DialogFragment alertDialog = new AlarmDialogFragment();
+            showDialog(alertDialog);
 
             return true;
         }else if (id == R.id.action_tag) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setView(R.layout.dialog_tag);
-            builder.setPositiveButton("OK", null);
-            builder.setNegativeButton("CANCEL", null);
-            builder.create().show();
+            DialogFragment tagDialog = new TagDialogFragment();
+            showDialog(tagDialog);
 
             return true;
         } else if (id == R.id.action_image) {
             pickImage();
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void showDialog(String tag, DialogFragment dialogFragment) {
+    // Shows a dialog fragment
+    private void showDialog(DialogFragment dialogFragment) {
+        Bundle args = new Bundle();
+        args.putInt(NoteEntry.COLUMN_ID, getArguments().getInt(NoteEntry.COLUMN_ID));
+        dialogFragment.setArguments(args);
+
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment previousFragment = getFragmentManager().findFragmentByTag(tag);
+        Fragment previousFragment = getFragmentManager().findFragmentByTag(dialogFragment.getClass().getSimpleName());
         if (previousFragment != null) {
             fragmentTransaction.remove(previousFragment);
         }
         fragmentTransaction.addToBackStack(null);
 
         dialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialogStyle);
-        dialogFragment.show(getFragmentManager(), tag);
+        dialogFragment.show(getFragmentManager(), dialogFragment.getClass().getSimpleName());
     }
 
     @Override
@@ -289,7 +283,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cur) {
         cursor = cur;
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
             String title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
             String fileName = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME));
             if (!hasResult && imageUri == null) {
@@ -337,6 +331,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             DisplayMetrics metrics = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
             float divider = 1.0f;
+
             // 100 pixels for padding
             int padding = 100;
             int minWidth = metrics.widthPixels - padding;
@@ -368,7 +363,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         view.setTextSize(TypedValue.COMPLEX_UNIT_SP, dp);
     }
 
-    private int getFontSize() {
+    public int getFontSize() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int size = 14;
         try {
@@ -379,6 +374,17 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         }
 
         return size;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
     }
 
 }

@@ -1,4 +1,4 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.data;
 
 import android.app.SearchManager;
 import android.content.ContentProvider;
@@ -8,17 +8,13 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by tomaszmartin on 14.06.2015.
  */
+
 public class NotesProvider extends ContentProvider {
 
     private static final String TAG = NotesProvider.class.getSimpleName();
@@ -119,21 +115,29 @@ public class NotesProvider extends ContentProvider {
                 );
                 break;
             case NOTE:
-                cursor = notesDatabaseHelper.getReadableDatabase().query(
-                        NotesContract.NoteEntry.TABLE_NAME,
-                        projection,
-                        NotesContract.NoteEntry.COLUMN_ID + " = '" + ContentUris.parseId(uri) + "'",
-                        null,
-                        null,
-                        null,
-                        sortOrder
-                );
+                // TODO: will it show up the first note?
+                if (ContentUris.parseId(uri) > 0) {
+                    cursor = notesDatabaseHelper.getReadableDatabase().query(
+                            NotesContract.NoteEntry.TABLE_NAME,
+                            projection,
+                            NotesContract.NoteEntry.COLUMN_ID + " = '" + ContentUris.parseId(uri) + "'",
+                            null,
+                            null,
+                            null,
+                            sortOrder
+                    );
+                } else {
+                    cursor = null;
+                }
+
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        if (cursor != null) {
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
         return cursor;
     }
 

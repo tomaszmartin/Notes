@@ -3,6 +3,7 @@ package pl.tomaszmartin.stuff;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
@@ -16,16 +17,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
-
 import java.util.ArrayList;
 import java.util.List;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import pl.tomaszmartin.stuff.data.NotesContract;
 
 public class MainActivity extends AnalyticsActivity implements OnSelectListener, OnAddListener {
 
@@ -33,7 +37,8 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     private boolean isTwoPane = false;
     private final String DETAILS_TAG = DetailsFragment.class.getSimpleName();
     private final String TAG = MainActivity.class.getSimpleName();
-    private DrawerLayout drawer;
+    @Bind(R.id.drawer) DrawerLayout drawer;
+    private Fragment fragment;
     private MenuItem searchItem;
 
     @Override
@@ -41,6 +46,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        ButterKnife.bind(this);
         if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             StrictMode.setThreadPolicy(buildPolicy());
         }
@@ -51,7 +57,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         setSupportActionBar(toolbar);
 
         // Set up navigation
-        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        //drawer = (DrawerLayout) findViewById(R.id.drawer);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
 
@@ -139,14 +145,22 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         searchItem = menu.findItem(R.id.action_search);
         SearchView searchView =
                 (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setOnKeyListener(new View.OnKeyListener() {
+
+        // Not used right now
+        //searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
+            public boolean onQueryTextSubmit(String query) {
+                attachFragment(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //attachFragment(newText);
                 return false;
             }
-        });
+        }); // TODO: implement OnQueryTextListener
 
         return true;
     }
@@ -190,7 +204,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         if (currFragment != null) {
             getSupportFragmentManager().beginTransaction().remove(currFragment).commit();
         }
-        Fragment fragment = new MainFragment();
+        fragment = new MainFragment();
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment, TAG)
@@ -198,9 +212,23 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
 
     }
 
+    public Fragment getFragment() {
+        return fragment;
+    }
+
     @Override
     public void onItemAdded(int id) {
         onItemSelected(id);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
     }
 
 }

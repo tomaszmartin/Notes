@@ -42,7 +42,7 @@
             android:textSize="12sp" />
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/title_edit"
+            android:id="@+id/title_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/text_background"
@@ -74,7 +74,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/image"
+                android:id="@+id/image_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -83,7 +83,7 @@
                 android:visibility="gone" />
 
             <EditText
-                android:id="@+id/text_edit"
+                android:id="@+id/content_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="email|web"
@@ -98,7 +98,7 @@
                 android:visibility="gone"/>
 
             <TextView
-                android:id="@+id/hash_tag"
+                android:id="@+id/tag_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"

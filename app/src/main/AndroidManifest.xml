@@ -76,7 +76,7 @@
         <receiver android:name=".AlarmReceiver" />
 
         <provider
-            android:name=".NotesProvider"
+            android:name=".data.NotesProvider"
             android:authorities="pl.tomaszmartin.stuff" />
 
         <!-- Google Analytics components -->

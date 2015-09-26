@@ -1,4 +1,4 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.data;
 
 import android.app.SearchManager;
 import android.content.ContentUris;

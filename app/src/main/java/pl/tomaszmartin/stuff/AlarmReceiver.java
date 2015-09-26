@@ -3,8 +3,8 @@ package pl.tomaszmartin.stuff;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 /**
  * Created by tomaszmartin on 03.05.15.

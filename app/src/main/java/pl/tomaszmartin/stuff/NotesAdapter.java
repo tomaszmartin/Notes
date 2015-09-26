@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

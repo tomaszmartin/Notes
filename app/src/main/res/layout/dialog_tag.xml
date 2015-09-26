@@ -10,9 +10,9 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <EditText
 
-            android:id="@+id/username_edit_text"
+        <EditText
+            android:id="@+id/newtag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/tags"
@@ -20,5 +20,11 @@
             />
 
     </android.support.design.widget.TextInputLayout>
+
+    <ListView
+        android:id="@+id/taglist"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

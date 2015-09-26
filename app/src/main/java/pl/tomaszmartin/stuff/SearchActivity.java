@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import com.google.android.gms.analytics.HitBuilders;
 
+import pl.tomaszmartin.stuff.data.NotesContract;
+
 /**
  * Created by tomaszmartin on 12.07.2015.
  */

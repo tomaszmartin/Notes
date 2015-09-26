@@ -1,14 +1,10 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.data;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
-import java.util.ArrayList;
-import java.util.Date;
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 /**
  * Created by tomaszmartin on 26.03.15.

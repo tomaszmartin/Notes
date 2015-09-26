@@ -29,19 +29,20 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
         int id  = menuItem.getItemId();
         switch (id) {
             case R.id.drawer_home:
-                drawer.closeDrawer(Gravity.LEFT);
-                Intent mainIntent = new Intent(activity, MainActivity.class);
-                activity.startActivity(mainIntent);
-                activity.overridePendingTransition(0, 0);
+                startActivity(MainActivity.class);
                 return true;
             case R.id.drawer_settings:
-                drawer.closeDrawer(Gravity.LEFT);
-                Intent settingsIntent = new Intent(activity, SettingsActivity.class);
-                activity.startActivity(settingsIntent);
-                activity.overridePendingTransition(0, 0);
+                startActivity(SettingsActivity.class);
                 return true;
         }
         return false;
+    }
+
+    private void startActivity(Class className) {
+        drawer.closeDrawer(Gravity.LEFT);
+        Intent intent = new Intent(activity, className);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
 }

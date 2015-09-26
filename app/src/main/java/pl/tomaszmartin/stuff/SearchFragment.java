@@ -3,7 +3,6 @@ package pl.tomaszmartin.stuff;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
@@ -20,12 +19,13 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import pl.tomaszmartin.stuff.data.NotesContract;
 
 /**
  * Created by tomaszmartin on 12.07.2015.

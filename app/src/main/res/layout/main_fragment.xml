@@ -6,10 +6,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/search_results_label"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:layout_height="wrap_content"
+            android:text="@string/search_results_label"
+            />
+
+        <ImageButton
+            android:id="@+id/clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:src="@drawable/ic_close_grey600_24dp"
+            android:background="@color/translucent"
+            />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/grid"
+        android:layout_below="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
     <!-- Empty notes list -->
     <RelativeLayout

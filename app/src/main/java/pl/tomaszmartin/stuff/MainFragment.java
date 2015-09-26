@@ -1,20 +1,16 @@
 package pl.tomaszmartin.stuff;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v7.widget.SearchView;
 import android.text.Html;
-import android.util.Log;
 import android.view.ActionMode;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,12 +18,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.google.android.gms.analytics.HitBuilders;
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import pl.tomaszmartin.stuff.data.NotesContract;
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,6 +49,12 @@ public class MainFragment extends Fragment
     private View rootView;
     private ArrayList<Long> selectedPositions = new ArrayList<>();
     private int numberOfItemsSelected;
+    @Bind(R.id.search_results_label)
+    TextView searchResults;
+    @Bind(R.id.clear_button)
+    ImageButton clearButton;
+    @Bind(R.id.search)
+    View searchBar;
 
     private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
 
@@ -56,10 +65,13 @@ public class MainFragment extends Fragment
         rootView = inflater.inflate(R.layout.main_fragment, container, false);
         listView = (ListView) rootView.findViewById(R.id.grid);
 
+        // Bind the view with ButterKnife
+        ButterKnife.bind(this, rootView);
+
         // Set view for an empty list view
         View emptyView = rootView.findViewById(R.id.empty_list);
         listView.setEmptyView(emptyView);
-        
+
         adapter = new NotesAdapter(getActivity(), null, 0);
         listView.setAdapter(adapter);
 
@@ -114,6 +126,7 @@ public class MainFragment extends Fragment
         Snackbar.make(getActivity().findViewById(R.id.coordinator), text, Snackbar.LENGTH_LONG)
                 .setActionTextColor(getResources().getColor(R.color.red_500))
                 .show();
+
     }
 
     @Override
@@ -125,10 +138,10 @@ public class MainFragment extends Fragment
         if (getArguments() != null && getArguments().getString(NoteEntry.COLUMN_TITLE) != null) {
             String query = getArguments().getString(NoteEntry.COLUMN_TITLE, "");
             notesUri = NoteEntry.buildQueryUri(query);
-            Log.d(TAG, "loader created with uri: " + notesUri.toString());
+
+            setupSearchResultsView(query);
         } else {
             notesUri = NotesContract.NoteEntry.buildAllNotesUri();
-            Log.d(TAG, "loader created without query");
         }
 
         return new CursorLoader(getActivity(),
@@ -178,14 +191,14 @@ public class MainFragment extends Fragment
         if (item.getItemId() == R.id.action_delete) {
 
             ArrayList<Integer> positionsToDelete = new ArrayList<Integer>();
-            for (Long position: selectedPositions) {
+            for (Long position : selectedPositions) {
                 positionsToDelete.add(position.intValue());
             }
 
             // Sorts the array in ascending order
             Collections.sort(positionsToDelete);
 
-            for (Integer position: positionsToDelete) {
+            for (Integer position : positionsToDelete) {
                 deleteNote(position);
             }
 
@@ -198,7 +211,7 @@ public class MainFragment extends Fragment
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        selectedPositions = new ArrayList<Long>();
+        selectedPositions = new ArrayList<>();
         numberOfItemsSelected = 0;
     }
 
@@ -223,7 +236,7 @@ public class MainFragment extends Fragment
         }
     }
 
-    private void addNote() {
+    public void addNote() {
         AddNoteTask task = new AddNoteTask(getActivity());
         task.execute(null, null, null);
 
@@ -233,6 +246,11 @@ public class MainFragment extends Fragment
                 .setAction("New note")
                 .setLabel(TAG)
                 .build());
+    }
+
+    private void setupSearchResultsView(String query) {
+        searchBar.setVisibility(View.VISIBLE);
+        searchResults.setText(getString(R.string.search_results_label) + query);
     }
 
 }

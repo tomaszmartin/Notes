@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;

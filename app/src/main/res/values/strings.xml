@@ -117,5 +117,6 @@
     <string name="font_size_default">14</string>
 
     <string name="title_activity_settings">Settings</string>
+    <string name="search_results_label">Search results for: </string>
 
 </resources>

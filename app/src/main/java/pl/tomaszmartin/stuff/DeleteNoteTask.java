@@ -3,6 +3,8 @@ package pl.tomaszmartin.stuff;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import pl.tomaszmartin.stuff.data.NotesContract;
+
 /**
  * Created by tomaszmartin on 18.06.2015.
  */
@@ -22,4 +24,5 @@ public class DeleteNoteTask extends AsyncTask<Integer, Void, Void> {
 
         return null;
     }
+
 }

@@ -9,11 +9,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import java.util.Date;
-
-import pl.tomaszmartin.stuff.NotesContract.NoteEntry;
+import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 /**
  * Created by tomaszmartin on 03.05.15.

@@ -10,15 +10,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import java.util.Calendar;
-import java.util.Date;
+
+import pl.tomaszmartin.stuff.data.NotesContract;
 
 /**
  * Created by tomaszmartin on 25.07.2015.
@@ -45,18 +44,18 @@ public class AlarmDialogFragment extends DialogFragment implements DialogInterfa
 
         // Creating builder and view for dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View view = getActivity().getLayoutInflater().inflate(R.layout.alarm_dialog, null);
+        View rootView = getActivity().getLayoutInflater().inflate(R.layout.alarm_dialog, null);
 
         // Setup date and time pickers
-        timePicker = (TimePicker) view.findViewById(R.id.time_picker);
-        datePicker = (DatePicker) view.findViewById(R.id.date_picker);
+        timePicker = (TimePicker) rootView.findViewById(R.id.time_picker);
+        datePicker = (DatePicker) rootView.findViewById(R.id.date_picker);
         timePicker.setEnabled(true);
         timePicker.setIs24HourView(true);
 
         // Set up listener for buttons
-        dateButton = (ToggleButton) view.findViewById(R.id.pick_date_btn);
+        dateButton = (ToggleButton) rootView.findViewById(R.id.pick_date_btn);
         dateButton.setOnClickListener(this);
-        timeButton = (ToggleButton) view.findViewById(R.id.pick_time_btn);
+        timeButton = (ToggleButton) rootView.findViewById(R.id.pick_time_btn);
         timeButton.setOnClickListener(this);
 
         // Set the first visible set, button and picker
@@ -72,7 +71,7 @@ public class AlarmDialogFragment extends DialogFragment implements DialogInterfa
                 calendar.get(Calendar.DAY_OF_MONTH), null);
 
         // Build the dialog
-        builder.setView(view);
+        builder.setView(rootView);
         builder.setPositiveButton(R.string.ok, this);
         builder.setNegativeButton(R.string.cancel, this);
         return builder.create();
