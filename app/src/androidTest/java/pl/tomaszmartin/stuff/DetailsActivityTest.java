@@ -8,6 +8,9 @@ import android.test.TouchUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import pl.tomaszmartin.stuff.ui.DetailsActivity;
+import pl.tomaszmartin.stuff.ui.DetailsFragment;
+
 /**
  * Created by tomaszmartin on 09.09.2015.
  */

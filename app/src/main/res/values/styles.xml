@@ -22,7 +22,7 @@
 
     </style>
 
-    <style name="dialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="dialogStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>

@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 /**
  * Created by tomaszmartin on 21.06.2015.
  */
+
 public class LoadNoteTask extends AsyncTask<String, Void, String> {
 
     private Context context;

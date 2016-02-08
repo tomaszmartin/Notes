@@ -13,7 +13,6 @@ import com.google.android.gms.analytics.Tracker;
 public class AnalyticsActivity extends AppCompatActivity {
 
     private Tracker tracker;
-    private String TAG = AnalyticsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +22,23 @@ public class AnalyticsActivity extends AppCompatActivity {
         pushScreen();
     }
 
+    protected String getTag() {
+        return this.getClass().getSimpleName();
+    }
+
+    private void log(String message) {
+        Log.d(getTag(), message);
+    }
+
     private void setupTracker() {
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         tracker = application.getDefaultTracker();
     }
 
     private void pushScreen() {
-        Log.d(TAG, "Setting screen name: " + this.getClass().getSimpleName());
         tracker.setScreenName(this.getClass().getSimpleName());
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        log("Setting screen name: " + this.getClass().getSimpleName());
     }
 
 }

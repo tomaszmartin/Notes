@@ -303,5 +303,6 @@
     <color name="white_translucent">#aaffffff</color>
     <color name="black_translucent">#88000000</color>
     <color name="icon_grey">#838383</color>
+    <color name="foreground_material_light">#ffffff</color>
 
 </resources>

@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
 import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
+import pl.tomaszmartin.stuff.ui.DetailsActivity;
 
 /**
  * Created by tomaszmartin on 03.05.15.

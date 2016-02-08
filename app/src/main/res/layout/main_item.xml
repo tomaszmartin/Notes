@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:text="@string/lorem_short"
                 android:textSize="16sp"
+                android:textColor="@color/black"
                 />
 
         </LinearLayout>
@@ -64,19 +65,11 @@
         android:id="@+id/item_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="2"
+        android:maxLines="3"
         android:paddingTop="4dp"
         android:text="@string/lorem_long"
         android:textSize="12sp"
         />
-
-    <TextView
-        android:id="@+id/tag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:text="@string/default_tag"
-        android:textSize="12sp"/>
 
 </LinearLayout>
 

@@ -49,7 +49,7 @@
             android:hint="@string/title"
             android:inputType="textCapSentences|textMultiLine"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/white_translucent"
             android:textSize="20sp"
             android:textStyle="normal" />
 
@@ -96,21 +96,6 @@
                 android:textSize="14sp"
                 android:paddingBottom="8dp"
                 android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/tag_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="top"
-                android:hint="@string/default_tag"
-                android:textColor="@color/icon_grey"
-                android:textColorHint="@color/icon_grey"
-                android:textSize="14sp"
-                android:paddingBottom="32dp"
-                android:visibility="visible"
-                android:clickable="true"
-                />
 
         </LinearLayout>
 

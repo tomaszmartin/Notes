@@ -19,7 +19,6 @@ import java.util.UUID;
 
 public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
 
-    private final String TAG = AddNoteTask.class.getSimpleName();
     private final Context context;
 
     public AddNoteTask(Context context) {
