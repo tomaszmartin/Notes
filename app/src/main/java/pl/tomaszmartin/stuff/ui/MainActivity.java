@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -39,23 +40,25 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
 
         ButterKnife.bind(this);
 
-        // Set toolbar as the action bar
+        setupActionBar();
+        setupNavigation();
+        attachFragment(null);
+
+    }
+
+    private void setupNavigation() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
+    }
+
+    private void setupActionBar() {
         // TODO: on API 16 in ActionMode color is mixed
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Set up navigation
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
-        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
-
-        // Set the menu icon in toolbar
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         }
-
-        attachFragment(null);
-
     }
 
     @Override
@@ -77,8 +80,6 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchItem = menu.findItem(R.id.action_search);
         SearchView searchView =
                 (SearchView) searchItem.getActionView();
@@ -105,7 +106,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         if (id == R.id.action_settings) {
             return true;
         } else if (id == android.R.id.home) {
-            drawer.openDrawer(Gravity.LEFT);
+            drawer.openDrawer(GravityCompat.START);
         }
 
         return super.onOptionsItemSelected(item);

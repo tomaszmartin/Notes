@@ -12,8 +12,6 @@ import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    private String TAG = AlarmReceiver.class.getSimpleName();
-
     @Override
     public void onReceive(Context context, Intent intent) {
         int id = intent.getIntExtra(NoteEntry.COLUMN_ID, 0);

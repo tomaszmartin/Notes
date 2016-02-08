@@ -6,6 +6,8 @@ import android.util.Log;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by tomaszmartin on 02.07.15.
  */
@@ -41,4 +43,8 @@ public class AnalyticsActivity extends AppCompatActivity {
         log("Setting screen name: " + this.getClass().getSimpleName());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
