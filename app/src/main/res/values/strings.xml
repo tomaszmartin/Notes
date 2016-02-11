@@ -173,5 +173,6 @@
     <string name="lines_preference_default">3 lines</string>
     <string name="show_date_preference_title">Show date</string>
     <string name="show_date_preference">showDate</string>
+    <string name="empty_message">Your notes will be here.\nTap + do add one.</string>
 
 </resources>

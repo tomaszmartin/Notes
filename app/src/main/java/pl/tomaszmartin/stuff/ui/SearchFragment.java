@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import pl.tomaszmartin.stuff.AddNoteTask;
-import pl.tomaszmartin.stuff.AnalyticsApplication;
 import pl.tomaszmartin.stuff.DeleteNoteTask;
 import pl.tomaszmartin.stuff.NotesAdapter;
 import pl.tomaszmartin.stuff.OnSelectListener;
@@ -55,7 +54,7 @@ public class SearchFragment extends Fragment
 
         // Set up the initial view
         rootView = inflater.inflate(R.layout.search_fragment, container, false);
-        listView = (ListView) rootView.findViewById(R.id.grid);
+        listView = (ListView) rootView.findViewById(R.id.listView);
 
         // Set view for an empty list view
         RelativeLayout emptyView = (RelativeLayout) rootView.findViewById(R.id.empty_list);

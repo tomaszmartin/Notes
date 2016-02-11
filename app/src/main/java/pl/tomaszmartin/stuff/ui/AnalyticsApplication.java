@@ -1,9 +1,11 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.ui;
 
 import android.app.Application;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
+
+import pl.tomaszmartin.stuff.R;
 
 /**
  * Created by tomaszmartin on 02.07.15.

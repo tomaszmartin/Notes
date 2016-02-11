@@ -26,7 +26,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.tomaszmartin.stuff.AddNoteTask;
-import pl.tomaszmartin.stuff.AnalyticsApplication;
 import pl.tomaszmartin.stuff.DeleteNoteTask;
 import pl.tomaszmartin.stuff.NotesAdapter;
 import pl.tomaszmartin.stuff.OnSelectListener;
@@ -48,35 +47,27 @@ public class MainFragment extends Fragment
     private String TAG = MainFragment.class.getSimpleName();
     private static final int NOTES_LOADER = 0;
     private NotesAdapter adapter;
-    private ListView listView;
     private View rootView;
     private ArrayList<Long> selectedPositions = new ArrayList<>();
     private int numberOfItemsSelected;
     @Bind(R.id.search_results_label) TextView searchResults;
-    @Bind(R.id.clear_button) ImageButton clearButton;
     @Bind(R.id.search) View searchBar;
+    @Bind(R.id.listView) ListView listView;
+    @Bind(R.id.empty_list) View emptyView;
 
     private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Set up the initial view
         rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        listView = (ListView) rootView.findViewById(R.id.grid);
-
-        // Bind the view with ButterKnife
         ButterKnife.bind(this, rootView);
 
-        // Set view for an empty list view
-        View emptyView = rootView.findViewById(R.id.empty_list);
-        listView.setEmptyView(emptyView);
-
-        // Set the adapter
         adapter = new NotesAdapter(getActivity(), null, 0);
-        listView.setAdapter(adapter);
 
         // Setup list view
+        listView.setAdapter(adapter);
+        listView.setEmptyView(emptyView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         listView.setMultiChoiceModeListener(this);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -222,11 +213,11 @@ public class MainFragment extends Fragment
         if (numberOfItemsSelected == 0) {
             mode.setTitle("");
         } else if (numberOfItemsSelected == 1) {
-            mode.setTitle(Html.fromHtml("<small>" + String.valueOf(numberOfItemsSelected) + " " + getString(R.string.one_note_chosen) + "</small>"));
+            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.one_note_chosen));
         } else if (numberOfItemsSelected == 2 || numberOfItemsSelected == 3 || numberOfItemsSelected == 4) {
-            mode.setTitle(Html.fromHtml("<small>" + String.valueOf(numberOfItemsSelected) + " " + getString(R.string.two_note_chosen) + "</small>"));
+            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.two_note_chosen));
         } else {
-            mode.setTitle(Html.fromHtml("<small>" + String.valueOf(numberOfItemsSelected) + " " + getString(R.string.five_note_chosen) + "</small>"));
+            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.five_note_chosen));
         }
     }
 
@@ -252,7 +243,7 @@ public class MainFragment extends Fragment
 
     private void setupSearchResultsView(String query) {
         searchBar.setVisibility(View.VISIBLE);
-        searchResults.setText(getString(R.string.search_results_label) + query);
+        searchResults.setText(String.format("%s%s", getString(R.string.search_results_label), query));
     }
 
 }

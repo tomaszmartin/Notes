@@ -1,12 +1,10 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by tomaszmartin on 02.07.15.

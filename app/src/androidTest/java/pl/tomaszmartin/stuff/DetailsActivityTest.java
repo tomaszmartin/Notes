@@ -48,7 +48,7 @@ public class DetailsActivityTest extends ActivityInstrumentationTestCase2<Detail
 
         // Send text to the view
         sendKeys("testing 1, 2, 3...");
-        assertEquals(fragment.getContents(), contentView.getText().toString(), fragment.getContents());
+        assertEquals(fragment.getNoteContent(), contentView.getText().toString(), fragment.getNoteContent());
     }
 
     public void testFontSize() {

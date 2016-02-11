@@ -27,8 +27,7 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        int id  = menuItem.getItemId();
-        switch (id) {
+        switch (menuItem.getItemId()) {
             case R.id.drawer_home:
                 startActivity(MainActivity.class);
                 return true;
@@ -39,9 +38,9 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
         return false;
     }
 
-    private void startActivity(Class className) {
+    private void startActivity(Class aClass) {
         drawer.closeDrawer(Gravity.LEFT);
-        Intent intent = new Intent(activity, className);
+        Intent intent = new Intent(activity, aClass);
         activity.startActivity(intent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }

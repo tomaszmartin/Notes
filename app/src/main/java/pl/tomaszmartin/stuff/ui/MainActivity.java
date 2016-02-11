@@ -1,7 +1,6 @@
 package pl.tomaszmartin.stuff.ui;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
@@ -11,7 +10,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -19,8 +17,6 @@ import com.google.android.gms.analytics.HitBuilders;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.tomaszmartin.stuff.AnalyticsActivity;
-import pl.tomaszmartin.stuff.AnalyticsApplication;
 import pl.tomaszmartin.stuff.NavigationListener;
 import pl.tomaszmartin.stuff.OnAddListener;
 import pl.tomaszmartin.stuff.OnSelectListener;
@@ -52,7 +48,6 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     }
 
     private void setupActionBar() {
-        // TODO: on API 16 in ActionMode color is mixed
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -95,7 +90,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        }); // TODO: implement OnQueryTextListener
+        });
 
         return true;
     }

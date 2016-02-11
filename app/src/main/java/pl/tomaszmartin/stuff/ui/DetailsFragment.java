@@ -63,13 +63,9 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         View rootView = inflater.inflate(R.layout.details_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
-        // Get a handle of all the necessary views
         contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
-
-        // Register image so it will invoke a context menu on long press
         registerForContextMenu(imageView);
 
-        // Get the id of note and start loading contents
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey(NoteEntry.COLUMN_ID)) {
             getLoaderManager().initLoader(DETAIL_LOADER, null, this);
@@ -78,8 +74,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return rootView;
     }
 
-    private void setImage(Uri imageUri, ImageView imageView) {
-
+    public void setImage(Uri imageUri, ImageView imageView) {
         imageView.setVisibility(View.VISIBLE);
         ImageTransformation imageTransformation = new ImageTransformation();
 
@@ -98,13 +93,11 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == IMAGE_REQUEST_CODE) {
                 if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null && !data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI).isEmpty()) {
-                    // For images saved in the provider
                     imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
                 } else {
                     imageUri = data.getData();
                 }
 
-                // Has to set this flag to true so onLoadFinished won't load previous image
                 hasResult = true;
                 setImage(imageUri, imageView);
 
@@ -114,7 +107,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         }
     }
 
-    // Picks an image from gallery
     public void pickImage() {
         Intent image = new Intent();
         image.setType("image/*");
@@ -131,12 +123,14 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onPause() {
         super.onPause();
-        if (cursor != null && cursor.getCount() > 0) {
-            // Saves note content into a .txt file
-            SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
-            saveToFileTask.execute(getContents());
+        saveNote();
+    }
 
-            // Saves note data into NotesProvider
+    private void saveNote() {
+        if (cursor != null && cursor.getCount() > 0) {
+            SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
+            saveToFileTask.execute(getNoteContent());
+
             SaveToDatabaseTask saveToDatabaseTask = new SaveToDatabaseTask(this.getActivity(), getUri());
             saveToDatabaseTask.execute(getContentValues());
 
@@ -153,12 +147,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         setHasOptionsMenu(true);
     }
 
-    // Returns uri for current note
     public Uri getUri() {
         return NoteEntry.buildNoteUri(cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
     }
 
-    // Removes image from current note
     public void removeImage() {
         if (imageView != null) {
             imageView.setVisibility(View.GONE);
@@ -189,12 +181,12 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME));
     }
 
-    public String getContents() {
+    public String getNoteContent() {
         return contentView.getText().toString();
     }
 
     private String getDescription() {
-        String desc = getContents();
+        String desc = getNoteContent();
         final int MAX_CHAR_IN_DESCRIPTION = 320;
         if (desc.length() > MAX_CHAR_IN_DESCRIPTION) {
             String start = desc.substring(0, MAX_CHAR_IN_DESCRIPTION);
@@ -211,7 +203,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return desc;
     }
 
-    // For handling menu options
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
@@ -227,7 +218,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
             return true;
         } else if (id == R.id.action_size) {
-            changeTextSize(contentView, 1);
+            setFontSize(contentView, 1);
 
             return true;
         } else if (id == R.id.action_alarm) {
@@ -249,7 +240,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return super.onOptionsItemSelected(item);
     }
 
-    // Shows a dialog fragment
     private void showDialog(DialogFragment dialogFragment) {
         Bundle args = new Bundle();
         args.putInt(NoteEntry.COLUMN_ID, getArguments().getInt(NoteEntry.COLUMN_ID));
@@ -306,7 +296,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoaderReset(Loader loader) {
-        // Do nothing
+
     }
 
     @Override
@@ -355,7 +345,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     }
 
-    private void changeTextSize(EditText view, int delta) {
+    private void setFontSize(EditText view, int delta) {
         float currentSize = view.getTextSize();
         float defaultSize = 160f;
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -381,11 +371,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
     }
 
 }

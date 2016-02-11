@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/list_item_selector"
     android:orientation="vertical"
-    android:padding="16dp"
-    >
+    android:padding="16dp">
 
     <LinearLayout
         android:id="@+id/data"
@@ -28,9 +27,9 @@
                 android:id="@+id/item_title"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:text="@string/lorem_short"
-                android:textSize="16sp"
+                tools:text="@string/lorem_short"
                 android:textColor="@color/black"
+                android:textSize="16sp"
                 />
 
         </LinearLayout>
@@ -44,8 +43,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="@string/date"
-                android:src="@drawable/ic_clock_grey600_18dp"/>
+                android:src="@drawable/ic_calendar_grey600_48dp"/>
 
             <TextView
                 android:id="@+id/item_date"
@@ -53,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:paddingLeft="4dp"
-                android:text="@string/date"
+                tools:text="@string/date"
                 android:textSize="12sp"
                 />
 
@@ -67,8 +65,8 @@
         android:layout_height="wrap_content"
         android:maxLines="3"
         android:paddingTop="4dp"
-        android:text="@string/lorem_long"
         android:textSize="12sp"
+        tools:text="@string/lorem_long"
         />
 
 </LinearLayout>

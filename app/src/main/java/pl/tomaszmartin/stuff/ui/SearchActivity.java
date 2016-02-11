@@ -15,8 +15,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.analytics.HitBuilders;
 
-import pl.tomaszmartin.stuff.AnalyticsActivity;
-import pl.tomaszmartin.stuff.AnalyticsApplication;
 import pl.tomaszmartin.stuff.BuildConfig;
 import pl.tomaszmartin.stuff.OnSelectListener;
 import pl.tomaszmartin.stuff.R;
