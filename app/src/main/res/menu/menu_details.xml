@@ -5,36 +5,35 @@
     tools:context="com.example.tomaszmartin.notes.DetailsActivity">
 
     <item
-        android:id="@+id/action_send"
+        android:id="@+id/action_share"
         android:title="@string/action_share"
         android:orderInCategory="99"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_share_variant_white_18dp"
+        app:showAsAction="ifRoom"
+        />
 
     <item
         android:id="@+id/action_size"
         android:title="@string/action_size"
         android:orderInCategory="98"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_tag"
-        android:title="@string/action_hastag"
-        android:icon="@drawable/ic_label_white_18dp"
-        android:orderInCategory="97"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never"
+        android:icon="@drawable/ic_format_size_white_18dp"
+        />
 
     <item
         android:id="@+id/action_alarm"
         android:title="@string/action_alarm"
         android:orderInCategory="96"
         android:icon="@drawable/ic_alarm_white_18dp"
-        app:showAsAction="never" />
+        app:showAsAction="never"
+        />
 
     <item
         android:id="@+id/action_image"
         android:title="@string/action_image"
         android:orderInCategory="95"
         android:icon="@drawable/ic_panorama_white_18dp"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
 
 </menu>

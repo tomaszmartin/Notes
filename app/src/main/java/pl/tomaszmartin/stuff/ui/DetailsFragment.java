@@ -208,7 +208,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         if (id == R.id.action_settings) {
 
             return true;
-        } else if (id == R.id.action_send) {
+        } else if (id == R.id.action_share) {
             String content = contentView.getText().toString();
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
@@ -224,11 +224,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         } else if (id == R.id.action_alarm) {
             DialogFragment alertDialog = new AlarmDialogFragment();
             showDialog(alertDialog);
-
-            return true;
-        }else if (id == R.id.action_tag) {
-            DialogFragment tagDialog = new TagDialogFragment();
-            showDialog(tagDialog);
 
             return true;
         } else if (id == R.id.action_image) {
