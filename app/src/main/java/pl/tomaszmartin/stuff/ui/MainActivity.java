@@ -69,6 +69,8 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             Uri data = intent.getData();
             int id = Integer.parseInt(data.getLastPathSegment());
             onItemSelected(id);
+        } else {
+            attachFragment(null);
         }
     }
 

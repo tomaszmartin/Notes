@@ -1,5 +1,6 @@
 package pl.tomaszmartin.stuff.ui;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.google.android.gms.analytics.HitBuilders;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.tomaszmartin.stuff.AddNoteTask;
 import pl.tomaszmartin.stuff.DeleteNoteTask;
 import pl.tomaszmartin.stuff.NotesAdapter;
@@ -54,6 +56,7 @@ public class MainFragment extends Fragment
     @Bind(R.id.search) View searchBar;
     @Bind(R.id.listView) ListView listView;
     @Bind(R.id.empty_list) View emptyView;
+    @Bind(R.id.clear_button) ImageButton clearSearchResults;
 
     private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
 
@@ -83,6 +86,7 @@ public class MainFragment extends Fragment
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        clearSearchResults.setOnClickListener(this);
 
         return rootView;
     }
@@ -226,6 +230,9 @@ public class MainFragment extends Fragment
         int id = view.getId();
         if (id == R.id.fab) {
             addNote();
+        } else if (id == R.id.clear_button) {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -243,7 +250,7 @@ public class MainFragment extends Fragment
 
     private void setupSearchResultsView(String query) {
         searchBar.setVisibility(View.VISIBLE);
-        searchResults.setText(String.format("%s%s", getString(R.string.search_results_label), query));
+        searchResults.setText(String.format("%s %s", getString(R.string.search_results_label), query));
     }
 
 }
