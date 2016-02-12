@@ -5,10 +5,19 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+        android:title="@string/sort"
         android:orderInCategory="100"
-        app:showAsAction="never" />
+        android:icon="@drawable/ic_sort_variant_white_24dp"
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/action_sort_newest"
+                android:title="@string/sort_by_newest" />
+            <item
+                android:id="@+id/action_sort_title"
+                android:title="@string/sort_by_title" />
+        </menu>
+    </item>
 
     <item
         android:id="@+id/action_search"
@@ -16,6 +25,7 @@
         android:orderInCategory="99"
         android:icon="@drawable/ic_magnify_white_24dp"
         app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        />
 
 </menu>

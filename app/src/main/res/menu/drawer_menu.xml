@@ -7,16 +7,31 @@
 
         <item
             android:id="@+id/drawer_home"
-            android:icon="@drawable/ic_view_list_black_24dp"
+            android:icon="@drawable/ic_view_list_grey600_24dp"
             android:title="@string/notes"
             />
 
         <item
-            android:id="@+id/drawer_settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/action_settings"
+            android:id="@+id/drawer_basket"
+            android:icon="@drawable/ic_delete_grey600_24dp"
+            android:title="@string/basket"
             />
 
     </group>
+
+    <item android:title="@string/information">
+        <menu>
+            <item
+                android:id="@+id/drawer_settings"
+                android:icon="@drawable/ic_settings_grey600_24dp"
+                android:title="@string/action_settings"
+                />
+            <item
+                android:id="@+id/drawer_about"
+                android:icon="@drawable/ic_information_grey600_24dp"
+                android:title="@string/about"
+                />
+        </menu>
+    </item>
 
 </menu>

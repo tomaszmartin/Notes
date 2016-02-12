@@ -25,6 +25,8 @@ import pl.tomaszmartin.stuff.data.NotesContract;
 
 public class MainActivity extends AnalyticsActivity implements OnSelectListener, OnAddListener {
 
+    @Bind(R.id.navigation) NavigationView navigationView;
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer) DrawerLayout drawer;
     private Fragment fragment;
     private MenuItem searchItem;
@@ -36,19 +38,13 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
 
         ButterKnife.bind(this);
 
-        setupActionBar();
-        setupNavigation();
-        attachFragment(null);
+        setupView();
+        attachFragment(null, MainFragment.SORT_NEWEST);
 
     }
 
-    private void setupNavigation() {
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+    private void setupView() {
         navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
-    }
-
-    private void setupActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,8 +65,8 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             Uri data = intent.getData();
             int id = Integer.parseInt(data.getLastPathSegment());
             onItemSelected(id);
-        } else {
-            attachFragment(null);
+        } else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_REBOOT)) {
+            attachFragment(null, MainFragment.SORT_NEWEST);
         }
     }
 
@@ -84,7 +80,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                attachFragment(query);
+                attachFragment(query, MainFragment.SORT_NEWEST);
                 return true;
             }
 
@@ -100,7 +96,11 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sort_title) {
+            attachFragment(null, MainFragment.SORT_TITLE);
+            return true;
+        } else if (id == R.id.action_sort_newest) {
+            attachFragment(null, MainFragment.SORT_NEWEST);
             return true;
         } else if (id == android.R.id.home) {
             drawer.openDrawer(GravityCompat.START);
@@ -122,11 +122,14 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
                 .build());
     }
 
-    private void attachFragment(String query) {
+    private void attachFragment(String query, int order) {
 
         Bundle bundle = new Bundle();
         if (query != null && !query.isEmpty()) {
             bundle.putString(NotesContract.NoteEntry.COLUMN_TITLE, query);
+        }
+        if (order != -1) {
+            bundle.putInt(MainFragment.ORDER_KEY, order);
         }
         Fragment currFragment = getSupportFragmentManager().findFragmentByTag(getTag());
         if (currFragment != null) {

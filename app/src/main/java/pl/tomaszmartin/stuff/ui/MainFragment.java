@@ -46,6 +46,9 @@ public class MainFragment extends Fragment
         implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>,
         AbsListView.MultiChoiceModeListener, View.OnClickListener {
 
+    public static final String ORDER_KEY = "ORDER";
+    public static final int SORT_NEWEST = 1;
+    public static final int SORT_TITLE = 2;
     private String TAG = MainFragment.class.getSimpleName();
     private static final int NOTES_LOADER = 0;
     private NotesAdapter adapter;
@@ -129,13 +132,20 @@ public class MainFragment extends Fragment
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        // Sort by date of creation, ascending
         String sortOrder = NoteEntry.COLUMN_DATE_CREATED + " ASC";
+        if (getArguments() != null && getArguments().getInt(ORDER_KEY, -1) != -1) {
+            int sort = getArguments().getInt(ORDER_KEY, -1);
+            if (sort == SORT_NEWEST) {
+                sortOrder = NoteEntry.COLUMN_DATE_CREATED + " DESC";
+            } else if (sort == SORT_TITLE) {
+                sortOrder = NoteEntry.COLUMN_TITLE + " ASC";
+            }
+        }
+
         Uri notesUri;
         if (getArguments() != null && getArguments().getString(NoteEntry.COLUMN_TITLE) != null) {
             String query = getArguments().getString(NoteEntry.COLUMN_TITLE, "");
             notesUri = NoteEntry.buildQueryUri(query);
-
             setupSearchResultsView(query);
         } else {
             notesUri = NotesContract.NoteEntry.buildAllNotesUri();
@@ -192,7 +202,6 @@ public class MainFragment extends Fragment
                 positionsToDelete.add(position.intValue());
             }
 
-            // Sorts the array in ascending order
             Collections.sort(positionsToDelete);
 
             for (Integer position : positionsToDelete) {
@@ -232,6 +241,7 @@ public class MainFragment extends Fragment
             addNote();
         } else if (id == R.id.clear_button) {
             Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.setAction(Intent.ACTION_REBOOT);
             startActivity(intent);
         }
     }
