@@ -1,4 +1,4 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.tasks;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 
+import pl.tomaszmartin.stuff.OnAddListener;
 import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 import java.io.File;
 import java.io.IOException;

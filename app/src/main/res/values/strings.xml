@@ -182,5 +182,6 @@
     <string name="sort">Sort</string>
     <string name="sort_by_newest">Sort by newest</string>
     <string name="sort_by_title">Sort by title</string>
+    <string name="add_from_camera">Add from camera</string>
 
 </resources>

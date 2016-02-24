@@ -36,4 +36,12 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/action_camera"
+        android:title="@string/add_from_camera"
+        android:orderInCategory="95"
+        android:icon="@drawable/ic_photo_camera_white_24dp"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>

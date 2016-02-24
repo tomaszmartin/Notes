@@ -9,7 +9,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -26,19 +29,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.tomaszmartin.stuff.LoadNoteTask;
+import pl.tomaszmartin.stuff.tasks.LoadNoteTask;
 import pl.tomaszmartin.stuff.R;
-import pl.tomaszmartin.stuff.SaveToDatabaseTask;
-import pl.tomaszmartin.stuff.SaveToFileTask;
+import pl.tomaszmartin.stuff.tasks.SaveToDatabaseTask;
+import pl.tomaszmartin.stuff.tasks.SaveToFileTask;
 import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by tomaszmartin on 02.07.15.
@@ -50,12 +58,14 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int DETAIL_LOADER = 1;
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
+    private static final int CAMERA_REQUEST_CODE = 3;
     @Bind(R.id.content_view) EditText contentView;
     @Bind(R.id.title_view) EditText titleView;
     @Bind(R.id.image_view) ImageView imageView;
     private boolean hasResult = false;
     private Uri imageUri;
     private Cursor cursor;
+    private Uri cameraPhotoUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,17 +101,17 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && data != null) {
-            if (requestCode == IMAGE_REQUEST_CODE) {
+            if (requestCode == IMAGE_REQUEST_CODE || requestCode == CAMERA_REQUEST_CODE) {
                 if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null && !data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI).isEmpty()) {
                     imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
-                } else {
+                } else if (data.getData() != null) {
                     imageUri = data.getData();
+                } else {
+                    imageUri = cameraPhotoUri;
                 }
 
                 hasResult = true;
                 setImage(imageUri, imageView);
-
-            } else if (requestCode == AUDIO_REQUEST_CODE) {
 
             }
         }
@@ -230,6 +240,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             pickImage();
 
             return true;
+        } else if (id == R.id.action_camera) {
+            takePhoto();
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -290,9 +304,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     @Override
-    public void onLoaderReset(Loader loader) {
-
-    }
+    public void onLoaderReset(Loader loader) { }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -353,8 +365,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         int size = 14;
         try {
-            size =  Integer.valueOf(prefs.getString(getString(R.string.font_size_preference),
-                    getString(R.string.font_size_default)));
+            size =  Integer.valueOf(prefs.getString(getString(R.string.font_size_preference), getString(R.string.font_size_default)));
         } catch (NumberFormatException e) {
 
         }
@@ -366,6 +377,26 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    public void takePhoto() {
+        cameraPhotoUri = getPhotoUri();
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        boolean canTakePhoto = cameraPhotoUri != null && intent.resolveActivity(getActivity().getPackageManager()) != null;
+        if (canTakePhoto) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraPhotoUri);
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        }
+
+    }
+
+    public Uri getPhotoUri() {
+        File externalFilesDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        if (externalFilesDir == null) {
+            return null;
+        }
+
+        return Uri.fromFile(new File(externalFilesDir, "IMG_" + UUID.randomUUID().toString() + ".jpg"));
     }
 
 }

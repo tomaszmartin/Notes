@@ -1,4 +1,4 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;

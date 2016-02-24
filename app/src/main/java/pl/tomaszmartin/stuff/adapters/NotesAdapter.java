@@ -1,4 +1,4 @@
-package pl.tomaszmartin.stuff;
+package pl.tomaszmartin.stuff.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import pl.tomaszmartin.stuff.R;
 import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 
 import java.text.SimpleDateFormat;

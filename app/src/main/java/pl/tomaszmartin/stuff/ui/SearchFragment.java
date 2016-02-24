@@ -25,9 +25,9 @@ import com.google.android.gms.analytics.HitBuilders;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import pl.tomaszmartin.stuff.AddNoteTask;
-import pl.tomaszmartin.stuff.DeleteNoteTask;
-import pl.tomaszmartin.stuff.NotesAdapter;
+import pl.tomaszmartin.stuff.tasks.AddNoteTask;
+import pl.tomaszmartin.stuff.tasks.DeleteNoteTask;
+import pl.tomaszmartin.stuff.adapters.NotesAdapter;
 import pl.tomaszmartin.stuff.OnSelectListener;
 import pl.tomaszmartin.stuff.R;
 import pl.tomaszmartin.stuff.data.NotesContract;
