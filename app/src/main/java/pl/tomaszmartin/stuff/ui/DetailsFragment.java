@@ -209,10 +209,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         if (desc.length() > MAX_CHAR_IN_DESCRIPTION) {
             String start = desc.substring(0, MAX_CHAR_IN_DESCRIPTION);
             String stop = desc.substring(MAX_CHAR_IN_DESCRIPTION);
-            if (stop.indexOf(" ") < 10) {
-                stop = stop.substring(0, stop.indexOf(" "));
-                desc = start + stop;
-            }
+            // if (stop.indexOf(" ") < 10) {
+            //     stop = stop.substring(0, stop.indexOf(" "));
+            //    desc = start + stop;
+            // }
         }
 
         desc = desc.replace("\n", " ");
