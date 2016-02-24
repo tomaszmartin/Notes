@@ -261,4 +261,10 @@ public class MainFragment extends Fragment
         searchResults.setText(String.format("%s %s", getString(R.string.search_results_label), query));
     }
 
+    public void selectAllNotes() {
+        for (int i = 0; i < listView.getChildCount(); i++) {
+            listView.setItemChecked(i, true);
+        }
+    }
+
 }

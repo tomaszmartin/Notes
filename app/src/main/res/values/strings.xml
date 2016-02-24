@@ -187,5 +187,6 @@
     <string name="dictate_note">Dictate note</string>
     <string name="speak_now">Speak now</string>
     <string name="dicatating_not_supported">Dictating not supported</string>
+    <string name="select_all_notes">Select all notes</string>
 
 </resources>

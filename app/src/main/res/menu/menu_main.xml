@@ -28,4 +28,11 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         />
 
+    <item
+        android:id="@+id/action_select_all"
+        android:title="@string/select_all_notes"
+        android:orderInCategory="98"
+        app:showAsAction="never"
+        />
+
 </menu>

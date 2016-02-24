@@ -104,6 +104,8 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             return true;
         } else if (id == android.R.id.home) {
             drawer.openDrawer(GravityCompat.START);
+        } else if (id == R.id.action_select_all) {
+            ((MainFragment) fragment).selectAllNotes();
         }
 
         return super.onOptionsItemSelected(item);
