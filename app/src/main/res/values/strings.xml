@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Notes</string>
 
-    <string name="lorem_short">Lorem ipsum</string>
-    <string name="lorem_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis vulputate convallis. Phasellus vel tincidunt diam. In hac habitasse platea dictumst. Suspendisse nunc elit, ornare eu sem non, molestie convallis metus. In enim libero, porta quis mauris quis, scelerisque lacinia leo. Sed id pulvinar nisi, sed facilisis lorem. Morbi condimentum nulla quis ipsum gravida egestas. Sed consectetur, orci eget luctus varius, arcu erat commodo urna, eget vulputate nunc lacus quis lacus. Nullam ut facilisis quam. Aliquam rutrum id quam et cursus. Donec vel sollicitudin neque, vel laoreet arcu. Phasellus quis lacinia justo, a semper elit. Nulla eleifend, diam sit amet mattis feugiat, ex ligula rhoncus lorem, sed accumsan tellus lacus sit amet neque. Nulla hendrerit ultrices quam, eget ornare arcu porttitor eu. Duis fringilla arcu sit amet ipsum imperdiet efficitur. Nulla pulvinar elit a erat scelerisque, eu commodo lacus feugiat.</string>
+    <string name="lorem_short" translatable="false">Lorem ipsum</string>
+    <string name="lorem_long" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis vulputate convallis. Phasellus vel tincidunt diam. In hac habitasse platea dictumst. Suspendisse nunc elit, ornare eu sem non, molestie convallis metus. In enim libero, porta quis mauris quis, scelerisque lacinia leo. Sed id pulvinar nisi, sed facilisis lorem. Morbi condimentum nulla quis ipsum gravida egestas. Sed consectetur, orci eget luctus varius, arcu erat commodo urna, eget vulputate nunc lacus quis lacus. Nullam ut facilisis quam. Aliquam rutrum id quam et cursus. Donec vel sollicitudin neque, vel laoreet arcu. Phasellus quis lacinia justo, a semper elit. Nulla eleifend, diam sit amet mattis feugiat, ex ligula rhoncus lorem, sed accumsan tellus lacus sit amet neque. Nulla hendrerit ultrices quam, eget ornare arcu porttitor eu. Duis fringilla arcu sit amet ipsum imperdiet efficitur. Nulla pulvinar elit a erat scelerisque, eu commodo lacus feugiat.</string>
     <string name="notes">Notes</string>
     <string name="articles">Articles</string>
     <string name="reminders">Reminders</string>
@@ -13,7 +13,7 @@
     <string name="note">Note</string>
     <string name="retry">Retry</string>
     <string name="deleted_single">Item has been deleted.</string>
-    <string name="deleted_multiple">Items have been deleted.</string>
+    <string name="deleted_multiple">Items have been deleted</string>
     <string name="article">Article</string>
     <string name="min_ago">minutes ago</string>
     <string name="hour_ago">an hour ago</string>
@@ -29,7 +29,7 @@
     <string name="less_than_min_ago">just now</string>
     <string name="list">List</string>
     <string name="all">All</string>
-    <string name="checklist_hint">this is a place for Your list item</string>
+    <string name="checklist_hint">This is a place for Your list item</string>
     <string name="action_settings">Settings</string>
     <string name="action_send">Send</string>
     <string name="action_clear">Clear</string>
@@ -65,7 +65,7 @@
     <string name="notification_text">Touch here, to open note.</string>
     <string name="time">14:10</string>
     <string name="date_default">14 may 2015</string>
-    <string name="deleted">Note has been deleted.</string>
+    <string name="deleted">Note has been deleted</string>
     <string name="set_alarm">Set alarm</string>
     <string name="loc">Warsaw, Poland</string>
     <string name="action_image">Add image</string>
@@ -97,7 +97,7 @@
 
     <string name="default_tag">#general</string>
 
-    <string name="font_size_preference">fontSize</string>
+    <string name="font_size_preference" translatable="false">fontSize</string>
     <string name="font_size_preference_title">Font size</string>
     <string name="font_size_preference_default">Normal</string>
 
@@ -115,7 +115,7 @@
     <string name="font_size_small">Small</string>
     <string name="font_size_normal">Normal</string>
     <string name="font_size_big">Big</string>
-    <string name="font_size_default">14</string>
+    <string name="font_size_default" translatable="false">14</string>
 
     <string-array name="lines_preference_values">
         <item>1</item>
@@ -138,7 +138,7 @@
     <string name="lines_4">4 lines</string>
     <string name="lines_5">5 lines</string>
 
-    <string name="sort_preference">sortOrder</string>
+    <string name="sort_preference" translatable="false">sortOrder</string>
     <string name="sort_preference_title">Sort order</string>
     <string name="sort_preference_default">Last modified - from newest</string>
 
@@ -169,10 +169,10 @@
     <string name="title_activity_settings">Settings</string>
     <string name="search_results_label">Search results for: </string>
     <string name="lines_preference_title">Lines in preview</string>
-    <string name="lines_count_preference">linesCount</string>
+    <string name="lines_count_preference" translatable="false">linesCount</string>
     <string name="lines_preference_default">3 lines</string>
     <string name="show_date_preference_title">Show date</string>
-    <string name="show_date_preference">showDate</string>
+    <string name="show_date_preference" translatable="false">showDate</string>
     <string name="empty_message">Your notes will be here.\nTap + do add one.</string>
     <string name="notebooks">Notebooks</string>
     <string name="basket">Basket</string>
@@ -182,11 +182,11 @@
     <string name="sort">Sort</string>
     <string name="sort_by_newest">Sort by newest</string>
     <string name="sort_by_title">Sort by title</string>
-    <string name="add_from_camera">Add from camera</string>
+    <string name="take_photo">Take photo</string>
     <string name="read_note">Read note</string>
     <string name="dictate_note">Dictate note</string>
     <string name="speak_now">Speak now</string>
     <string name="dicatating_not_supported">Dictating not supported</string>
-    <string name="select_all_notes">Select all notes</string>
+    <string name="select_all_notes">Select all</string>
 
 </resources>
