@@ -39,8 +39,24 @@
     <item
         android:id="@+id/action_camera"
         android:title="@string/add_from_camera"
-        android:orderInCategory="95"
+        android:orderInCategory="94"
         android:icon="@drawable/ic_photo_camera_white_24dp"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_read"
+        android:title="@string/read_note"
+        android:orderInCategory="93"
+        android:icon="@drawable/ic_hearing_white_24dp"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_dictate"
+        android:title="@string/dictate_note"
+        android:orderInCategory="92"
+        android:icon="@drawable/ic_mic_white_24dp"
         app:showAsAction="ifRoom"
         />
 

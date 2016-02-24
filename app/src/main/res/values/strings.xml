@@ -183,5 +183,9 @@
     <string name="sort_by_newest">Sort by newest</string>
     <string name="sort_by_title">Sort by title</string>
     <string name="add_from_camera">Add from camera</string>
+    <string name="read_note">Read note</string>
+    <string name="dictate_note">Dictate note</string>
+    <string name="speak_now">Speak now</string>
+    <string name="dicatating_not_supported">Dictating not supported</string>
 
 </resources>

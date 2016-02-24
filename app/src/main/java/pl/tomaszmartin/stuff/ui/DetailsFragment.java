@@ -1,6 +1,7 @@
 package pl.tomaszmartin.stuff.ui;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +13,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.design.widget.Snackbar;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -43,16 +45,16 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
  * Created by tomaszmartin on 02.07.15.
  */
 
-public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, TextToSpeech.OnInitListener {
 
     private final String TAG = DetailsFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
@@ -66,12 +68,15 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private Uri imageUri;
     private Cursor cursor;
     private Uri cameraPhotoUri;
+    private TextToSpeech tts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.details_fragment, container, false);
         ButterKnife.bind(this, rootView);
+
+        tts = new TextToSpeech(getActivity(), this);
 
         contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
         registerForContextMenu(imageView);
@@ -113,6 +118,9 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
                 hasResult = true;
                 setImage(imageUri, imageView);
 
+            } else if (requestCode == AUDIO_REQUEST_CODE) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                contentView.setText(contentView.getText() + "\n" + result.get(0) + "\n");
             }
         }
     }
@@ -216,37 +224,50 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-
             return true;
         } else if (id == R.id.action_share) {
-            String content = contentView.getText().toString();
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, content);
-            sendIntent.setType("text/plain");
-            startActivity(sendIntent);
-
+            shareNote();
             return true;
         } else if (id == R.id.action_size) {
             setFontSize(contentView, 1);
-
             return true;
         } else if (id == R.id.action_alarm) {
             DialogFragment alertDialog = new AlarmDialogFragment();
             showDialog(alertDialog);
-
             return true;
         } else if (id == R.id.action_image) {
             pickImage();
-
             return true;
         } else if (id == R.id.action_camera) {
             takePhoto();
-
+            return true;
+        } else if (id == R.id.action_dictate) {
+            dictateNote();
+            return true;
+        } else if (id == R.id.action_read) {
+            readNote();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void readNote() {
+        String text = getNoteContent();
+        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    private void dictateNote() {
+
+    }
+
+    private void shareNote() {
+        String content = contentView.getText().toString();
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     private void showDialog(DialogFragment dialogFragment) {
@@ -323,6 +344,21 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         return super.onContextItemSelected(item);
     }
 
+    @Override
+    public void onInit(int status) {
+        Locale current = getResources().getConfiguration().locale;
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(current);
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            }
+
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+
+    }
+
     public class ImageTransformation implements Transformation {
         @Override
         public Bitmap transform(Bitmap source) {
@@ -377,6 +413,15 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
     }
 
     public void takePhoto() {
