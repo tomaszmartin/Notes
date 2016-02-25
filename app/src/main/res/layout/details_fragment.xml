@@ -1,68 +1,27 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:focusable="false"
     >
 
-    <LinearLayout
-        android:id="@+id/root"
+    <EditText
+        android:layout_alignParentTop="true"
+        android:id="@+id/title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/subhead"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/root"
-        android:elevation="4dp"
-        android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
-        android:paddingTop="16dp">
-
-        <!-- Cannot use TextInputLayout for now, there is a problem with animation -->
-
-        <TextView
-            android:id="@+id/hint_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title"
-            android:textColor="@color/white_translucent"
-            android:textSize="12sp"
-            />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/title_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/text_background"
-            android:hint="@string/title"
-            android:inputType="textCapSentences|textMultiLine"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white_translucent"
-            android:textStyle="normal"
-            android:textSize="28sp"/>
-
-        <!-- -->
-
-    </LinearLayout>
+        android:hint="@string/title"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textSize="28sp"
+        />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/subhead"
-        android:background="@color/white"
+        android:layout_below="@id/title_view"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         >

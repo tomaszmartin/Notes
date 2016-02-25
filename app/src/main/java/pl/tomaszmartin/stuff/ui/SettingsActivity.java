@@ -27,6 +27,7 @@ public class SettingsActivity extends AnalyticsActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+            toolbar.setTitle("");
         }
 
         drawer = (DrawerLayout) findViewById(R.id.drawer);

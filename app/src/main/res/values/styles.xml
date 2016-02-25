@@ -16,7 +16,6 @@
         <item name="android:actionModeCutDrawable">@mipmap/ic_cut</item>
         <item name="android:actionModePasteDrawable">@mipmap/ic_paste</item>
         <item name="android:actionModeSelectAllDrawable">@mipmap/ic_select_all</item>
-        <item name="android:textColorHint">@color/white</item>
         <item name="searchViewStyle">@style/searchView</item>
         <item name="alertDialogTheme">@style/dialogStyle</item>
 
@@ -26,18 +25,6 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorAccent">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary</item>
-    </style>
-
-    <style name="tagTextInput" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/white</item>
-        <item name="android:textSize">16sp</item>
-        <item name="colorAccent">@color/white</item>
-        <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
-    </style>
-
-    <style name="menuTextAppearance" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="searchView" parent="@style/Widget.AppCompat.SearchView">

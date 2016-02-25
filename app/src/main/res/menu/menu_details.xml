@@ -33,7 +33,7 @@
         android:title="@string/action_image"
         android:orderInCategory="95"
         android:icon="@drawable/ic_panorama_white_18dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 
     <item
@@ -41,7 +41,7 @@
         android:title="@string/take_photo"
         android:orderInCategory="94"
         android:icon="@drawable/ic_photo_camera_white_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 
     <item
@@ -49,7 +49,7 @@
         android:title="@string/read_note"
         android:orderInCategory="93"
         android:icon="@drawable/ic_hearing_white_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 
     <item
@@ -65,7 +65,7 @@
         android:title="@string/night_mode"
         android:orderInCategory="91"
         android:icon="@drawable/ic_brightness_medium_white_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 
 </menu>

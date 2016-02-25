@@ -6,9 +6,9 @@
 
     <item
         android:title="@string/sort"
-        android:orderInCategory="100"
+        android:orderInCategory="99"
         android:icon="@drawable/ic_sort_variant_white_24dp"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
         <menu>
             <item
                 android:id="@+id/action_sort_newest"
@@ -22,25 +22,24 @@
     <item
         android:id="@+id/action_search"
         android:title="@string/action_search"
-        android:orderInCategory="99"
+        android:orderInCategory="98"
         android:icon="@drawable/ic_magnify_white_24dp"
         app:showAsAction="collapseActionView|ifRoom"
         app:actionViewClass="android.support.v7.widget.SearchView"
         />
 
     <item
-        android:id="@+id/action_select_all"
-        android:title="@string/select_all_notes"
-        android:orderInCategory="98"
+        android:id="@+id/action_night_mode"
+        android:title="@string/night_mode"
+        android:orderInCategory="96"
         app:showAsAction="never"
         />
 
     <item
-        android:id="@+id/action_night_mode"
-        android:title="@string/night_mode"
+        android:id="@+id/action_select_all"
+        android:title="@string/select_all_notes"
         android:orderInCategory="97"
-        android:icon="@drawable/ic_brightness_medium_white_24dp"
-        app:showAsAction="ifRoom"
+        app:showAsAction="never"
         />
 
 </menu>

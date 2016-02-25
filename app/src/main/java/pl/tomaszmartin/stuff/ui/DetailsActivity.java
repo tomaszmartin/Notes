@@ -19,10 +19,6 @@ public class DetailsActivity extends AnalyticsActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.details_activity);
 
-        // For better performance and avoiding overdraw
-        getWindow().setBackgroundDrawable(null);
-
-        // Set toolbar as the action bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -39,14 +35,12 @@ public class DetailsActivity extends AnalyticsActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_details, menu);
 
         return true;
     }
 
     private void attachFragment(int id) {
-
         Bundle bundle = new Bundle();
         bundle.putInt(NoteEntry.COLUMN_ID, id);
         fragment = getSupportFragmentManager().findFragmentByTag(getTag());

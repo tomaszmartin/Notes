@@ -55,7 +55,6 @@
             android:layout_centerInParent="true"
             android:text="@string/empty_message"
             android:textSize="16sp"
-            android:textColor="#40000000"
             android:gravity="center"
             />
 

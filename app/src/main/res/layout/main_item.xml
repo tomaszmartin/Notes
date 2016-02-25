@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/list_item_selector"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -28,7 +27,6 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 tools:text="@string/lorem_short"
-                android:textColor="@color/black"
                 android:textSize="16sp"
                 />
 

@@ -1,6 +1,7 @@
 package pl.tomaszmartin.stuff.ui;
 
 import android.app.Activity;
+import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
@@ -58,7 +59,6 @@ import java.util.UUID;
 
 public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, TextToSpeech.OnInitListener {
 
-    private final String TAG = DetailsFragment.class.getSimpleName();
     private static final int DETAIL_LOADER = 1;
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
@@ -67,7 +67,6 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Bind(R.id.title_view) EditText titleView;
     @Bind(R.id.image_view) ImageView imageView;
     private boolean hasResult = false;
-    private boolean nightModeOn = false;
     private Uri imageUri;
     private Cursor cursor;
     private Uri cameraPhotoUri;
@@ -255,11 +254,15 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void switchNightMode() {
-        if (nightModeOn) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        UiModeManager manager = (UiModeManager) getActivity().getSystemService(Context.UI_MODE_SERVICE);
+        if (manager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO) {
+            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+        } else if (manager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
+            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
         }
+
     }
 
     private void readNote() {
