@@ -25,7 +25,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/primary"
+                android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:titleTextAppearance="@style/actionBarText"/>
@@ -61,7 +61,7 @@
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
                 android:src="@mipmap/ic_add"
-                app:backgroundTint="@color/red_500"
+                app:backgroundTint="?attr/colorAccent"
                 app:borderWidth="0dp"
                 app:fabSize="normal"
                 />

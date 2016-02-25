@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/root"
-        android:background="@color/primary"
         android:elevation="4dp"
         android:orientation="vertical"
         android:paddingBottom="16dp"
@@ -79,7 +78,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:elevation="4dp"
                 android:scaleType="center"
                 android:visibility="gone" />
 
@@ -88,13 +86,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoLink="email|web"
-                android:background="@null"
                 android:gravity="top"
                 android:hint="@string/note"
                 android:inputType="textMultiLine|textCapSentences"
                 android:paddingBottom="8dp"
                 android:visibility="gone"
-                android:textColorHint="@color/black"
+                android:background="@null"
+                tools:text="@string/lorem_long"
+                tools:visibility="visible"
                 />
 
         </LinearLayout>

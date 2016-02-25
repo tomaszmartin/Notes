@@ -3,6 +3,7 @@ package pl.tomaszmartin.stuff.ui;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -65,6 +67,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     @Bind(R.id.title_view) EditText titleView;
     @Bind(R.id.image_view) ImageView imageView;
     private boolean hasResult = false;
+    private boolean nightModeOn = false;
     private Uri imageUri;
     private Cursor cursor;
     private Uri cameraPhotoUri;
@@ -149,12 +152,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
             SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
             saveToFileTask.execute(getNoteContent());
 
-            SaveToDatabaseTask saveToDatabaseTask = new SaveToDatabaseTask(this.getActivity(), getUri());
+            SaveToDatabaseTask saveToDatabaseTask = new SaveToDatabaseTask(this.getActivity(), getNoteUri());
             saveToDatabaseTask.execute(getContentValues());
-
-            Log.d(TAG, "Note has been saved");
-        } else {
-            Log.d(TAG, "Note has note been changed and is not saved");
         }
     }
 
@@ -165,7 +164,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         setHasOptionsMenu(true);
     }
 
-    public Uri getUri() {
+    public Uri getNoteUri() {
         return NoteEntry.buildNoteUri(cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
     }
 
@@ -209,6 +208,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         if (desc.length() > MAX_CHAR_IN_DESCRIPTION) {
             String start = desc.substring(0, MAX_CHAR_IN_DESCRIPTION);
             String stop = desc.substring(MAX_CHAR_IN_DESCRIPTION);
+            // TODO: fix description generator
             // if (stop.indexOf(" ") < 10) {
             //     stop = stop.substring(0, stop.indexOf(" "));
             //    desc = start + stop;
@@ -247,9 +247,19 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         } else if (id == R.id.action_read) {
             readNote();
             return true;
+        } else if (id == R.id.action_night_mode) {
+            switchNightMode();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void switchNightMode() {
+        if (nightModeOn) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
     }
 
     private void readNote() {

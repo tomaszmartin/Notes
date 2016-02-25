@@ -12,11 +12,8 @@ import pl.tomaszmartin.stuff.R;
 public class SettingsFragment extends PreferenceFragment implements
         Preference.OnPreferenceChangeListener {
 
-    private String TAG = SettingsFragment.class.getSimpleName();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "Preference screen is visible");
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.prefs);
         bindPreference(findPreference(getString(R.string.font_size_preference)));

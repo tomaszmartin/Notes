@@ -1,6 +1,7 @@
 package pl.tomaszmartin.stuff.ui;
 
 import android.app.SearchManager;
+import android.app.UiModeManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
@@ -8,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 
@@ -30,6 +33,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     @Bind(R.id.drawer) DrawerLayout drawer;
     private Fragment fragment;
     private MenuItem searchItem;
+    private boolean nightModeOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +112,8 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             if (fragment != null && fragment instanceof MainFragment) {
                 ((MainFragment) fragment).selectAllNotes();
             }
+        } else if (id == R.id.action_night_mode) {
+            switchNightMode();
         }
 
         return super.onOptionsItemSelected(item);
@@ -150,6 +156,18 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     @Override
     public void onItemAdded(int id) {
         onItemSelected(id);
+    }
+
+    private void switchNightMode() {
+        UiModeManager manager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
+        if (manager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO) {
+            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+        } else if (manager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
+            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+        } else {
+            manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+        }
+
     }
 
 }

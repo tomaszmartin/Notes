@@ -60,4 +60,12 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/action_night_mode"
+        android:title="@string/night_mode"
+        android:orderInCategory="91"
+        android:icon="@drawable/ic_brightness_medium_white_24dp"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>

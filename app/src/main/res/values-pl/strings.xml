@@ -114,7 +114,7 @@
     <string name="sort_modified_asc">Ostatnio modyfikowane</string>
     <string name="sort_modified_desc">Wcześniej modyfikowane</string>
     <string name="sort_preference_default">Ostatnio modyfikowane - od najnowszych</string>
-    <string name="sort_preference_title">Porządek sortowania</string>
+    <string name="sort_preference_title">Opcje sortowania</string>
     <string name="speak_now">Mów teraz</string>
     <string name="tag">Tag</string>
     <string name="tag_description">To jest domyślny tag.</string>
@@ -130,4 +130,35 @@
     <string name="undo">Cofnij</string>
     <string name="work">Praca</string>
     <string name="zero_note_chosen">notatek wybranych</string>
+    <string name="font_size_default">14</string>
+    <string name="font_size_preference">fontSize</string>
+    <string name="lines_count_preference">linesCount</string>
+    <string name="lorem_long">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis vulputate convallis. Phasellus vel tincidunt diam. In hac habitasse platea dictumst. </string>
+    <string name="lorem_short">Lorem ipsum</string>
+    <string name="show_date_preference">showDate</string>
+    <string name="sort_preference">sortOrder</string>
+    <string name="title_activity_tags" >TagsActivity</string>
+    <string-array name="font_size_preference_values">
+        <item>12</item>
+        <item>14</item>
+        <item>16</item>
+    </string-array>
+    <string-array name="lines_preference_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+    <string-array name="sort_preference_options">
+        <item>10</item>
+        <item>11</item>
+        <item>20</item>
+        <item>21</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+        <string name="ga_trackingId">UA-64737555-2</string>
+        <string name="gcm_defaultSenderId">800192919523</string>
+
 </resources>
