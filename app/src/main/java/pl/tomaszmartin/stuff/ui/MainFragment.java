@@ -25,6 +25,7 @@ import com.google.android.gms.analytics.HitBuilders;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import pl.tomaszmartin.stuff.analytics.AnalyticsApplication;
 import pl.tomaszmartin.stuff.tasks.AddNoteTask;
 import pl.tomaszmartin.stuff.tasks.DeleteNoteTask;
 import pl.tomaszmartin.stuff.adapters.NotesAdapter;

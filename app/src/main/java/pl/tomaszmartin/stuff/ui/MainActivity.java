@@ -9,12 +9,10 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 
@@ -24,6 +22,8 @@ import pl.tomaszmartin.stuff.NavigationListener;
 import pl.tomaszmartin.stuff.OnAddListener;
 import pl.tomaszmartin.stuff.OnSelectListener;
 import pl.tomaszmartin.stuff.R;
+import pl.tomaszmartin.stuff.analytics.AnalyticsActivity;
+import pl.tomaszmartin.stuff.analytics.AnalyticsApplication;
 import pl.tomaszmartin.stuff.data.NotesContract;
 
 public class MainActivity extends AnalyticsActivity implements OnSelectListener, OnAddListener {
@@ -58,14 +58,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEARCH)) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Intent searchIntent = new Intent(this, SearchActivity.class);
-            searchIntent.putExtra(SearchManager.QUERY, query);
-            searchItem.collapseActionView();
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        } else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
+        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri data = intent.getData();
             int id = Integer.parseInt(data.getLastPathSegment());
             onItemSelected(id);

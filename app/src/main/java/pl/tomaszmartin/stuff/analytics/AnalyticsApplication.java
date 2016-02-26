@@ -1,4 +1,4 @@
-package pl.tomaszmartin.stuff.ui;
+package pl.tomaszmartin.stuff.analytics;
 
 import android.app.Application;
 import com.google.android.gms.analytics.GoogleAnalytics;

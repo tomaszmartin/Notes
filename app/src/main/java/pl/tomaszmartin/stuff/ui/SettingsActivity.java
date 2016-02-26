@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import pl.tomaszmartin.stuff.NavigationListener;
 import pl.tomaszmartin.stuff.R;
+import pl.tomaszmartin.stuff.analytics.AnalyticsActivity;
 
 public class SettingsActivity extends AnalyticsActivity {
 

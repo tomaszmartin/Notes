@@ -1,14 +1,10 @@
-package pl.tomaszmartin.stuff.ui;
+package pl.tomaszmartin.stuff.analytics;
 
-import android.app.UiModeManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
+
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
-import pl.tomaszmartin.stuff.R;
 
 /**
  * Created by tomaszmartin on 02.07.15.
