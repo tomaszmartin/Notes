@@ -3,6 +3,7 @@ package pl.tomaszmartin.stuff;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -39,7 +40,7 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
     }
 
     private void startActivity(Class aClass) {
-        drawer.closeDrawer(Gravity.LEFT);
+        drawer.closeDrawer(GravityCompat.START);
         Intent intent = new Intent(activity, aClass);
         activity.startActivity(intent);
         activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);

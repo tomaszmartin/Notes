@@ -65,7 +65,7 @@ public class NotesContract {
         }
 
         public static Uri buildQueryUri(String query) {
-            return CONTENT_QUERY_URI.withAppendedPath(CONTENT_QUERY_URI, query);
+            return Uri.withAppendedPath(CONTENT_QUERY_URI, query);
         }
 
     }

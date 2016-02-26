@@ -10,7 +10,6 @@ import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
  * Created by tomaszmartin on 26.03.15.
  * This class is a main database of the app.
  * It stores all the information about the notes.
- *
  */
 
 public class NotesDatabaseHelper extends SQLiteOpenHelper {

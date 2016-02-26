@@ -19,7 +19,6 @@ public class DeleteNoteTask extends AsyncTask<Integer, Void, Void> {
     @Override
     protected Void doInBackground(Integer... integers) {
         long id = (long) integers[0];
-
         context.getContentResolver().delete(NotesContract.NoteEntry.buildNoteUri(id), null, null);
 
         return null;

@@ -64,8 +64,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private static final int AUDIO_REQUEST_CODE = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
     @Bind(R.id.content_view) EditText contentView;
-    @Bind(R.id.title_view) EditText titleView;
     @Bind(R.id.image_view) ImageView imageView;
+    private EditText titleView;
     private boolean hasResult = false;
     private Uri imageUri;
     private Cursor cursor;
@@ -76,6 +76,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.details_fragment, container, false);
+        titleView = (EditText) getActivity().findViewById(R.id.title_view);
         ButterKnife.bind(this, rootView);
 
         tts = new TextToSpeech(getActivity(), this);

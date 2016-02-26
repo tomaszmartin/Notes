@@ -23,6 +23,13 @@ public class SaveToFileTask extends AsyncTask<String, Void, Void> {
         this.path = path;
     }
 
+    @Override
+    protected Void doInBackground(String... params) {
+        saveToFile(params[0]);
+
+        return null;
+    }
+
     private void saveToFile(String contents) {
         if (!contents.isEmpty() && !path.isEmpty()) {
             try {
@@ -34,13 +41,6 @@ public class SaveToFileTask extends AsyncTask<String, Void, Void> {
             }
         }
 
-    }
-
-    @Override
-    protected Void doInBackground(String... params) {
-        saveToFile(params[0]);
-
-        return null;
     }
 
 }

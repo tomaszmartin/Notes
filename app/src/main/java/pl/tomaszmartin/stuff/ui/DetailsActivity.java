@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-
 import pl.tomaszmartin.stuff.R;
 import pl.tomaszmartin.stuff.data.NotesContract.NoteEntry;
 

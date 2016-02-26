@@ -22,7 +22,7 @@ import pl.tomaszmartin.stuff.ui.DetailsActivity;
 public class AlarmService extends Service {
 
     @Override
-    public IBinder onBind(Intent arg0) {
+    public IBinder onBind(Intent arg) {
         return null;
     }
 

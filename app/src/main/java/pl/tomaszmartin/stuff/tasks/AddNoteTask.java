@@ -52,6 +52,7 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
         int id = (int) ContentUris.parseId(insertUri);
 
         // Create file for newly created database record
+        // TODO: Should throw some kind of exception here
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + fileName);
         try {
             file.createNewFile();
@@ -64,7 +65,6 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer id) {
-
         try {
             ((OnAddListener) context).onItemAdded(id);
         } catch (ClassCastException e) {

@@ -21,8 +21,6 @@ import java.util.Date;
 
 public class NotesAdapter extends CursorAdapter {
 
-    private static final String TAG = NotesAdapter.class.getSimpleName();
-
     public NotesAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
@@ -48,7 +46,7 @@ public class NotesAdapter extends CursorAdapter {
         viewHolder.descriptionView.setText(description);
     }
 
-    // Class for reusing views in list view
+    // Class for reusing views in the list view
     public static class ViewHolder {
         public final TextView titleView;
         public final TextView descriptionView;
