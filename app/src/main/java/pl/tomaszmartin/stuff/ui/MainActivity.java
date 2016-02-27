@@ -1,6 +1,5 @@
 package pl.tomaszmartin.stuff.ui;
 
-import android.app.SearchManager;
 import android.app.UiModeManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.gms.analytics.HitBuilders;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.tomaszmartin.stuff.NavigationListener;
@@ -23,7 +20,6 @@ import pl.tomaszmartin.stuff.OnAddListener;
 import pl.tomaszmartin.stuff.OnSelectListener;
 import pl.tomaszmartin.stuff.R;
 import pl.tomaszmartin.stuff.analytics.AnalyticsActivity;
-import pl.tomaszmartin.stuff.analytics.AnalyticsApplication;
 import pl.tomaszmartin.stuff.data.NotesContract;
 
 public class MainActivity extends AnalyticsActivity implements OnSelectListener, OnAddListener {
@@ -33,7 +29,6 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     @Bind(R.id.drawer) DrawerLayout drawer;
     private Fragment fragment;
     private MenuItem searchItem;
-    private boolean nightModeOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +66,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView =
-                (SearchView) searchItem.getActionView();
+        SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -117,16 +111,10 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
         startActivity(intent);
-
-        ((AnalyticsApplication) getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("Note selected")
-                .setAction("Note id: " + id)
-                .setLabel(getTag())
-                .build());
+        sendAnalyticsEvent("Note selected", "Note id: " + id);
     }
 
     private void attachFragment(String query, int order) {
-
         Bundle bundle = new Bundle();
         if (query != null && !query.isEmpty()) {
             bundle.putString(NotesContract.NoteEntry.COLUMN_TITLE, query);
@@ -160,7 +148,6 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         } else {
             manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
         }
-
     }
 
 }

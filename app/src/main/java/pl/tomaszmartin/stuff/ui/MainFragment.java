@@ -21,11 +21,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.tomaszmartin.stuff.analytics.AnalyticsApplication;
+import pl.tomaszmartin.stuff.analytics.AnalyticsActivity;
 import pl.tomaszmartin.stuff.tasks.AddNoteTask;
 import pl.tomaszmartin.stuff.tasks.DeleteNoteTask;
 import pl.tomaszmartin.stuff.adapters.NotesAdapter;
@@ -48,7 +46,8 @@ public class MainFragment extends Fragment
     public static final String ORDER_KEY = "ORDER";
     public static final int SORT_NEWEST = 1;
     public static final int SORT_TITLE = 2;
-    private String TAG = MainFragment.class.getSimpleName();
+    private final String TAG = MainFragment.class.getSimpleName();
+    private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
     private static final int NOTES_LOADER = 0;
     private NotesAdapter adapter;
     private View rootView;
@@ -59,8 +58,6 @@ public class MainFragment extends Fragment
     @Bind(R.id.listView) ListView listView;
     @Bind(R.id.empty_list) View emptyView;
     @Bind(R.id.clear_button) ImageButton clearSearchResults;
-
-    private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,12 +109,7 @@ public class MainFragment extends Fragment
             DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getActivity());
             deleteNoteTask.execute(noteId);
 
-            // Google Analytics event tracking
-            ((AnalyticsApplication) getActivity().getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("Note deleted")
-                    .setAction("Note id " + position)
-                    .setLabel(TAG)
-                    .build());
+            sendEvent("Note deleted", "Note id " + position);
         }
     }
 
@@ -249,12 +241,7 @@ public class MainFragment extends Fragment
         AddNoteTask task = new AddNoteTask(getActivity());
         task.execute(null, null, null);
 
-        // Google Analytics event tracking
-        ((AnalyticsApplication) getActivity().getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
-                .setCategory("Note added")
-                .setAction("New note")
-                .setLabel(TAG)
-                .build());
+        sendEvent("Note added", "New note");
     }
 
     private void setupSearchResultsView(String query) {
@@ -266,6 +253,10 @@ public class MainFragment extends Fragment
         for (int i = 0; i < listView.getChildCount(); i++) {
             listView.setItemChecked(i, true);
         }
+    }
+
+    private void sendEvent(String category, String action) {
+        ((AnalyticsActivity) getActivity()).sendAnalyticsEvent(category, action);
     }
 
 }

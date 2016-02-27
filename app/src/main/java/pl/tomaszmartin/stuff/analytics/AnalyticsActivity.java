@@ -40,4 +40,12 @@ public class AnalyticsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    public void sendAnalyticsEvent(String category, String action) {
+        ((AnalyticsApplication) getApplication()).getDefaultTracker().send(new HitBuilders.EventBuilder()
+                .setCategory(category)
+                .setAction(action)
+                .setLabel(getTag())
+                .build());
+    }
+
 }
