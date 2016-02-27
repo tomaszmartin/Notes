@@ -24,19 +24,4 @@
         android:layout="@layout/prefs_item"
         />
 
-    <ListPreference
-        android:title="@string/lines_preference_title"
-        android:key="@string/lines_count_preference"
-        android:defaultValue="@string/lines_preference_default"
-        android:entryValues="@array/lines_preference_values"
-        android:entries="@array/lines_preference_options"
-        android:layout="@layout/prefs_item"
-        />
-
-    <SwitchPreference
-        android:title="@string/show_date_preference_title"
-        android:key="@string/show_date_preference"
-        android:defaultValue="true"
-        />
-
 </PreferenceScreen>

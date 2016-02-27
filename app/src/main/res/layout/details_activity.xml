@@ -7,7 +7,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <android.support.design.widget.AppBarLayout
             android:id="@id/app_bar"
@@ -31,8 +33,7 @@
                 android:layout_alignParentTop="true"
                 android:hint="@string/title"
                 android:inputType="textCapSentences|textMultiLine"
-                android:background="?attr/colorPrimary"
-                android:padding="32dp"
+                android:layout_margin="16dp"
                 android:textColor="@color/white"
                 />
 
