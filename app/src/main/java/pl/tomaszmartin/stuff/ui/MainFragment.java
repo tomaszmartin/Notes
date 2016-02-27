@@ -109,7 +109,7 @@ public class MainFragment extends Fragment
             DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getActivity());
             deleteNoteTask.execute(noteId);
 
-            sendEvent("Note deleted", "Note id " + position);
+            sendAnalyticsEvent("Note deleted", "Note id " + position);
         }
     }
 
@@ -153,6 +153,7 @@ public class MainFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         adapter.swapCursor(cursor);
+        sendAnalyticsEvent("Notes loaded", "Number of notes: " + cursor.getColumnCount());
     }
 
     @Override
@@ -241,7 +242,7 @@ public class MainFragment extends Fragment
         AddNoteTask task = new AddNoteTask(getActivity());
         task.execute(null, null, null);
 
-        sendEvent("Note added", "New note");
+        sendAnalyticsEvent("Note added", "New note");
     }
 
     private void setupSearchResultsView(String query) {
@@ -253,9 +254,10 @@ public class MainFragment extends Fragment
         for (int i = 0; i < listView.getChildCount(); i++) {
             listView.setItemChecked(i, true);
         }
+        sendAnalyticsEvent("Notes selected", "All");
     }
 
-    private void sendEvent(String category, String action) {
+    private void sendAnalyticsEvent(String category, String action) {
         ((AnalyticsActivity) getActivity()).sendAnalyticsEvent(category, action);
     }
 

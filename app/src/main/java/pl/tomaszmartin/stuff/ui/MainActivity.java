@@ -72,6 +72,7 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             @Override
             public boolean onQueryTextSubmit(String query) {
                 attachFragment(query, MainFragment.SORT_NEWEST);
+                sendAnalyticsEvent("Search", query);
                 return true;
             }
 
@@ -89,9 +90,11 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         int id = item.getItemId();
         if (id == R.id.action_sort_title) {
             attachFragment(null, MainFragment.SORT_TITLE);
+            sendAnalyticsEvent("Change sorting method", "Sort by title");
             return true;
         } else if (id == R.id.action_sort_newest) {
             attachFragment(null, MainFragment.SORT_NEWEST);
+            sendAnalyticsEvent("Change sorting method", "Sort by newest");
             return true;
         } else if (id == android.R.id.home) {
             drawer.openDrawer(GravityCompat.START);
@@ -143,10 +146,13 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         UiModeManager manager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
         if (manager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO) {
             manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+            sendAnalyticsEvent("Night mode", "Night mode on");
         } else if (manager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
             manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
+            sendAnalyticsEvent("Night mode", "Night mode on");
         } else {
             manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+            sendAnalyticsEvent("Night mode", "Night mode off");
         }
     }
 
