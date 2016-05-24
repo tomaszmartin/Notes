@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
-
+    <color name="primary">@color/red_500</color>
+    <color name="primary_dark">@color/red_700</color>
+    <color name="primary_light">@color/red_400</color>
+    <color name="primary_accent">@color/red_a700</color>
+    <color name="background">@color/red_500</color>
+    <color name="primary_translucent">@color/red_t50</color>
+    <color name="divider">@color/grey_500</color>
+    <color name="primary_accent_translucent">@color/white_translucent</color>
+    <color name="fab">@color/red_500</color>
+    <color name="fab_dark">@color/red_700</color>
+    <color name="fab_shadow">#88000000</color>
+    <color name="item_background">@color/white</color>
+    <color name="item_background_selected">@color/translucent</color>
 </resources>
