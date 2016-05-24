@@ -46,7 +46,6 @@ public class NotesAdapter extends CursorAdapter {
         viewHolder.descriptionView.setText(description);
     }
 
-    // Class for reusing views in the list view
     public static class ViewHolder {
         public final TextView titleView;
         public final TextView descriptionView;

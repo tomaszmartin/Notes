@@ -11,7 +11,6 @@ import pl.tomaszmartin.stuff.R;
  * Created by tomaszmartin on 02.07.15.
  */
 
-
 public class AnalyticsApplication extends Application {
     private Tracker tracker;
 
