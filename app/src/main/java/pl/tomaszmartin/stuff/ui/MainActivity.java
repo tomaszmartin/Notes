@@ -34,21 +34,10 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
         ButterKnife.bind(this);
 
         setupView();
         attachFragment(null, MainFragment.SORT_NEWEST);
-
-    }
-
-    private void setupView() {
-        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-        }
     }
 
     @Override
@@ -117,6 +106,11 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         sendAnalyticsEvent("Note selected", "Note id: " + id);
     }
 
+    @Override
+    public void onItemAdded(int id) {
+        onItemSelected(id);
+    }
+
     private void attachFragment(String query, int order) {
         Bundle bundle = new Bundle();
         if (query != null && !query.isEmpty()) {
@@ -137,9 +131,13 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
 
     }
 
-    @Override
-    public void onItemAdded(int id) {
-        onItemSelected(id);
+    private void setupView() {
+        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
+        }
     }
 
     private void switchNightMode() {

@@ -73,8 +73,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     private TextToSpeech tts;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.details_fragment, container, false);
         titleView = (EditText) getActivity().findViewById(R.id.title_view);
         ButterKnife.bind(this, rootView);

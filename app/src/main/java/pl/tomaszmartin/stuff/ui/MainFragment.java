@@ -20,10 +20,9 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.tomaszmartin.stuff.analytics.AnalyticsActivity;
+import pl.tomaszmartin.stuff.analytics.AnalyticsFragment;
 import pl.tomaszmartin.stuff.tasks.AddNoteTask;
 import pl.tomaszmartin.stuff.tasks.DeleteNoteTask;
 import pl.tomaszmartin.stuff.adapters.NotesAdapter;
@@ -39,7 +38,7 @@ import java.util.Collections;
  * Created by tomaszmartin on 24.03.15.
  */
 
-public class MainFragment extends Fragment
+public class MainFragment extends AnalyticsFragment
         implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>,
         AbsListView.MultiChoiceModeListener, View.OnClickListener {
 
@@ -213,19 +212,6 @@ public class MainFragment extends Fragment
         numberOfItemsSelected = 0;
     }
 
-    // Set title of the action mode according to number of items selected
-    private void setActionModeTitle(ActionMode mode, int numberOfItemsSelected) {
-        if (numberOfItemsSelected == 0) {
-            mode.setTitle("");
-        } else if (numberOfItemsSelected == 1) {
-            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.one_note_chosen));
-        } else if (numberOfItemsSelected == 2 || numberOfItemsSelected == 3 || numberOfItemsSelected == 4) {
-            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.two_note_chosen));
-        } else {
-            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.five_note_chosen));
-        }
-    }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -257,8 +243,16 @@ public class MainFragment extends Fragment
         sendAnalyticsEvent("Notes selected", "All");
     }
 
-    private void sendAnalyticsEvent(String category, String action) {
-        ((AnalyticsActivity) getActivity()).sendAnalyticsEvent(category, action);
+    private void setActionModeTitle(ActionMode mode, int numberOfItemsSelected) {
+        if (numberOfItemsSelected == 0) {
+            mode.setTitle("");
+        } else if (numberOfItemsSelected == 1) {
+            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.one_note_chosen));
+        } else if (numberOfItemsSelected == 2 || numberOfItemsSelected == 3 || numberOfItemsSelected == 4) {
+            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.two_note_chosen));
+        } else {
+            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.five_note_chosen));
+        }
     }
 
 }

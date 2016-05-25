@@ -19,7 +19,6 @@ public class AnalyticsApplication extends Application {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
             tracker = analytics.newTracker(R.xml.global_tracker);
             analytics.enableAutoActivityReports(this);
-            analytics.getLogger().setLogLevel(Logger.LogLevel.VERBOSE);
         }
 
         return tracker;

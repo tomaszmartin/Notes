@@ -17,7 +17,6 @@ import pl.tomaszmartin.stuff.ui.SettingsActivity;
 
 public class NavigationListener implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = NavigationListener.class.getSimpleName();
     private Activity activity;
     private DrawerLayout drawer;
 

@@ -2,6 +2,7 @@ package pl.tomaszmartin.stuff.analytics;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -23,6 +24,10 @@ public class AnalyticsActivity extends AppCompatActivity {
 
     protected String getTag() {
         return this.getClass().getSimpleName();
+    }
+
+    protected void log(String message) {
+        Log.d(getTag(), message);
     }
 
     private void setupTracker() {
