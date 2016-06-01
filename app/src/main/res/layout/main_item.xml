@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/list_item_selector"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -15,19 +17,19 @@
         >
 
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingBottom="4dp"
             >
 
             <TextView
                 android:id="@+id/item_title"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                tools:text="@string/lorem_short"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
+                tools:text="@string/lorem_short"
                 />
 
         </LinearLayout>
@@ -49,8 +51,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|center_vertical"
                 android:paddingLeft="4dp"
-                tools:text="@string/date"
                 android:textSize="12sp"
+                tools:text="@string/date"
                 />
 
         </LinearLayout>

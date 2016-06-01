@@ -11,6 +11,6 @@
     <color name="fab">@color/red_500</color>
     <color name="fab_dark">@color/red_700</color>
     <color name="fab_shadow">#88000000</color>
-    <color name="item_background">@color/white</color>
+    <color name="item_background">@color/grey_500</color>
     <color name="item_background_selected">@color/translucent</color>
 </resources>
