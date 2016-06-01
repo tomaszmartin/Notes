@@ -28,9 +28,9 @@
     </style>
 
     <style name="fab" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/red_500</item>
-        <item name="colorAccent">@color/red_500</item>
-        <item name="colorPrimaryDark">@color/red_500</item>
+        <item name="colorPrimary">@color/fab</item>
+        <item name="colorAccent">@color/fab</item>
+        <item name="colorPrimaryDark">@color/fab</item>
     </style>
 
     <style name="searchView" parent="@style/Widget.AppCompat.SearchView">

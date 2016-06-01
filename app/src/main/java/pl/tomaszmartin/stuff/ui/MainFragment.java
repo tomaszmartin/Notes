@@ -114,7 +114,7 @@ public class MainFragment extends AnalyticsFragment
 
     public void showSnackbar(String text, String action) {
         Snackbar.make(getActivity().findViewById(R.id.coordinator), text, Snackbar.LENGTH_LONG)
-                .setActionTextColor(getResources().getColor(R.color.red_500))
+                .setActionTextColor(getResources().getColor(R.color.primary))
                 .show();
 
     }
