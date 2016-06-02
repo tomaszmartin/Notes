@@ -135,15 +135,4 @@ public class MainActivity extends BasicActivity implements OnSelectListener, OnA
         }
     }
 
-    private void switchNightMode() {
-        UiModeManager manager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
-        if (manager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO) {
-            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-        } else if (manager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
-            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-        } else {
-            manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
-        }
-    }
-
 }

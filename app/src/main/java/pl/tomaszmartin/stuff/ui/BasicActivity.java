@@ -1,8 +1,8 @@
 package pl.tomaszmartin.stuff.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 /**
@@ -11,17 +11,31 @@ import android.util.Log;
 
 public class BasicActivity extends AppCompatActivity {
 
+    private static boolean isNightMode = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    protected String getTag() {
+    String getTag() {
         return this.getClass().getSimpleName();
     }
 
-    protected void log(String message) {
+    void log(String message) {
         Log.d(getTag(), message);
+    }
+
+    void switchNightMode() {
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            isNightMode = false;
+            recreate();
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            isNightMode = true;
+            recreate();
+        }
     }
 
 }
