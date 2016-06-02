@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/item_background"
     android:orientation="vertical"
     android:padding="16dp">
@@ -43,7 +44,7 @@
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_calendar_grey600_48dp"/>
+                app:srcCompat="@drawable/ic_calendar_text"/>
 
             <TextView
                 android:id="@+id/item_date"

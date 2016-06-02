@@ -7,7 +7,6 @@
         android:id="@+id/action_remove_image"
         android:title="@string/action_remove_image"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_delete_grey600_24dp"
         app:showAsAction="always"
         />
 
@@ -15,7 +14,6 @@
         android:id="@+id/action_change_image"
         android:title="@string/action_change_image"
         android:orderInCategory="99"
-        android:icon="@drawable/ic_file_image_box_white_18dp"
         app:showAsAction="always"
         />
 
