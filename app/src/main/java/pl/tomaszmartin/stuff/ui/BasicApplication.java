@@ -2,7 +2,7 @@ package pl.tomaszmartin.stuff.ui;
 
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
-import android.util.Log;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * Created by tomaszmartin on 02.06.2016.
@@ -10,8 +10,12 @@ import android.util.Log;
 
 public class BasicApplication extends Application {
 
-    static {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-    }
+    private FirebaseAnalytics analytics;
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        analytics = FirebaseAnalytics.getInstance(this);
+    }
 }
