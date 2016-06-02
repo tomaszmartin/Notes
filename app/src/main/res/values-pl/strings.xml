@@ -158,8 +158,6 @@
         <item>30</item>
         <item>31</item>
     </string-array>
-        <string name="ga_trackingId">UA-64737555-2</string>
-        <string name="gcm_defaultSenderId">800192919523</string>
     <string name="nigh_mode_preference_title">Automatyczny tryb nocny</string>
     <string name="night_mode_preference">nightMode</string>
     <string name="night_mode">Tryb nocny</string>

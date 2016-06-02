@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="pl.tomaszmartin.stuff" >
+    package="pl.codeinprogress.notes" >
 
     <permission
-        android:name="pl.tomaszmartin.stuff.permission.C2D_MESSAGE"
+        android:name="pl.codeinprogress.notes.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,10 +13,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="pl.tomaszmartin.stuff.permission.C2D_MESSAGE" />
+    <uses-permission android:name="pl.codeinprogress.stuff.permission.C2D_MESSAGE" />
 
     <application
-        android:name=".ui.BasicApplication"
+        android:name="pl.codeinprogress.notes.ui.BasicApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -27,7 +27,7 @@
 
         <!-- App components -->
         <activity
-            android:name=".ui.MainActivity"
+            android:name="pl.codeinprogress.notes.ui.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
 
@@ -47,25 +47,25 @@
         </activity>
 
         <activity
-            android:name=".ui.DetailsActivity"
+            android:name="pl.codeinprogress.notes.ui.DetailsActivity"
             android:label="@string/title_activity_details_acitivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.MainActivity" />
+            android:parentActivityName="pl.codeinprogress.notes.ui.MainActivity" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name="pl.codeinprogress.notes.ui.SettingsActivity"
             android:label="@string/title_activity_settings"
             />
 
         <service
-            android:name=".AlarmService"
+            android:name="pl.codeinprogress.notes.AlarmService"
             android:enabled="true" />
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver android:name="pl.codeinprogress.notes.AlarmReceiver" />
 
         <provider
-            android:name=".data.NotesProvider"
-            android:authorities="pl.tomaszmartin.stuff" />
+            android:name="pl.codeinprogress.notes.data.NotesProvider"
+            android:authorities="pl.codeinprogress.notes" />
 
     </application>
 

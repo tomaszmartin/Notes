@@ -1,15 +1,14 @@
-package pl.tomaszmartin.stuff;
+package pl.codeinprogress.notes;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
 import android.view.MenuItem;
 
-import pl.tomaszmartin.stuff.ui.MainActivity;
-import pl.tomaszmartin.stuff.ui.SettingsActivity;
+import pl.codeinprogress.notes.ui.MainActivity;
+import pl.codeinprogress.notes.ui.SettingsActivity;
 
 /**
  * Created by tomaszmartin on 27.07.2015.

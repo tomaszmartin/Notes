@@ -1,13 +1,12 @@
-package pl.tomaszmartin.stuff.ui;
+package pl.codeinprogress.notes.ui;
 
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
-import pl.tomaszmartin.stuff.R;
+import pl.codeinprogress.notes.R;
 
 public class SettingsFragment extends PreferenceFragment implements
         Preference.OnPreferenceChangeListener {
