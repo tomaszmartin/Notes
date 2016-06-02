@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.tomaszmartin.stuff.analytics.AnalyticsFragment;
 import pl.tomaszmartin.stuff.tasks.AddNoteTask;
 import pl.tomaszmartin.stuff.tasks.DeleteNoteTask;
 import pl.tomaszmartin.stuff.adapters.NotesAdapter;
@@ -38,7 +37,7 @@ import java.util.Collections;
  * Created by tomaszmartin on 24.03.15.
  */
 
-public class MainFragment extends AnalyticsFragment
+public class MainFragment extends Fragment
         implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>,
         AbsListView.MultiChoiceModeListener, View.OnClickListener {
 
@@ -107,8 +106,6 @@ public class MainFragment extends AnalyticsFragment
             int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
             DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getActivity());
             deleteNoteTask.execute(noteId);
-
-            sendAnalyticsEvent("Note deleted", "Note id " + position);
         }
     }
 
@@ -152,7 +149,6 @@ public class MainFragment extends AnalyticsFragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         adapter.swapCursor(cursor);
-        sendAnalyticsEvent("Notes loaded", "Number of notes: " + cursor.getColumnCount());
     }
 
     @Override
@@ -227,8 +223,6 @@ public class MainFragment extends AnalyticsFragment
     public void addNote() {
         AddNoteTask task = new AddNoteTask(getActivity());
         task.execute(null, null, null);
-
-        sendAnalyticsEvent("Note added", "New note");
     }
 
     private void setupSearchResultsView(String query) {
@@ -240,7 +234,6 @@ public class MainFragment extends AnalyticsFragment
         for (int i = 0; i < listView.getChildCount(); i++) {
             listView.setItemChecked(i, true);
         }
-        sendAnalyticsEvent("Notes selected", "All");
     }
 
     private void setActionModeTitle(ActionMode mode, int numberOfItemsSelected) {

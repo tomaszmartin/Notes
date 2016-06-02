@@ -19,10 +19,9 @@ import pl.tomaszmartin.stuff.NavigationListener;
 import pl.tomaszmartin.stuff.OnAddListener;
 import pl.tomaszmartin.stuff.OnSelectListener;
 import pl.tomaszmartin.stuff.R;
-import pl.tomaszmartin.stuff.analytics.AnalyticsActivity;
 import pl.tomaszmartin.stuff.data.NotesContract;
 
-public class MainActivity extends AnalyticsActivity implements OnSelectListener, OnAddListener {
+public class MainActivity extends BasicActivity implements OnSelectListener, OnAddListener {
 
     @Bind(R.id.navigation) NavigationView navigationView;
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -61,7 +60,6 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
             @Override
             public boolean onQueryTextSubmit(String query) {
                 attachFragment(query, MainFragment.SORT_NEWEST);
-                sendAnalyticsEvent("Search", query);
                 return true;
             }
 
@@ -79,11 +77,9 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         int id = item.getItemId();
         if (id == R.id.action_sort_title) {
             attachFragment(null, MainFragment.SORT_TITLE);
-            sendAnalyticsEvent("Change sorting method", "Sort by title");
             return true;
         } else if (id == R.id.action_sort_newest) {
             attachFragment(null, MainFragment.SORT_NEWEST);
-            sendAnalyticsEvent("Change sorting method", "Sort by newest");
             return true;
         } else if (id == android.R.id.home) {
             drawer.openDrawer(GravityCompat.START);
@@ -103,7 +99,6 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
         startActivity(intent);
-        sendAnalyticsEvent("Note selected", "Note id: " + id);
     }
 
     @Override
@@ -144,13 +139,10 @@ public class MainActivity extends AnalyticsActivity implements OnSelectListener,
         UiModeManager manager = (UiModeManager) getSystemService(UI_MODE_SERVICE);
         if (manager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO) {
             manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-            sendAnalyticsEvent("Night mode", "Night mode on");
         } else if (manager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
             manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-            sendAnalyticsEvent("Night mode", "Night mode on");
         } else {
             manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
-            sendAnalyticsEvent("Night mode", "Night mode off");
         }
     }
 
