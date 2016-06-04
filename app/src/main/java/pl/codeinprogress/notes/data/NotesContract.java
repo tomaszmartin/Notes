@@ -13,7 +13,7 @@ import android.provider.BaseColumns;
 
 public class NotesContract {
 
-    public static final String CONTENT_AUTHORITY = "pl.tomaszmartin.stuff";
+    public static final String CONTENT_AUTHORITY = "pl.codeinprogress.notes";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_NOTES = "notes";
