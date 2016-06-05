@@ -1,10 +1,11 @@
-package pl.codeinprogress.notes;
+package pl.codeinprogress.notes.services;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
 import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
+import pl.codeinprogress.notes.services.AlarmService;
 
 /**
  * Created by tomaszmartin on 03.05.15.

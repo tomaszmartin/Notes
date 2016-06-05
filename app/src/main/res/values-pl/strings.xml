@@ -161,5 +161,6 @@
     <string name="nigh_mode_preference_title">Automatyczny tryb nocny</string>
     <string name="night_mode_preference">nightMode</string>
     <string name="night_mode">Tryb nocny</string>
+    <string name="clear_search_results">Wyczyść wyniki wyszukiwania</string>
 
 </resources>

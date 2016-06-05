@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes;
+package pl.codeinprogress.notes.ui;
 
 /**
  * Created by tomaszmartin on 01.07.15.

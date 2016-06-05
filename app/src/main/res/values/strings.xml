@@ -191,5 +191,6 @@
     <string name="nigh_mode_preference_title">Auto night mode</string>
     <string name="night_mode_preference">nightMode</string>
     <string name="night_mode">Night mode</string>
+    <string name="clear_search_results">Clear search results</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes;
+package pl.codeinprogress.notes.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
+import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.ui.MainActivity;
 import pl.codeinprogress.notes.ui.SettingsActivity;
 

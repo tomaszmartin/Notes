@@ -17,7 +17,7 @@ import android.widget.ToggleButton;
 
 import java.util.Calendar;
 
-import pl.codeinprogress.notes.AlarmReceiver;
+import pl.codeinprogress.notes.services.AlarmReceiver;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.NotesContract;
 

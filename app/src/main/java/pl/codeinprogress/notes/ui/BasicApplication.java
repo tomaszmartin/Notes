@@ -18,4 +18,5 @@ public class BasicApplication extends Application {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         analytics = FirebaseAnalytics.getInstance(this);
     }
+
 }

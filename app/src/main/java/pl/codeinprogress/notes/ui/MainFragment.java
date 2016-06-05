@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import pl.codeinprogress.notes.tasks.AddNoteTask;
 import pl.codeinprogress.notes.tasks.DeleteNoteTask;
 import pl.codeinprogress.notes.adapters.NotesAdapter;
-import pl.codeinprogress.notes.OnSelectListener;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.NotesContract;
 import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
@@ -41,10 +40,9 @@ public class MainFragment extends Fragment
         implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>,
         AbsListView.MultiChoiceModeListener, View.OnClickListener {
 
-    public static final String ORDER_KEY = "ORDER";
-    public static final int SORT_NEWEST = 1;
-    public static final int SORT_TITLE = 2;
-    private final String TAG = MainFragment.class.getSimpleName();
+    static final String ORDER_KEY = "ORDER";
+    static final int SORT_NEWEST = 1;
+    static final int SORT_TITLE = 2;
     private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
     private static final int NOTES_LOADER = 0;
     private NotesAdapter adapter;
@@ -59,13 +57,21 @@ public class MainFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.main_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
+        setupData();
+
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(this);
+        clearSearchResults.setOnClickListener(this);
+
+        return rootView;
+    }
+
+    private void setupData() {
         adapter = new NotesAdapter(getActivity(), null, 0);
 
-        // Setup list view
         listView.setAdapter(adapter);
         listView.setEmptyView(emptyView);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
@@ -80,12 +86,6 @@ public class MainFragment extends Fragment
                 }
             }
         });
-
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(this);
-        clearSearchResults.setOnClickListener(this);
-
-        return rootView;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class MainFragment extends Fragment
         setHasOptionsMenu(true);
     }
 
-    public void deleteNote(int position) {
+    void deleteNote(int position) {
         Cursor cursor = adapter.getCursor();
         if (cursor != null && cursor.moveToPosition(position)) {
             int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
@@ -109,11 +109,10 @@ public class MainFragment extends Fragment
         }
     }
 
-    public void showSnackbar(String text, String action) {
+    void showSnackbar(String text, String action) {
         Snackbar.make(getActivity().findViewById(R.id.coordinator), text, Snackbar.LENGTH_LONG)
                 .setActionTextColor(getResources().getColor(R.color.primary))
                 .show();
-
     }
 
     @Override
@@ -220,7 +219,7 @@ public class MainFragment extends Fragment
         }
     }
 
-    public void addNote() {
+    void addNote() {
         AddNoteTask task = new AddNoteTask(getActivity());
         task.execute(null, null, null);
     }
@@ -230,7 +229,7 @@ public class MainFragment extends Fragment
         searchResults.setText(String.format("%s %s", getString(R.string.search_results_label), query));
     }
 
-    public void selectAllNotes() {
+    void selectAllNotes() {
         for (int i = 0; i < listView.getChildCount(); i++) {
             listView.setItemChecked(i, true);
         }
@@ -240,11 +239,11 @@ public class MainFragment extends Fragment
         if (numberOfItemsSelected == 0) {
             mode.setTitle("");
         } else if (numberOfItemsSelected == 1) {
-            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.one_note_chosen));
+            mode.setTitle(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.one_note_chosen) + "</small>");
         } else if (numberOfItemsSelected == 2 || numberOfItemsSelected == 3 || numberOfItemsSelected == 4) {
-            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.two_note_chosen));
+            mode.setTitle(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.two_note_chosen) + "</small>");
         } else {
-            mode.setTitle(String.valueOf(numberOfItemsSelected) + " " + getString(R.string.five_note_chosen));
+            mode.setTitle(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.five_note_chosen) + "</small>");
         }
     }
 

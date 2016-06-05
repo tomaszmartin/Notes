@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes;
+package pl.codeinprogress.notes.services;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
+import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
 import pl.codeinprogress.notes.ui.DetailsActivity;
 

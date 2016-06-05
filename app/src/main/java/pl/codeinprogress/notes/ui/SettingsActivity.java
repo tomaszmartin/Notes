@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 
-import pl.codeinprogress.notes.NavigationListener;
 import pl.codeinprogress.notes.R;
 
 public class SettingsActivity extends BasicActivity {

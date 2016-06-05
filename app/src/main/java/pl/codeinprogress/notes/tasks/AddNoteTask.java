@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 
-import pl.codeinprogress.notes.OnAddListener;
+import pl.codeinprogress.notes.ui.OnAddListener;
 import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
 import java.io.File;
 import java.io.IOException;

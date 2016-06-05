@@ -14,9 +14,6 @@ import android.view.MenuItem;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.codeinprogress.notes.NavigationListener;
-import pl.codeinprogress.notes.OnAddListener;
-import pl.codeinprogress.notes.OnSelectListener;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.NotesContract;
 
