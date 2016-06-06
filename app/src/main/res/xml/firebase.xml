@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Resources xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <color name="fab">#00C853</color>
-
-</Resources>
+<defaultsMap>
+    <entry>
+        <key>fab_color</key>
+        <value>#FFEB3B</value>
+    </entry>
+</defaultsMap>

@@ -1,14 +1,17 @@
 package pl.codeinprogress.notes.firebase;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 
 /**
@@ -23,15 +26,22 @@ public class FirebaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getApplication() instanceof FirebaseApplication) {
-            ((FirebaseApplication) getApplication()).getConfiguration().fetch(500)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+            log("Trying to load Firebase config");
+            getConfiguration().fetch(500).addOnSuccessListener(new OnSuccessListener<Void>() {
 
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            ((FirebaseApplication) getApplication()).getConfiguration().activateFetched();
-                        }
+                @Override
+                public void onSuccess(Void aVoid) {
+                    log("Succeeded to load Firebase config");
+                    onFirebaseConfigFetched();
+                }
 
-                    });
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    log("Failed to load Firebase config");
+                }
+            });
+
         }
     }
 
@@ -78,6 +88,18 @@ public class FirebaseActivity extends AppCompatActivity {
         if (getApplication() instanceof FirebaseApplication) {
             return ((FirebaseApplication) getApplication()).getAnalytics();
         }
-        return null;    }
+        return null;
+    }
+
+    public FirebaseRemoteConfig getConfiguration() {
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getConfiguration();
+        }
+        return null;
+    }
+
+    public void onFirebaseConfigFetched() {
+
+    }
 
 }

@@ -1,7 +1,10 @@
 package pl.codeinprogress.notes.ui;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -11,6 +14,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +28,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     @Bind(R.id.navigation) NavigationView navigationView;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer) DrawerLayout drawer;
+    @Bind(R.id.fab) FloatingActionButton fab;
     private Fragment fragment;
     private MenuItem searchItem;
 
@@ -101,6 +107,13 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     @Override
     public void onItemAdded(int id) {
         onItemSelected(id);
+    }
+
+    @Override
+    public void onFirebaseConfigFetched() {
+        String fabColor = getConfiguration().getString("fab_color");
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
+        log("Firebase fab color is " + fabColor);
     }
 
     private void attachFragment(String query, int order) {
