@@ -1,6 +1,5 @@
-package pl.codeinprogress.notes.ui;
+package pl.codeinprogress.notes.firebase;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -15,7 +14,7 @@ import com.google.firebase.storage.FirebaseStorage;
  * Created by tomaszmartin on 02.07.15.
  */
 
-public class BasicActivity extends AppCompatActivity {
+public class FirebaseActivity extends AppCompatActivity {
 
     private static boolean isNightMode = true;
 
@@ -25,15 +24,15 @@ public class BasicActivity extends AppCompatActivity {
 
     }
 
-    String getTag() {
+    public String getTag() {
         return this.getClass().getSimpleName();
     }
 
-    void log(String message) {
+    public void log(String message) {
         Log.d(getTag(), message);
     }
 
-    void switchNightMode() {
+    public void switchNightMode() {
         if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             isNightMode = false;
@@ -46,27 +45,27 @@ public class BasicActivity extends AppCompatActivity {
     }
 
     public FirebaseStorage getStorage() {
-        if (getApplication() instanceof BasicApplication) {
-            return ((BasicApplication) getApplication()).getStorage();
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getStorage();
         }
         return null;
     }
 
     public FirebaseDatabase getDatabase() {
-        if (getApplication() instanceof BasicApplication) {
-            return ((BasicApplication) getApplication()).getDatabase();
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getDatabase();
         }
         return null;    }
 
     public FirebaseAuth getAuth() {
-        if (getApplication() instanceof BasicApplication) {
-            return ((BasicApplication) getApplication()).getAuth();
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getAuth();
         }
         return null;    }
 
     public FirebaseAnalytics getAnalytics() {
-        if (getApplication() instanceof BasicApplication) {
-            return ((BasicApplication) getApplication()).getAnalytics();
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getAnalytics();
         }
         return null;    }
 

@@ -1,11 +1,12 @@
 package pl.codeinprogress.notes.ui;
 
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import pl.codeinprogress.notes.R;
 
-public class LoginActivity extends AppCompatActivity {
+import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
+
+public class LoginActivity extends FirebaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,4 +18,6 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+
 }

@@ -7,9 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 
-public class DetailsActivity extends BasicActivity {
+public class DetailsActivity extends FirebaseActivity {
 
     private Fragment fragment;
 

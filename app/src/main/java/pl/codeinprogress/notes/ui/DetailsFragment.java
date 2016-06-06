@@ -1,10 +1,8 @@
 package pl.codeinprogress.notes.ui;
 
 import android.app.Activity;
-import android.app.UiModeManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -37,6 +35,7 @@ import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.tasks.SaveToDatabaseTask;
@@ -241,8 +240,8 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void switchNightMode() {
-        if (getActivity() instanceof BasicActivity) {
-            BasicActivity activity = (BasicActivity) getActivity();
+        if (getActivity() instanceof FirebaseActivity) {
+            FirebaseActivity activity = (FirebaseActivity) getActivity();
             activity.switchNightMode();
         }
     }

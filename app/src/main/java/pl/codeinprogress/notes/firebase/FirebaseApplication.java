@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.ui;
+package pl.codeinprogress.notes.firebase;
 
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
@@ -11,7 +11,7 @@ import com.google.firebase.storage.FirebaseStorage;
  * Created by tomaszmartin on 02.06.2016.
  */
 
-public class BasicApplication extends Application {
+public class FirebaseApplication extends Application {
 
     private FirebaseAnalytics analytics;
     private FirebaseAuth auth;

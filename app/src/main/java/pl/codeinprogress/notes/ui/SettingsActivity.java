@@ -9,8 +9,9 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
-public class SettingsActivity extends BasicActivity {
+public class SettingsActivity extends FirebaseActivity {
 
     private DrawerLayout drawer;
 

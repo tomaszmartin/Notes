@@ -16,8 +16,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.NotesContract;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
-public class MainActivity extends BasicActivity implements OnSelectListener, OnAddListener {
+public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener {
 
     @Bind(R.id.navigation) NavigationView navigationView;
     @Bind(R.id.toolbar) Toolbar toolbar;
