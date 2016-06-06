@@ -241,15 +241,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
     }
 
     private void switchNightMode() {
-        UiModeManager manager = (UiModeManager) getActivity().getSystemService(Context.UI_MODE_SERVICE);
-        if (manager.getNightMode() == UiModeManager.MODE_NIGHT_AUTO) {
-            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-        } else if (manager.getNightMode() == UiModeManager.MODE_NIGHT_NO) {
-            manager.setNightMode(UiModeManager.MODE_NIGHT_YES);
-        } else {
-            manager.setNightMode(UiModeManager.MODE_NIGHT_NO);
+        if (getActivity() instanceof BasicActivity) {
+            BasicActivity activity = (BasicActivity) getActivity();
+            activity.switchNightMode();
         }
-
     }
 
     private void readNote() {
