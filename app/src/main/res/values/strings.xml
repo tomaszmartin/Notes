@@ -192,5 +192,8 @@
     <string name="night_mode_preference">nightMode</string>
     <string name="night_mode">Night mode</string>
     <string name="clear_search_results">Clear search results</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email address</string>
 
 </resources>

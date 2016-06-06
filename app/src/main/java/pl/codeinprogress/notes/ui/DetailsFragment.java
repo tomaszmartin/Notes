@@ -211,9 +211,7 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_share) {
+        if (id == R.id.action_share) {
             shareNote();
             return true;
         } else if (id == R.id.action_size) {

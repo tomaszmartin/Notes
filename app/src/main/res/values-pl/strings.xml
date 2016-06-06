@@ -162,5 +162,8 @@
     <string name="night_mode_preference">nightMode</string>
     <string name="night_mode">Tryb nocny</string>
     <string name="clear_search_results">Wyczyść wyniki wyszukiwania</string>
+    <string name="email">Adres email</string>
+    <string name="password">Hasło</string>
+    <string name="login">Logowanie</string>
 
 </resources>

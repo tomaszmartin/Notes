@@ -19,4 +19,7 @@
     <color name="icon">#9e9e9e</color>
     <color name="action_bar_icon">#ffffff</color>
 
+    <color name="black_overlay">#66000000</color>
+    <color name="login_background">@color/white</color>
+
 </resources>
