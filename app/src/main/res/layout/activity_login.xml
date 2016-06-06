@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="pl.codeinprogress.notes.ui.LoginActivity"
-    android:background="@color/login_background"
+    android:background="@color/background"
     android:orientation="vertical"
     android:padding="32dp"
     >
@@ -13,12 +13,13 @@
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/primary"
+        android:textColorHint="@color/edit_text_hint"
         android:hint="@string/email">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -27,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColorHint="@color/primary"
+        android:textColorHint="@color/edit_text_hint"
         android:hint="@string/password">
 
         <android.support.design.widget.TextInputEditText
@@ -40,9 +41,9 @@
         android:layout_marginTop="32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
+        android:background="@color/edit_text_hint"
         android:text="@string/login"
-        android:textColor="@color/login_background"
+        android:textColor="@color/background"
         android:textAllCaps="false"/>
 
 </LinearLayout>
