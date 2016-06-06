@@ -9,7 +9,6 @@
     <color name="primary_translucent">#88673ab7</color>
     <color name="divider">#9e9e9e</color>
     <color name="primary_accent_translucent">#80ffffff</color>
-    <color name="fab">#f44336</color>
     <color name="fab_dark">#d32f2f</color>
     <color name="fab_shadow">#88000000</color>
     <color name="item_background">#ffffff</color>

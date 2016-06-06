@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.text.Html;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -239,11 +240,11 @@ public class MainFragment extends Fragment
         if (numberOfItemsSelected == 0) {
             mode.setTitle("");
         } else if (numberOfItemsSelected == 1) {
-            mode.setTitle(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.one_note_chosen) + "</small>");
+            mode.setTitle(Html.fromHtml(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.one_note_chosen) + "</small>"));
         } else if (numberOfItemsSelected == 2 || numberOfItemsSelected == 3 || numberOfItemsSelected == 4) {
-            mode.setTitle(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.two_note_chosen) + "</small>");
+            mode.setTitle(Html.fromHtml(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.two_note_chosen) + "</small>"));
         } else {
-            mode.setTitle(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.five_note_chosen) + "</small>");
+            mode.setTitle(Html.fromHtml(String.valueOf("<small>" + numberOfItemsSelected) + " " + getString(R.string.five_note_chosen) + "</small>"));
         }
     }
 
