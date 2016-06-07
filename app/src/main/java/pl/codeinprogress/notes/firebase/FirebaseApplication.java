@@ -55,10 +55,6 @@ public class FirebaseApplication extends Application {
         database.setPersistenceEnabled(true);
         storage = FirebaseStorage.getInstance();
         configuration = FirebaseRemoteConfig.getInstance();
-        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setDeveloperModeEnabled(BuildConfig.DEBUG)
-                .build();
-        configuration.setConfigSettings(configSettings);
         configuration.setDefaults(R.xml.firebase);
     }
 

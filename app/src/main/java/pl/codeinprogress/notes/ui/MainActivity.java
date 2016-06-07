@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import butterknife.Bind;
@@ -99,6 +100,12 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     @Override
     public void onItemSelected(int id) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(id));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Note");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Note");
+        logEvent(FirebaseAnalytics.Event.VIEW_ITEM, bundle);
+
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra(NotesContract.NoteEntry.COLUMN_ID, id);
         startActivity(intent);
@@ -110,10 +117,13 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     @Override
-    public void onFirebaseConfigFetched() {
+    public void onConfigFetched() {
         String fabColor = getConfiguration().getString("fab_color");
+        Boolean shouldReplaceFabColor = getConfiguration().getBoolean("fab_color_replace");
         log("Firebase fab color is " + fabColor);
-        // fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
+        if (shouldReplaceFabColor) {
+            fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
+        }
     }
 
     private void attachFragment(String query, int order) {

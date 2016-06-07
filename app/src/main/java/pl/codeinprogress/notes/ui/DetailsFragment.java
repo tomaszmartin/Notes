@@ -36,12 +36,14 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.firebase.FirebaseFragment;
 import pl.codeinprogress.notes.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.tasks.SaveToDatabaseTask;
 import pl.codeinprogress.notes.tasks.SaveToFileTask;
 import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -55,7 +57,7 @@ import java.util.UUID;
  * Created by tomaszmartin on 02.07.15.
  */
 
-public class DetailsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, TextToSpeech.OnInitListener {
+public class DetailsFragment extends FirebaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, TextToSpeech.OnInitListener {
 
     private static final int DETAIL_LOADER = 1;
     private static final int IMAGE_REQUEST_CODE = 1;
@@ -274,6 +276,13 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         sendIntent.putExtra(Intent.EXTRA_TEXT, content);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(getNoteId()));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Note");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Note");
+        logEvent(FirebaseAnalytics.Event.SHARE, bundle);
     }
 
     private void showDialog(DialogFragment dialogFragment) {
@@ -448,6 +457,10 @@ public class DetailsFragment extends Fragment implements LoaderManager.LoaderCal
         }
 
         return Uri.fromFile(new File(externalFilesDir, "IMG_" + UUID.randomUUID().toString() + ".jpg"));
+    }
+
+    public int getNoteId() {
+        return cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
     }
 
 }

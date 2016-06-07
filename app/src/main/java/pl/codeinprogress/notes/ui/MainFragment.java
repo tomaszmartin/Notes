@@ -21,8 +21,12 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import pl.codeinprogress.notes.firebase.FirebaseFragment;
 import pl.codeinprogress.notes.tasks.AddNoteTask;
 import pl.codeinprogress.notes.tasks.DeleteNoteTask;
 import pl.codeinprogress.notes.adapters.NotesAdapter;
@@ -37,7 +41,7 @@ import java.util.Collections;
  * Created by tomaszmartin on 24.03.15.
  */
 
-public class MainFragment extends Fragment
+public class MainFragment extends FirebaseFragment
         implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>,
         AbsListView.MultiChoiceModeListener, View.OnClickListener {
 

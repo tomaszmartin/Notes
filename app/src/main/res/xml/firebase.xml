@@ -4,4 +4,8 @@
         <key>fab_color</key>
         <value>#FFEB3B</value>
     </entry>
+    <entry>
+        <key>fab_color_replace</key>
+        <value>false</value>
+    </entry>
 </defaultsMap>

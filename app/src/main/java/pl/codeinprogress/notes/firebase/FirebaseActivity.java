@@ -25,24 +25,7 @@ public class FirebaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getApplication() instanceof FirebaseApplication) {
-            log("Trying to load Firebase config");
-            getConfiguration().fetch(500).addOnSuccessListener(new OnSuccessListener<Void>() {
-
-                @Override
-                public void onSuccess(Void aVoid) {
-                    log("Succeeded to load Firebase config");
-                    onFirebaseConfigFetched();
-                }
-
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    log("Failed to load Firebase config");
-                }
-            });
-
-        }
+        fetchConfig();
     }
 
     public String getTag() {
@@ -98,8 +81,29 @@ public class FirebaseActivity extends AppCompatActivity {
         return null;
     }
 
-    public void onFirebaseConfigFetched() {
+    public void fetchConfig() {
+        if (getApplication() instanceof FirebaseApplication) {
+            getConfiguration().fetch(500).addOnSuccessListener(new OnSuccessListener<Void>() {
 
+                @Override
+                public void onSuccess(Void aVoid) {
+                    onConfigFetched();
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                }
+            });
+        }
+    }
+
+    public void onConfigFetched() {}
+
+    public void logEvent(String name, Bundle params) {
+        if (getAnalytics() != null) {
+            getAnalytics().logEvent(name, params);
+        }
     }
 
 }
