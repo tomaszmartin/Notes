@@ -59,6 +59,7 @@
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
                 android:src="@mipmap/ic_add"
+                android:backgroundTint="@color/fab"
                 app:borderWidth="0dp"
                 app:fabSize="normal"
                 />

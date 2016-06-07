@@ -112,8 +112,8 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     @Override
     public void onFirebaseConfigFetched() {
         String fabColor = getConfiguration().getString("fab_color");
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
         log("Firebase fab color is " + fabColor);
+        // fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
     }
 
     private void attachFragment(String query, int order) {

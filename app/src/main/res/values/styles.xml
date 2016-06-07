@@ -18,6 +18,24 @@
         <item name="android:actionModeSelectAllDrawable">@mipmap/ic_select_all</item>
         <item name="searchViewStyle">@style/searchView</item>
         <item name="alertDialogTheme">@style/dialogStyle</item>
+    </style>
+
+    <style name="Fullscreen" parent="@style/NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_dark</item>
+        <item name="actionBarStyle">@style/noElevationActionBar</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:actionModeBackground">@color/primary</item>
+        <item name="actionModeBackground">@color/primary</item>
+        <item name="android:actionModeCloseDrawable">@mipmap/ic_arrow_left</item>
+        <item name="android:title">@string/app_name</item>
+        <item name="android:actionModeCopyDrawable">@mipmap/ic_copy</item>
+        <item name="android:actionModeCutDrawable">@mipmap/ic_cut</item>
+        <item name="android:actionModePasteDrawable">@mipmap/ic_paste</item>
+        <item name="android:actionModeSelectAllDrawable">@mipmap/ic_select_all</item>
+        <item name="searchViewStyle">@style/searchView</item>
+        <item name="alertDialogTheme">@style/dialogStyle</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
