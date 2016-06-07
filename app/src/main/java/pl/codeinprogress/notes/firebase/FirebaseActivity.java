@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
@@ -34,6 +35,10 @@ public class FirebaseActivity extends AppCompatActivity {
 
     public void log(String message) {
         Log.d(getTag(), message);
+    }
+
+    public void report(String message) {
+        FirebaseCrash.report(new Exception(getTag() + ": " + message));
     }
 
     public void switchNightMode() {
