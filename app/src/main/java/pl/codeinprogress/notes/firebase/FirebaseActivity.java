@@ -13,13 +13,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 
+import pl.codeinprogress.notes.R;
+
 /**
  * Created by tomaszmartin on 02.07.15.
  */
 
 public class FirebaseActivity extends AppCompatActivity {
-
-    private static boolean isNightMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +36,14 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     public void switchNightMode() {
-        if (isNightMode) {
+        boolean isNight = getResources().getBoolean(R.bool.isNight);
+        if (isNight) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            isNightMode = false;
             recreate();
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            isNightMode = true;
             recreate();
+
         }
     }
 

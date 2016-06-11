@@ -55,7 +55,7 @@ public class LoginActivity extends FirebaseActivity {
     }
 
     @OnClick(R.id.loginButton)
-    private void login() {
+    void login() {
         if (validate()) {
             getAuth().signInWithEmailAndPassword(emailField.getText().toString(), passwordField.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
