@@ -65,6 +65,15 @@
             android:textColor="@color/background"
             app:backgroundTint="@color/edit_text_hint"/>
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/googleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/google_login"
+            android:textAllCaps="false"
+            android:textColor="@color/edit_text_hint"
+            app:backgroundTint="@color/fab"/>
+
     </LinearLayout>
 
 </LinearLayout>
