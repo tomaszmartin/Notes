@@ -1,11 +1,17 @@
 package pl.codeinprogress.notes.ui;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Patterns;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,27 +38,39 @@ public class LoginActivity extends FirebaseActivity {
         }
     }
 
-    @OnClick(R.id.loginButton)
-    private void validate() {
-        boolean isValid = true;
+    private boolean validate() {
+        boolean result = true;
         String email = emailField.getText().toString();
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             showError(emailWrapper, getString(R.string.email_error));
-            isValid = false;
+            result = false;
         }
         String password = passwordField.getText().toString();
         if (password.length() < 7) {
             showError(passwordWrapper, getString(R.string.password_error));
-            isValid = false;
+            result = false;
         }
 
-        if (isValid) {
-            login();
-        }
+        return result;
     }
 
+    @OnClick(R.id.loginButton)
     private void login() {
-        
+        if (validate()) {
+            getAuth().signInWithEmailAndPassword(emailField.getText().toString(), passwordField.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
     }
 
     private void showError(TextInputLayout field, String message) {
