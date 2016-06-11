@@ -45,7 +45,7 @@
     <string name="deleted">Notatka została usunięta</string>
     <string name="deleted_multiple">Notatki zostały usunięte</string>
     <string name="deleted_single">Notatka została usunięta</string>
-    <string name="dicatating_not_supported">Brak wsparcia dla dyktowania</string>
+    <string name="dictating_not_supported">Brak wsparcia dla dyktowania</string>
     <string name="dictate_note">Dyktuj notatkę</string>
     <string name="edit_note_action">Edytuj notatkę</string>
     <string name="empty_cat">Brak kategorii</string>

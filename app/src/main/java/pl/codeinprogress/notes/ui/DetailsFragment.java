@@ -264,7 +264,7 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
             startActivityForResult(intent, AUDIO_REQUEST_CODE);
         } catch (ActivityNotFoundException a) {
             Toast.makeText(getActivity().getApplicationContext(),
-                    getString(R.string.dicatating_not_supported),
+                    getString(R.string.dictating_not_supported),
                     Toast.LENGTH_SHORT).show();
         }
     }

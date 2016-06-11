@@ -186,7 +186,7 @@
     <string name="read_note">Read note</string>
     <string name="dictate_note">Dictate note</string>
     <string name="speak_now">Speak now</string>
-    <string name="dicatating_not_supported">Dictating not supported</string>
+    <string name="dictating_not_supported">Dictating not supported</string>
     <string name="select_all_notes">Select all</string>
     <string name="nigh_mode_preference_title">Auto night mode</string>
     <string name="night_mode_preference">nightMode</string>
@@ -195,5 +195,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email address</string>
+    <string name="email_error">Provided email is not valid</string>
+    <string name="password_error">Provided password is not valid</string>
 
 </resources>
