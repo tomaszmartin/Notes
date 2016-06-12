@@ -193,7 +193,11 @@
     <string name="night_mode">Night mode</string>
     <string name="clear_search_results">Clear search results</string>
     <string name="login">Login</string>
+    <string name="action_login">Login</string>
+    <string name="signup">Sign up</string>
     <string name="password">Password</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
     <string name="email">Email address</string>
     <string name="email_error">Provided email is not valid</string>
     <string name="password_error">Provided password is not valid</string>

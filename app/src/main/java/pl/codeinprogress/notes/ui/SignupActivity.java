@@ -1,11 +1,10 @@
 package pl.codeinprogress.notes.ui;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
 import android.util.Patterns;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +18,7 @@ import butterknife.OnClick;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
-public class LoginActivity extends FirebaseActivity {
+public class SignupActivity extends FirebaseActivity {
 
     @Bind(R.id.emailWrapper) TextInputLayout emailWrapper;
     @Bind(R.id.emailField) TextInputEditText emailField;
@@ -38,6 +37,7 @@ public class LoginActivity extends FirebaseActivity {
         }
     }
 
+    // TODO: Remove code duplication
     private boolean validate() {
         boolean result = true;
         String email = emailField.getText().toString();
@@ -54,25 +54,6 @@ public class LoginActivity extends FirebaseActivity {
         return result;
     }
 
-    @OnClick(R.id.loginButton)
-    void login() {
-        if (validate()) {
-            getAuth().signInWithEmailAndPassword(emailField.getText().toString(), passwordField.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        }
-                    })
-                    .addOnFailureListener(this, new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
-        }
-    }
-
     private void showError(TextInputLayout field, String message) {
         field.setErrorEnabled(true);
         field.setError(message);
@@ -81,5 +62,4 @@ public class LoginActivity extends FirebaseActivity {
     private void hideError(TextInputLayout field) {
         field.setErrorEnabled(false);
     }
-
 }

@@ -162,8 +162,14 @@
     <string name="night_mode_preference">nightMode</string>
     <string name="night_mode">Tryb nocny</string>
     <string name="clear_search_results">Wyczyść wyniki wyszukiwania</string>
-    <string name="email">Adres email</string>
+    <string name="action_login">Zaloguj</string>
+    <string name="signup">Zarejestruj się</string>
     <string name="password">Hasło</string>
-    <string name="login">Logowanie</string>
+    <string name="first_name">Imię</string>
+    <string name="last_name">Nazwisko</string>
+    <string name="email">Adres e-mail</string>
+    <string name="email_error">Podany adres e-mail jest błędny</string>
+    <string name="password_error">Podane hasło jest błędne</string>
+    <string name="google_login">Zaloguj z Google</string>
 
 </resources>
