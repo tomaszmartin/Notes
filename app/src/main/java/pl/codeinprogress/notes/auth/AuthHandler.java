@@ -14,10 +14,11 @@ import android.preference.PreferenceManager;
 public class AuthHandler {
 
     private final String ID_KEY = "USER_ID";
-    private final String FIRST_NAME_KEY = "USER_FIRST_NAME";
+    private final String FIRST_NAME_KEY = "USER_NAME";
     private final String LAST_NAME_KEY = "USE_LAST_NAME";
     private final String EMAIL_KEY = "USER_EMAIL";
-    private final String STATUS = "USER_STATUS";
+    private final String IMAGE_KEY = "USER_IMAGE";
+    private final String STATUS_KEY = "USER_STATUS";
     private SharedPreferences manager;
 
     public AuthHandler(Context context) {
@@ -34,13 +35,14 @@ public class AuthHandler {
                 null,
                 null,
                 null,
+                null,
                 false
         );
         saveCredentials(credentials);
     }
 
     public boolean isLogged() {
-        return manager.getBoolean(STATUS, false);
+        return manager.getBoolean(STATUS_KEY, false);
     }
 
     private void saveCredentials(Credentials credentials) {
@@ -49,7 +51,8 @@ public class AuthHandler {
         editor.putString(FIRST_NAME_KEY, credentials.getFirstName());
         editor.putString(LAST_NAME_KEY, credentials.getLastName());
         editor.putString(EMAIL_KEY, credentials.getEmail());
-        editor.putBoolean(STATUS, credentials.isLogged());
+        editor.putString(IMAGE_KEY, credentials.getImage());
+        editor.putBoolean(STATUS_KEY, credentials.isLogged());
         editor.apply();
     }
 

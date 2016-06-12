@@ -61,7 +61,7 @@ public class LoginActivity extends FirebaseActivity {
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
+                            
                         }
                     })
                     .addOnFailureListener(this, new OnFailureListener() {

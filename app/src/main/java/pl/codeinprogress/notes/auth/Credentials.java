@@ -9,14 +9,16 @@ public class Credentials {
     private String lastName;
     private String id;
     private String email;
+    private String image;
     private boolean logged;
 
-    public Credentials(String firstName, String lastName, String id, String email, boolean logeed) {
+    public Credentials(String firstName, String lastName, String id, String email, String image, boolean logged) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id;
         this.email = email;
-        this.logged = logeed;
+        this.logged = logged;
+        this.image = image;
     }
 
     public String getFirstName() {
@@ -38,4 +40,9 @@ public class Credentials {
     public boolean isLogged() {
         return logged;
     }
+
+    public String getImage() {
+        return image;
+    }
+
 }
