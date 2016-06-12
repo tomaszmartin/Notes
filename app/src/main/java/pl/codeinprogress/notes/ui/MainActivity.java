@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -30,6 +32,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer) DrawerLayout drawer;
     @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.coordinator) CoordinatorLayout coordinatorLayout;
     private Fragment fragment;
     private MenuItem searchItem;
 
@@ -120,7 +123,6 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     public void onConfigFetched() {
         String fabColor = getConfiguration().getString("fab_color");
         Boolean shouldReplaceFabColor = getConfiguration().getBoolean("fab_color_replace");
-        log("Firebase fab color is " + fabColor);
         if (shouldReplaceFabColor) {
             fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
         }
