@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
  * Created by tomaszmartin on 12.06.16.
@@ -11,7 +12,7 @@ import android.preference.PreferenceManager;
  * Class hor handling authorization.
  */
 
-public class AuthHandler {
+public class FirebaseAuthHandler {
 
     private final String ID_KEY = "USER_ID";
     private final String FIRST_NAME_KEY = "USER_NAME";
@@ -20,9 +21,19 @@ public class AuthHandler {
     private final String IMAGE_KEY = "USER_IMAGE";
     private final String STATUS_KEY = "USER_STATUS";
     private SharedPreferences manager;
+    private FirebaseApplication application;
 
-    public AuthHandler(Context context) {
-        manager = PreferenceManager.getDefaultSharedPreferences(context);
+    public FirebaseAuthHandler(FirebaseApplication application) {
+        this.application = application;
+        manager = PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    public void login(String email, String password) {
+
+    }
+
+    public void singup(Credentials credentials) {
+
     }
 
     public void onLogin(Credentials credentials) {
