@@ -1,32 +1,43 @@
 package pl.codeinprogress.notes.auth;
 
+import com.google.firebase.auth.FirebaseUser;
+
 /**
  * Created by tomaszmartin on 12.06.16.
  */
 public class Credentials {
 
-    private String firstName;
-    private String lastName;
+    private String name;
     private String id;
     private String email;
     private String image;
     private boolean logged;
 
-    public Credentials(String firstName, String lastName, String id, String email, String image, boolean logged) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Credentials(String name, String id, String email, String image, boolean logged) {
+        this.name = name;
         this.id = id;
         this.email = email;
         this.logged = logged;
         this.image = image;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public static Credentials fromFirebaseUser(FirebaseUser user) {
+        String image = null;
+        if (user.getPhotoUrl() != null) {
+            image = user.getPhotoUrl().toString();
+        }
+
+        return new Credentials(
+                user.getDisplayName(),
+                user.getUid(),
+                user.getEmail(),
+                image,
+                true
+        );
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
     public String getId() {
