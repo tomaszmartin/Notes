@@ -159,6 +159,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     @Override
     public void authenticate() {
+        log("Firebase user not activated");
         startActivity(new Intent(this, LoginActivity.class));
     }
 }

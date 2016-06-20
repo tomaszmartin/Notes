@@ -51,9 +51,4 @@ public class SignupActivity extends FirebaseActivity {
         field.setErrorEnabled(false);
     }
 
-    @OnClick
-    public void signup(View view) {
-
-    }
-
 }

@@ -75,7 +75,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/login"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/Fullscreen">
+            android:theme="@style/NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.codeinprogress.notes.ui.MainActivity"/>

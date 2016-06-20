@@ -5,19 +5,15 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.util.Log;
-import android.util.Patterns;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
@@ -26,7 +22,7 @@ import pl.codeinprogress.notes.firebase.FirebaseApplication;
  * Class hor handling authorization.
  */
 
-public class FirebaseAuthHandler {
+public class FirebaseAuthHelper {
 
     private final String ID_KEY = "USER_ID";
     private final String NAME_KEY = "USER_NAME";
@@ -36,7 +32,7 @@ public class FirebaseAuthHandler {
     private SharedPreferences manager;
     private final FirebaseApplication application;
 
-    public FirebaseAuthHandler(FirebaseApplication app) {
+    public FirebaseAuthHelper(FirebaseApplication app) {
         this.application = app;
         manager = PreferenceManager.getDefaultSharedPreferences(application);
         application.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -104,7 +100,10 @@ public class FirebaseAuthHandler {
     }
 
     public boolean isLogged() {
-        return manager.getBoolean(STATUS_KEY, false);
+        boolean isLogged = manager.getBoolean(STATUS_KEY, false);
+        log("Checking if user is logged in " + isLogged);
+
+        return isLogged;
     }
 
     private void saveCredentials(Credentials credentials) {
@@ -115,6 +114,10 @@ public class FirebaseAuthHandler {
         editor.putString(IMAGE_KEY, credentials.getImage());
         editor.putBoolean(STATUS_KEY, credentials.isLogged());
         editor.apply();
+    }
+
+    private void log(String message) {
+        Log.d(FirebaseAuthHelper.class.getSimpleName(), message);
     }
 
 }
