@@ -12,6 +12,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
 
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.auth.FirebaseAuthHandler;
 
 /**
  * Created by tomaszmartin on 02.06.2016.
@@ -24,6 +25,7 @@ public class FirebaseApplication extends Application {
     private FirebaseDatabase database;
     private FirebaseRemoteConfig configuration;
     private FirebaseStorage storage;
+    private FirebaseAuthHandler authHandler;
 
     public FirebaseRemoteConfig getConfiguration() {
         return configuration;
@@ -45,6 +47,10 @@ public class FirebaseApplication extends Application {
         return analytics;
     }
 
+    public FirebaseAuthHandler getAuthHandler() {
+        return authHandler;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -60,6 +66,7 @@ public class FirebaseApplication extends Application {
                 .build();
         configuration.setConfigSettings(configSettings);
         configuration.setDefaults(R.xml.firebase);
+        authHandler = new FirebaseAuthHandler(this);
     }
 
 }

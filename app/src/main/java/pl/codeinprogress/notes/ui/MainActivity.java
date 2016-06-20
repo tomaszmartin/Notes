@@ -157,4 +157,8 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
         }
     }
 
+    @Override
+    public void authenticate() {
+        startActivity(new Intent(this, LoginActivity.class));
+    }
 }

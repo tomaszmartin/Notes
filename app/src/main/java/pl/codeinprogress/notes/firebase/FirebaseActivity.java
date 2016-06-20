@@ -16,6 +16,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
 
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.auth.FirebaseAuthHandler;
 
 /**
  * Created by tomaszmartin on 02.07.15.
@@ -26,7 +27,11 @@ public class FirebaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         fetchConfig();
+        if (getAuthHandler().isLogged()) {
+            authenticate();
+        }
     }
 
     public String getTag() {
@@ -107,6 +112,17 @@ public class FirebaseActivity extends AppCompatActivity {
         if (getAnalytics() != null) {
             getAnalytics().logEvent(name, params);
         }
+    }
+
+    public FirebaseAuthHandler getAuthHandler() {
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getAuthHandler();
+        }
+        return null;
+    }
+
+    public void authenticate() {
+
     }
 
 }
