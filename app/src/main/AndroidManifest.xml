@@ -75,11 +75,23 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/login"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/Fullscreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="pl.codeinprogress.notes.ui.MainActivity"/>
         </activity>
+
+        <activity
+            android:name=".ui.SignupActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/signup"
+            android:parentActivityName=".ui.LoginActivity"
+            android:theme="@style/Fullscreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="pl.codeinprogress.notes.ui.MainActivity"/>
+        </activity>
+
     </application>
 
 </manifest>

@@ -202,6 +202,7 @@
     <string name="email_error">Provided email is not valid</string>
     <string name="password_error">Provided password is not valid</string>
     <string name="google_login">Log in with Google</string>
+    <string name="create_account">No account yet? Create one</string>
     <string name="first_name_error">First name cannot be empty</string>
     <string name="last_name_error">Last name cannot be empty</string>
 

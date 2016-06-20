@@ -1,5 +1,6 @@
 package pl.codeinprogress.notes.ui;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -32,6 +33,18 @@ public class LoginActivity extends FirebaseActivity {
 
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.loginButton)
+    public void login() {
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+        getAuthHandler().login(email, password);
+    }
+
+    @OnClick(R.id.signupButton)
+    public void signup() {
+        startActivity(new Intent(this, SignupActivity.class));
     }
 
 }

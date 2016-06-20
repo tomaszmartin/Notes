@@ -72,7 +72,18 @@
             android:text="@string/google_login"
             android:textAllCaps="false"
             android:textColor="@color/edit_text_hint"
-            app:backgroundTint="@color/fab"/>
+            app:backgroundTint="@color/google_login"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/signupButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_account"
+            android:textAllCaps="false"
+            android:textColor="@color/edit_text_hint"
+            android:background="@color/primary"
+            style="?android:attr/borderlessButtonStyle"
+            />
 
     </LinearLayout>
 

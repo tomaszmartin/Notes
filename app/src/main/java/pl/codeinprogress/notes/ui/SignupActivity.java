@@ -33,22 +33,8 @@ public class SignupActivity extends FirebaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    private void showError(TextInputLayout field, String message) {
-        field.setErrorEnabled(true);
-        field.setError(message);
-    }
-
-    private void hideError(TextInputLayout field) {
-        field.setErrorEnabled(false);
     }
 
 }

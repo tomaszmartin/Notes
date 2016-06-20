@@ -85,6 +85,7 @@ public class FirebaseAuthHelper {
     }
 
     public void onLoggedIn(Credentials credentials) {
+        log("User is logged in with email " + credentials.getEmail());
         saveCredentials(credentials);
     }
 
