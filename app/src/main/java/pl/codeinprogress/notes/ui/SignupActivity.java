@@ -6,6 +6,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.util.Patterns;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,6 +25,10 @@ public class SignupActivity extends FirebaseActivity {
     @Bind(R.id.emailField) TextInputEditText emailField;
     @Bind(R.id.passwordWrapper) TextInputLayout passwordWrapper;
     @Bind(R.id.passwordField) TextInputEditText passwordField;
+    @Bind(R.id.firstNameWrapper) TextInputLayout firstNameWrapper;
+    @Bind(R.id.firstNameField) TextInputEditText firstNameField;
+    @Bind(R.id.lastNameWrapper) TextInputLayout lastNameWrapper;
+    @Bind(R.id.lastNameField) TextInputEditText lastNameField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +42,6 @@ public class SignupActivity extends FirebaseActivity {
         }
     }
 
-    // TODO: Remove code duplication
-    private boolean validate() {
-        boolean result = true;
-        String email = emailField.getText().toString();
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            showError(emailWrapper, getString(R.string.email_error));
-            result = false;
-        }
-        String password = passwordField.getText().toString();
-        if (password.length() < 7) {
-            showError(passwordWrapper, getString(R.string.password_error));
-            result = false;
-        }
-
-        return result;
-    }
-
     private void showError(TextInputLayout field, String message) {
         field.setErrorEnabled(true);
         field.setError(message);
@@ -62,4 +50,10 @@ public class SignupActivity extends FirebaseActivity {
     private void hideError(TextInputLayout field) {
         field.setErrorEnabled(false);
     }
+
+    @OnClick
+    public void signup(View view) {
+
+    }
+
 }

@@ -1,14 +1,23 @@
 package pl.codeinprogress.notes.auth;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
+import android.util.Patterns;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+
+import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
  * Created by tomaszmartin on 12.06.16.
- *
+ * <p/>
  * Class hor handling authorization.
  */
 
@@ -29,11 +38,29 @@ public class FirebaseAuthHandler {
     }
 
     public void login(String email, String password) {
+        application.getAuth().signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
-    public void singup(Credentials credentials) {
+    public void singup(Credentials credentials, String password) {
+        application.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
 
+                    }
+                });
     }
 
     public void onLogin(Credentials credentials) {
