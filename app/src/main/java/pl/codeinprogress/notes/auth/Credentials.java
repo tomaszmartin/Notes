@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseUser;
 /**
  * Created by tomaszmartin on 12.06.16.
  */
+
 public class Credentials {
 
     private String name;
