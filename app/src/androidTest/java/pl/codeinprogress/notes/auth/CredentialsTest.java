@@ -3,7 +3,6 @@ package pl.codeinprogress.notes.auth;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -17,21 +16,23 @@ import static org.junit.Assert.*;
 /**
  * Created by tomaszmartin on 21.06.2016.
  */
+
 public class CredentialsTest {
 
     @Test
     public void testFromFirebaseUser() throws Exception {
+        final Credentials credentials = new Credentials("Firstname Lastname", "123456789", "email@example.com", null, true);
         FirebaseUser user = new FirebaseUser() {
             @NonNull
             @Override
             public String getUid() {
-                return "123456789";
+                return credentials.getId();
             }
 
             @NonNull
             @Override
             public String getProviderId() {
-                return "self";
+                return null;
             }
 
             @Override
@@ -71,7 +72,7 @@ public class CredentialsTest {
             @Nullable
             @Override
             public String getDisplayName() {
-                return "Firstname Lastname";
+                return credentials.getName();
             }
 
             @Nullable
@@ -83,7 +84,7 @@ public class CredentialsTest {
             @Nullable
             @Override
             public String getEmail() {
-                return "email@example.com";
+                return credentials.getEmail();
             }
 
             @NonNull
@@ -97,9 +98,12 @@ public class CredentialsTest {
 
             }
         };
-        Credentials credentials = Credentials.fromFirebaseUser(user);
+        Credentials credentialsFromUser = Credentials.fromFirebaseUser(user);
 
-        
+        assertEquals(credentials.getId(), credentialsFromUser.getId());
+        assertEquals(credentials.getName(), credentialsFromUser.getName());
+        assertEquals(credentials.getEmail(), credentialsFromUser.getEmail());
+        assertEquals(credentials.isLogged(), credentialsFromUser.isLogged());
     }
 
 }
