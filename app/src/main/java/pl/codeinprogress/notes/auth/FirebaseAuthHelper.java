@@ -44,15 +44,18 @@ public class FirebaseAuthHelper {
                 if (user != null) {
                     Credentials credentials = Credentials.fromFirebaseUser(user);
                     onLoggedIn(credentials);
-                } else {
-                    // User is signed out
                 }
             }
         });
     }
 
-    public void login(String email, String password) {
-        application.getAuth().signInWithEmailAndPassword(email, password);
+    public void login(String email, String password, final FirebaseActivity activity) {
+        application.getAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                activity.finish();
+            }
+        });
     }
 
     public void singup(final Credentials credentials, String password, final FirebaseActivity activity) {

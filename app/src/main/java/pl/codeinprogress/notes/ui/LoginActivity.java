@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.auth.FirebaseAuthHelper;
+import pl.codeinprogress.notes.auth.FormValidator;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 public class LoginActivity extends FirebaseActivity {
@@ -42,7 +43,23 @@ public class LoginActivity extends FirebaseActivity {
     public void login() {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
-        getAuthHandler().login(email, password);
+        if (FormValidator.validateEmail(email) && FormValidator.validatePassword(password)) {
+            getAuthHandler().login(email, password, this);
+        } else {
+            if (!FormValidator.validateEmail(email)) {
+                emailWrapper.setError(getString(R.string.email_error));
+                emailWrapper.setErrorEnabled(true);
+            } else {
+                emailWrapper.setErrorEnabled(false);
+            }
+
+            if (!FormValidator.validatePassword(password)) {
+                passwordWrapper.setError(getString(R.string.password_error));
+                passwordWrapper.setErrorEnabled(true);
+            } else {
+                passwordWrapper.setErrorEnabled(false);
+            }
+        }
     }
 
     @OnClick(R.id.signupButton)
