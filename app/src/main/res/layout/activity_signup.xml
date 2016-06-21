@@ -88,7 +88,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/signUpButton"
+            android:id="@+id/signupButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"

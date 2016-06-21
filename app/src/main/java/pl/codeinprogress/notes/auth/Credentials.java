@@ -21,6 +21,10 @@ public class Credentials {
         this.image = image;
     }
 
+    public Credentials(String name, String email, String image, boolean logged) {
+        this(name, email.replace(".", ","), email, image, logged);
+    }
+
     public static Credentials fromFirebaseUser(FirebaseUser user) {
         String image = null;
         if (user.getPhotoUrl() != null) {
@@ -56,4 +60,9 @@ public class Credentials {
         return image;
     }
 
+    @Override
+    public String toString() {
+        return "Credentials object with name: " + getName() + ", email: " + getEmail()
+                + ", id: " + getId() + ", image: " + getImage() + ", logged: " + isLogged();
+    }
 }

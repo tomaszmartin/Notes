@@ -17,6 +17,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.auth.Credentials;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 public class SignupActivity extends FirebaseActivity {
@@ -34,7 +35,18 @@ public class SignupActivity extends FirebaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
         ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.signupButton)
+    public void signup(View view) {
+        String name = firstNameField.getText().toString() + " " + lastNameField.getText().toString();
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
+        Credentials credentials = new Credentials(name, email, null, true);
+
+        getAuthHandler().singup(credentials, password);
     }
 
 }

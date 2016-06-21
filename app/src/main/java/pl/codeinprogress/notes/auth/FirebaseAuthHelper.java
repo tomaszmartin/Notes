@@ -58,6 +58,7 @@ public class FirebaseAuthHelper {
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        log("User has signed up with email " + credentials.getEmail());
                         onSignedUp(credentials);
                     }
                 });
@@ -85,8 +86,8 @@ public class FirebaseAuthHelper {
     }
 
     public void onLoggedIn(Credentials credentials) {
-        log("User is logged in with email " + credentials.getEmail());
         saveCredentials(credentials);
+        log(getCredentials().toString());
     }
 
     public void onLoggedOut() {
@@ -101,10 +102,7 @@ public class FirebaseAuthHelper {
     }
 
     public boolean isLogged() {
-        boolean isLogged = manager.getBoolean(STATUS_KEY, false);
-        log("Checking if user is logged in " + isLogged);
-
-        return isLogged;
+        return manager.getBoolean(STATUS_KEY, false);
     }
 
     private void saveCredentials(Credentials credentials) {
@@ -119,6 +117,16 @@ public class FirebaseAuthHelper {
 
     private void log(String message) {
         Log.d(FirebaseAuthHelper.class.getSimpleName(), message);
+    }
+
+    private Credentials getCredentials() {
+        String name = manager.getString(NAME_KEY, null);
+        String id = manager.getString(ID_KEY, null);
+        String email = manager.getString(IMAGE_KEY, null);
+        String image = manager.getString(IMAGE_KEY, null);
+        boolean state = manager.getBoolean(STATUS_KEY, false);
+
+        return new Credentials(name, id, email, image, state);
     }
 
 }
