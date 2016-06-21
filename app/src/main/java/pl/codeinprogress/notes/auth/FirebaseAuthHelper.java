@@ -1,5 +1,6 @@
 package pl.codeinprogress.notes.auth;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
@@ -53,36 +55,48 @@ public class FirebaseAuthHelper {
         application.getAuth().signInWithEmailAndPassword(email, password);
     }
 
-    public void singup(final Credentials credentials, String password) {
+    public void singup(final Credentials credentials, String password, final FirebaseActivity activity) {
         application.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        log("User has signed up with email " + credentials.getEmail());
-                        onSignedUp(credentials);
+                        log("User has been created with email " + credentials.getEmail());
+                        onSignedUp(credentials, activity);
                     }
                 });
     }
 
-    public void onSignedUp(Credentials credentials) {
+    public void onSignedUp(Credentials credentials, FirebaseActivity activity) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Uri image = null;
+        try {
+            image = Uri.parse(credentials.getImage());
+        } catch (Exception e) {
+
+        }
+
 
         UserProfileChangeRequest profileUpdates;
         profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(credentials.getName())
-                .setPhotoUri(Uri.parse(credentials.getImage()))
+                .setPhotoUri(image)
                 .build();
 
-        user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
+        if (user != null) {
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                log("Firebase user updated");
+                            }
                         }
-                    }
-                });
+                    });
+        }
 
         saveCredentials(credentials);
+        activity.setResult(Activity.RESULT_OK);
+        activity.finish();
     }
 
     public void onLoggedIn(Credentials credentials) {
@@ -119,10 +133,10 @@ public class FirebaseAuthHelper {
         Log.d(FirebaseAuthHelper.class.getSimpleName(), message);
     }
 
-    private Credentials getCredentials() {
+    public Credentials getCredentials() {
         String name = manager.getString(NAME_KEY, null);
         String id = manager.getString(ID_KEY, null);
-        String email = manager.getString(IMAGE_KEY, null);
+        String email = manager.getString(EMAIL_KEY, null);
         String image = manager.getString(IMAGE_KEY, null);
         boolean state = manager.getBoolean(STATUS_KEY, false);
 

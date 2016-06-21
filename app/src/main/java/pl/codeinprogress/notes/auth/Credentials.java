@@ -65,4 +65,5 @@ public class Credentials {
         return "Credentials object with name: " + getName() + ", email: " + getEmail()
                 + ", id: " + getId() + ", image: " + getImage() + ", logged: " + isLogged();
     }
+
 }

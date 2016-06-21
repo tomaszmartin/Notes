@@ -31,6 +31,8 @@ public class SignupActivity extends FirebaseActivity {
     @Bind(R.id.lastNameWrapper) TextInputLayout lastNameWrapper;
     @Bind(R.id.lastNameField) TextInputEditText lastNameField;
 
+    public static final int SIGNED = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class SignupActivity extends FirebaseActivity {
         String password = passwordField.getText().toString();
         Credentials credentials = new Credentials(name, email, null, true);
 
-        getAuthHandler().singup(credentials, password);
+        getAuthHandler().singup(credentials, password, this);
     }
 
 }

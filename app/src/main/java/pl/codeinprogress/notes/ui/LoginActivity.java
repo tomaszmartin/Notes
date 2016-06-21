@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.auth.FirebaseAuthHelper;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 public class LoginActivity extends FirebaseActivity {
@@ -26,6 +27,8 @@ public class LoginActivity extends FirebaseActivity {
     @Bind(R.id.emailField) TextInputEditText emailField;
     @Bind(R.id.passwordWrapper) TextInputLayout passwordWrapper;
     @Bind(R.id.passwordField) TextInputEditText passwordField;
+
+    public static final int SIGNUP_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,15 @@ public class LoginActivity extends FirebaseActivity {
 
     @OnClick(R.id.signupButton)
     public void signup() {
-        startActivity(new Intent(this, SignupActivity.class));
+        startActivityForResult(new Intent(this, SignupActivity.class), SIGNUP_REQUEST);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SIGNUP_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        }
+    }
 }

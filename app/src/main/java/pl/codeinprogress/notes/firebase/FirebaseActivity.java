@@ -25,11 +25,15 @@ public class FirebaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fetchConfig();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (!getAuthHandler().isLogged()) {
             authenticate();
         }
-        fetchConfig();
     }
 
     public String getTag() {
