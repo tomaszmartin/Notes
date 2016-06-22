@@ -2,15 +2,13 @@ package pl.codeinprogress.notes.auth;
 
 import org.junit.Test;
 
-import java.text.Normalizer;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
- * Created by tomaszmartin on 21.06.2016.
+ * Created by tomaszmartin on 22.06.2016.
  */
-
-public class FormValidatorTest {
+public class FormValidatorClass {
 
     @Test
     public void testValidateEmail() throws Exception {

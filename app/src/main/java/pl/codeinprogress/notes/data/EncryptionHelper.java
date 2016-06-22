@@ -7,12 +7,12 @@ import java.security.Key;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by tomaszmartin on 22.06.2016.
  */
+
 public class EncryptionHelper {
     private String encryption = "AES";
     private Cipher cipher;
