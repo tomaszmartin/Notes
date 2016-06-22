@@ -32,8 +32,9 @@ public class FirebaseAuthHelper {
     private final String STATUS_KEY = "USER_STATUS";
     private SharedPreferences manager;
     private final FirebaseApplication application;
+    private static FirebaseAuthHelper instance;
 
-    public FirebaseAuthHelper(FirebaseApplication app) {
+    private FirebaseAuthHelper(FirebaseApplication app) {
         this.application = app;
         manager = PreferenceManager.getDefaultSharedPreferences(application);
         application.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -46,6 +47,14 @@ public class FirebaseAuthHelper {
                 }
             }
         });
+    }
+
+    public static FirebaseAuthHelper getInstance(FirebaseApplication app) {
+        if (instance == null) {
+            instance = new FirebaseAuthHelper(app);
+        }
+
+        return instance;
     }
 
     public void login(String email, String password, final FirebaseActivity activity) {
