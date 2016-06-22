@@ -28,11 +28,11 @@ import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener {
 
-    @Bind(R.id.navigation) NavigationView navigationView;
-    @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.drawer) DrawerLayout drawer;
-    @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.coordinator) CoordinatorLayout coordinatorLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    DrawerLayout drawer;
+    FloatingActionButton fab;
+    CoordinatorLayout coordinatorLayout;
     private Fragment fragment;
     private MenuItem searchItem;
 
@@ -40,7 +40,11 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        ButterKnife.bind(this);
+        navigationView = (NavigationView) findViewById(R.id.navigation);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
+
 
         setupView();
         attachFragment(null, MainFragment.SORT_NEWEST);
@@ -92,7 +96,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
             drawer.openDrawer(GravityCompat.START);
         } else if (id == R.id.action_select_all) {
             if (fragment != null && fragment instanceof MainFragment) {
-                ((MainFragment) fragment).selectAllNotes();
+                // ((MainFragment) fragment).selectAllNotes();
             }
         } else if (id == R.id.action_night_mode) {
             switchNightMode();
@@ -149,7 +153,9 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     private void setupView() {
-        navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
+        if (navigationView != null) {
+            navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
+        }
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -161,4 +167,5 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     public void authenticate() {
         startActivity(new Intent(this, LoginActivity.class));
     }
+
 }
