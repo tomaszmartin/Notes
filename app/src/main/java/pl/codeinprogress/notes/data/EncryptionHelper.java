@@ -2,12 +2,10 @@ package pl.codeinprogress.notes.data;
 
 import android.util.Base64;
 import android.util.Log;
-
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.util.Arrays;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -35,8 +33,8 @@ public class EncryptionHelper {
     public String encrypt(String content) throws Exception {
         if (cipher != null && key != null) {
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encrypted = cipher.doFinal(content.getBytes());
-            String result = new String(encrypted);
+            byte[] encrypted = cipher.doFinal(content.getBytes("UTF-8"));
+            String result = Base64.encodeToString(encrypted, Base64.DEFAULT);
             log(result);
             return result;
         } else {
@@ -46,11 +44,11 @@ public class EncryptionHelper {
 
     public String decrypt(String content) throws Exception {
         if (cipher != null && key != null) {
-            byte[] ivByte = new byte[cipher.getBlockSize()];
-            IvParameterSpec ivParamsSpec = new IvParameterSpec(ivByte);
-            cipher.init(Cipher.DECRYPT_MODE, key, ivParamsSpec);
-            byte[] decrypted = cipher.doFinal(content.getBytes());
-            String result = new String(decrypted);
+            //byte[] ivByte = new byte[cipher.getBlockSize()];
+            //IvParameterSpec ivParamsSpec = new IvParameterSpec(ivByte);
+            cipher.init(Cipher.DECRYPT_MODE, key);
+            byte[] decrypted = cipher.doFinal(Base64.decode(content, Base64.DEFAULT));
+            String result = new String(decrypted, "UTF-8");
             log(result);
             return result;
         } else {

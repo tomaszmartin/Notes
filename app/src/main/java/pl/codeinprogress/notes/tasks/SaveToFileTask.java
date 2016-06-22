@@ -52,7 +52,7 @@ public class SaveToFileTask extends AsyncTask<String, Void, Void> {
         if (!contents.isEmpty() && !path.isEmpty()) {
             try {
                 EncryptionHelper encryptionHelper = new EncryptionHelper(password);
-                // contents = encryptionHelper.encrypt(contents);
+                contents = encryptionHelper.encrypt(contents);
                 FileOutputStream fos = context.openFileOutput(path, Activity.MODE_PRIVATE);
                 fos.write(contents.getBytes());
                 fos.close();

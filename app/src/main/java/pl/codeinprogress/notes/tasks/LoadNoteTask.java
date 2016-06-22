@@ -47,7 +47,7 @@ public class LoadNoteTask extends AsyncTask<String, Void, String> {
             }
             log("Before EncryptionHelper " + contents);
             EncryptionHelper encryptionHelper = new EncryptionHelper(password);
-            // contents = encryptionHelper.decrypt(contents);
+            contents = encryptionHelper.decrypt(contents);
 
             fis.close();
         } catch (Exception e) {
