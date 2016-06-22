@@ -12,12 +12,13 @@ public class Note {
     private String description;
     private String textFileAdress;
     private ArrayList<String> imageFilesAdresses;
-    private double created;
-    private double lastModified;
+    private long created;
+    private long lastModified;
     private String tag;
     private boolean isPasswordProtected;
 
     public Note() {
+        this.imageFilesAdresses = new ArrayList<>();
     }
 
     public String getId() {
@@ -60,19 +61,19 @@ public class Note {
         this.imageFilesAdresses = imageFilesAdresses;
     }
 
-    public double getCreated() {
+    public long getCreated() {
         return created;
     }
 
-    public void setCreated(double created) {
+    public void setCreated(long created) {
         this.created = created;
     }
 
-    public double getLastModified() {
+    public long getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(double lastModified) {
+    public void setLastModified(long lastModified) {
         this.lastModified = lastModified;
     }
 
@@ -91,4 +92,5 @@ public class Note {
     public void setPasswordProtected(boolean passwordProtected) {
         isPasswordProtected = passwordProtected;
     }
+
 }

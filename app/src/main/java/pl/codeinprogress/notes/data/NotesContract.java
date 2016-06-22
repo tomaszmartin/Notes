@@ -33,7 +33,6 @@ public class NotesContract {
 
         public static final String TABLE_NAME = "notes";
 
-        // Define the names of the columns
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_DESCRIPTION = "description";
