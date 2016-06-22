@@ -8,6 +8,7 @@ import pl.codeinprogress.notes.data.NotesContract;
 /**
  * Created by tomaszmartin on 18.06.2015.
  */
+
 public class DeleteNoteTask extends AsyncTask<Integer, Void, Void> {
 
     private Context context;

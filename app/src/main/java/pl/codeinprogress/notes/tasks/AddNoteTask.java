@@ -51,8 +51,6 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
         Uri insertUri = context.getContentResolver().insert(NoteEntry.buildAllNotesUri(), values);
         int id = (int) ContentUris.parseId(insertUri);
 
-        // Create file for newly created database record
-        // TODO: Should throw some kind of exception here
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + fileName);
         try {
             file.createNewFile();

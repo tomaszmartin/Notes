@@ -61,6 +61,7 @@ dependencies {
     compile 'com.google.firebase:firebase-config:9.0.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.google.guava:guava:19.0'
 }
 buildscript {
     repositories {
