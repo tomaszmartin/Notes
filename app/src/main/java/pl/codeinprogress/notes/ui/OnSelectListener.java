@@ -6,6 +6,6 @@ package pl.codeinprogress.notes.ui;
 
 public interface OnSelectListener {
 
-    void onItemSelected(int id);
+    void onItemSelected(String id);
 
 }

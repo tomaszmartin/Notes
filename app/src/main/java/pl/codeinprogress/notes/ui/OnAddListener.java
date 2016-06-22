@@ -6,6 +6,6 @@ package pl.codeinprogress.notes.ui;
 
 public interface OnAddListener {
 
-    void onItemAdded(int id);
+    void onItemAdded(String id);
 
 }

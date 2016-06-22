@@ -13,6 +13,7 @@ import pl.codeinprogress.notes.firebase.FirebaseActivity;
 public class DetailsActivity extends FirebaseActivity {
 
     private Fragment fragment;
+    public static String NOTE_ID = "noteid";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

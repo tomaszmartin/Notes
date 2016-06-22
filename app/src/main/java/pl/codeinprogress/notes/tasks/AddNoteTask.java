@@ -18,7 +18,7 @@ import java.util.UUID;
  * Created by tomaszmartin on 15.06.2015.
  */
 
-public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
+public class AddNoteTask extends AsyncTask<Void, Void, String> {
 
     private final Context context;
 
@@ -27,7 +27,7 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(Void... voids) {
+    protected String doInBackground(Void... voids) {
 
         String title = "";
         String description = "";
@@ -49,7 +49,7 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
         values.put(NoteEntry.COLUMN_IMAGE_URI, image);
 
         Uri insertUri = context.getContentResolver().insert(NoteEntry.buildAllNotesUri(), values);
-        int id = (int) ContentUris.parseId(insertUri);
+        String id = ContentUris.parseId(insertUri) + "";
 
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + fileName);
         try {
@@ -62,7 +62,7 @@ public class AddNoteTask extends AsyncTask<Void, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer id) {
+    protected void onPostExecute(String id) {
         try {
             ((OnAddListener) context).onItemAdded(id);
         } catch (ClassCastException e) {

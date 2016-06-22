@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.text.Html;
@@ -43,27 +44,22 @@ import java.util.Collections;
  * Created by tomaszmartin on 24.03.15.
  */
 
-public class MainFragment extends FirebaseFragment
-         implements
-         AbsListView.MultiChoiceModeListener,
-         View.OnClickListener
-        {
+public class MainFragment extends FirebaseFragment implements
+        AbsListView.MultiChoiceModeListener,
+        View.OnClickListener {
 
     static final String ORDER_KEY = "ORDER";
     static final int SORT_NEWEST = 1;
     static final int SORT_TITLE = 2;
-     private static final String[] NOTES_COLUMNS = NoteEntry.NOTE_COLUMNS;
-     private static final int NOTES_LOADER = 0;
-     private NotesAdapter adapter;
     private FirebaseNotesAdapter notesAdapter;
     private View rootView;
-     private ArrayList<Long> selectedPositions = new ArrayList<>();
-     private int numberOfItemsSelected;
-     TextView searchResults;
-     View searchBar;
+    private ArrayList<Long> selectedPositions = new ArrayList<>();
+    private int numberOfItemsSelected;
+    private TextView searchResults;
+    private View searchBar;
     private ListView listView;
     private View emptyView;
-    ImageButton clearSearchResults;
+    private ImageButton clearSearchResults;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,37 +73,28 @@ public class MainFragment extends FirebaseFragment
         setupData();
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-         fab.setOnClickListener(this);
-         clearSearchResults.setOnClickListener(this);
+        fab.setOnClickListener(this);
+        clearSearchResults.setOnClickListener(this);
 
         return rootView;
     }
 
     private void setupData() {
-        // adapter = new NotesAdapter(getActivity(), null, 0);
         notesAdapter = new FirebaseNotesAdapter(getActivity(), Note.class, R.layout.main_item, getDatabase().getReference());
 
-        // listView.setAdapter(adapter);
         listView.setAdapter(notesAdapter);
         listView.setEmptyView(emptyView);
-        // listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        // listView.setMultiChoiceModeListener(this);
-        // listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-        //     @Override
-        //     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        //         Cursor cursor = adapter.getCursor();
-        //         if (cursor != null && cursor.moveToPosition(position)) {
-        //             int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
-        //             ((OnSelectListener) getActivity()).onItemSelected(noteId);
-        //         }
-        //     }
-        // });
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        // getLoaderManager().initLoader(NOTES_LOADER, null, this);
-        super.onActivityCreated(savedInstanceState);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(this);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Note item = notesAdapter.getItem(position);
+                if (item != null) {
+                    ((OnSelectListener) getActivity()).onItemSelected(item.getId());
+                }
+            }
+        });
     }
 
     @Override
@@ -117,27 +104,21 @@ public class MainFragment extends FirebaseFragment
     }
 
     void deleteNote(int position) {
-        // Cursor cursor = adapter.getCursor();
-        // if (cursor != null && cursor.moveToPosition(position)) {
-        //     int noteId = cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
-        //     DeleteNoteTask deleteNoteTask = new DeleteNoteTask(getActivity());
-        //     deleteNoteTask.execute(noteId);
-        // }
+
     }
 
-    void showSnackbar(String text, String action) {
+    void showSnackbar(String text) {
         Snackbar.make(getActivity().findViewById(R.id.coordinator), text, Snackbar.LENGTH_LONG)
-                .setActionTextColor(getResources().getColor(R.color.primary))
                 .show();
     }
 
     @Override
     public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
         if (checked) {
-            selectedPositions.add(Long.valueOf(position));
+            selectedPositions.add((long) position);
             numberOfItemsSelected++;
         } else {
-            selectedPositions.remove(Long.valueOf(position));
+            selectedPositions.remove((long) position);
             numberOfItemsSelected--;
         }
 
@@ -170,7 +151,7 @@ public class MainFragment extends FirebaseFragment
                 deleteNote(position);
             }
 
-            showSnackbar(getString(R.string.deleted_multiple), getString(R.string.undo));
+            showSnackbar(getString(R.string.deleted_multiple));
         }
 
         mode.finish();
@@ -196,8 +177,7 @@ public class MainFragment extends FirebaseFragment
     }
 
     void addNote() {
-        // AddNoteTask task = new AddNoteTask(getActivity());
-        // task.execute(null, null, null);
+
     }
 
     private void setupSearchResultsView(String query) {

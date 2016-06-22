@@ -49,7 +49,7 @@
     <string name="dictate_note">Dyktuj notatkę</string>
     <string name="edit_note_action">Edytuj notatkę</string>
     <string name="empty_cat">Brak kategorii</string>
-    <string name="empty_message">Twoje notatki będą tutaj.\nNaciśnij + żeby dodać.</string>
+    <string name="empty_message">Twoje notatki będą tutaj.</string>
     <string name="everything">Wszystko</string>
     <string name="five_note_chosen">notatki wybrane</string>
     <string name="font_size_big">Duża</string>
