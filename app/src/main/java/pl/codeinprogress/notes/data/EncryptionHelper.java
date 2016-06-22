@@ -5,8 +5,10 @@ import android.util.Log;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -17,47 +19,61 @@ public class EncryptionHelper {
     private String encryption = "AES";
     private Cipher cipher;
     private Key key;
+    private String password;
 
-    public EncryptionHelper(String password) {
-        try {
-            cipher = Cipher.getInstance(encryption);
-            MessageDigest sha = MessageDigest.getInstance("SHA-1");
-            byte[] temp = sha.digest(password.getBytes());
-            temp = Arrays.copyOf(temp, 16);
-            key = new SecretKeySpec(temp, encryption);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public EncryptionHelper(String pass) {
+       try {
+           password = pass;
+           cipher = createCipher();
+           key = createKey();
+       } catch (Exception e) {
+           password = null;
+           cipher = null;
+           key = null;
+       }
     }
 
     public String encrypt(String content) throws Exception {
         if (cipher != null && key != null) {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(content.getBytes("UTF-8"));
-            String result = Base64.encodeToString(encrypted, Base64.DEFAULT);
-            log(result);
-            return result;
+            return Base64.encodeToString(encrypted, Base64.DEFAULT);
         } else {
-            throw new InvalidKeyException("Invalid key");
+            return "";
         }
     }
 
     public String decrypt(String content) throws Exception {
         if (cipher != null && key != null) {
-            //byte[] ivByte = new byte[cipher.getBlockSize()];
-            //IvParameterSpec ivParamsSpec = new IvParameterSpec(ivByte);
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decrypted = cipher.doFinal(Base64.decode(content, Base64.DEFAULT));
-            String result = new String(decrypted, "UTF-8");
-            log(result);
-            return result;
+            return new String(decrypted, "UTF-8");
         } else {
-            throw new InvalidKeyException("Invalid key");
+            return "";
         }
     }
 
-    private void log(String message) {
-        Log.d(EncryptionHelper.class.getSimpleName(), message);
+    private SecretKeySpec createKey() throws NoSuchAlgorithmException {
+        MessageDigest sha = MessageDigest.getInstance("SHA-1");
+        byte[] temp = sha.digest(password.getBytes());
+        temp = Arrays.copyOf(temp, 16);
+        return new SecretKeySpec(temp, encryption);
+    }
+
+    private Cipher createCipher() throws NoSuchAlgorithmException, NoSuchPaddingException {
+        return Cipher.getInstance(encryption);
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public Cipher getCipher() {
+        return cipher;
+    }
+
+    public Key getKey() {
+        return key;
     }
 
 }

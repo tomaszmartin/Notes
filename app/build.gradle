@@ -31,6 +31,10 @@ android {
         javaMaxHeapSize "12g"
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 }
 
 dependencies {
