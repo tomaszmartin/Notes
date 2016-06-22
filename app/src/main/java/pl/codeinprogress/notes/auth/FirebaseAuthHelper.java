@@ -20,7 +20,6 @@ import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
  * Created by tomaszmartin on 12.06.16.
- * <p/>
  * Class hor handling authorization.
  */
 

@@ -1,6 +1,6 @@
 package pl.codeinprogress.notes.auth;
 
-import android.util.Patterns;
+import java.util.regex.Pattern;
 
 /**
  * Created by tomaszmartin on 21.06.2016.
@@ -9,7 +9,16 @@ import android.util.Patterns;
 public class FormValidator {
 
     public static boolean validateEmail(String target) {
-        return Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        Pattern emailPattern = Pattern.compile(
+                "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                        "\\@" +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                        "(" +
+                        "\\." +
+                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                        ")+"
+        );
+        return emailPattern.matcher(target).matches();
     }
 
     public static boolean validatePassword(String target) {
