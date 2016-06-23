@@ -136,7 +136,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
         NotesListener notesListener = new NotesListener(this);
         navigationView.setNavigationItemSelectedListener(navigationListener);
         listView.setMultiChoiceModeListener(null);
-        listView.setOnItemClickListener(null);
+        listView.setOnItemClickListener(notesListener);
         fab.setOnClickListener(notesListener);
     }
 
