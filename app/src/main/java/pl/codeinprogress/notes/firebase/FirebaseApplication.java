@@ -26,6 +26,7 @@ public class FirebaseApplication extends Application {
     private FirebaseRemoteConfig configuration;
     private FirebaseStorage storage;
     private FirebaseAuthHelper authHandler;
+    private FirebaseLinkBuilder linkBuilder;
 
     public FirebaseRemoteConfig getConfiguration() {
         return configuration;
@@ -51,6 +52,10 @@ public class FirebaseApplication extends Application {
         return authHandler;
     }
 
+    public FirebaseLinkBuilder getLinkBuilder() {
+        return linkBuilder;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -63,6 +68,7 @@ public class FirebaseApplication extends Application {
         configuration = FirebaseRemoteConfig.getInstance();
         configuration.setDefaults(R.xml.firebase);
         authHandler = FirebaseAuthHelper.getInstance(this);
+        linkBuilder = FirebaseLinkBuilder.getInstance(this);
     }
 
 }

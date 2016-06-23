@@ -17,7 +17,7 @@ public class FirebaseLinkBuilder {
         this.main = application.getString(R.string.firebase_database_url);
     }
 
-    private FirebaseLinkBuilder getInstance(FirebaseApplication application) {
+    public static FirebaseLinkBuilder getInstance(FirebaseApplication application) {
         if (instance == null) {
             instance = new FirebaseLinkBuilder(application);
         }

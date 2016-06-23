@@ -15,31 +15,43 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ListView;
+
+import com.google.firebase.database.DatabaseReference;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
+import pl.codeinprogress.notes.data.Note;
 import pl.codeinprogress.notes.data.NotesContract;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.firebase.FirebaseLinkBuilder;
 
 public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener {
 
-    private NavigationView navigationView;
-    private Toolbar toolbar;
-    private DrawerLayout drawer;
-    private FloatingActionButton fab;
-    private CoordinatorLayout coordinatorLayout;
-    private Fragment fragment;
+    @Bind(R.id.navigationView) NavigationView navigationView;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.drawerLayout) DrawerLayout drawerLayout;
+    @Bind(R.id.fab) FloatingActionButton fab;
+    @Bind(R.id.coordinator) CoordinatorLayout coordinatorLayout;
+    @Bind(R.id.listView) ListView listView;
+    @Bind(R.id.emptyList) View emptyList;
+    private FirebaseNotesAdapter adapter;
     private MenuItem searchItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        navigationView = (NavigationView) findViewById(R.id.navigation);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer);
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator);
-
+        ButterKnife.bind(this);
 
         setupView();
+        setupData();
+        setupListeners();
     }
 
     @Override
@@ -49,7 +61,6 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
             int id = Integer.parseInt(data.getLastPathSegment());
             // onItemSelected(id);
         } else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_REBOOT)) {
-            attachFragment(null, MainFragment.SORT_NEWEST);
         }
     }
 
@@ -62,7 +73,6 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                attachFragment(query, MainFragment.SORT_NEWEST);
                 return true;
             }
 
@@ -79,17 +89,13 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_sort_title) {
-            attachFragment(null, MainFragment.SORT_TITLE);
             return true;
         } else if (id == R.id.action_sort_newest) {
-            attachFragment(null, MainFragment.SORT_NEWEST);
             return true;
         } else if (id == android.R.id.home) {
-            drawer.openDrawer(GravityCompat.START);
+            drawerLayout.openDrawer(GravityCompat.START);
         } else if (id == R.id.action_select_all) {
-            if (fragment != null && fragment instanceof MainFragment) {
-                // ((MainFragment) fragment).selectAllNotes();
-            }
+
         } else if (id == R.id.action_night_mode) {
             switchNightMode();
         }
@@ -99,14 +105,12 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     @Override
     public void onItemSelected(String id) {
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.NOTE_ID, id);
-        startActivity(intent);
+
     }
 
     @Override
     public void onItemAdded(String id) {
-        onItemSelected(id);
+
     }
 
     @Override
@@ -118,40 +122,37 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
         }
     }
 
-    private void attachFragment(String query, int order) {
-        Bundle bundle = new Bundle();
-        if (query != null && !query.isEmpty()) {
-            bundle.putString(NotesContract.NoteEntry.COLUMN_TITLE, query);
-        }
-        if (order != -1) {
-            bundle.putInt(MainFragment.ORDER_KEY, order);
-        }
-        Fragment currFragment = getSupportFragmentManager().findFragmentByTag(getTag());
-        if (currFragment != null) {
-            getSupportFragmentManager().beginTransaction().remove(currFragment).commit();
-        }
-        fragment = new MainFragment();
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.container, fragment, getTag())
-                .commit();
-
+    @Override
+    public void authenticate() {
+        Intent loginIntenet = new Intent(this, LoginActivity.class);
+        startActivity(loginIntenet);
     }
 
     private void setupView() {
         if (navigationView != null) {
-            navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawer));
+            navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawerLayout));
         }
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         }
+
     }
 
-    @Override
-    public void authenticate() {
-        startActivity(new Intent(this, LoginActivity.class));
+    private void setupData() {
+        FirebaseLinkBuilder builder = getLinkBuider();
+        DatabaseReference notesReference = getDatabase().getReference(builder.forNotes());
+        adapter = new FirebaseNotesAdapter(this, Note.class, R.layout.main_item, notesReference);
+        listView.setAdapter(adapter);
+        listView.setEmptyView(emptyList);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(null);
+        listView.setOnItemClickListener(null);
+    }
+
+    private void setupListeners() {
+
     }
 
 }

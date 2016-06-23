@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v4.widget.DrawerLayout
-    android:id="@+id/drawer"
+    android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -14,7 +14,6 @@
         >
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -29,7 +28,6 @@
                 app:titleTextAppearance="@style/actionBarText"/>
 
             <LinearLayout
-                android:id="@+id/bottom_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -39,21 +37,12 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/app_bar">
-
-        </FrameLayout>
-
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinator"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/frame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -66,7 +55,7 @@
                     android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/search_results_label"
+                        android:id="@+id/searchResultsLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -75,7 +64,7 @@
                         />
 
                     <ImageButton
-                        android:id="@+id/clear_button"
+                        android:id="@+id/searchClearButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/translucent"
@@ -95,7 +84,7 @@
 
                 <!-- Empty notes list -->
                 <LinearLayout
-                    android:id="@+id/empty_list"
+                    android:id="@+id/emptyList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -146,7 +135,7 @@
     </RelativeLayout>
 
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigation"
+        android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
