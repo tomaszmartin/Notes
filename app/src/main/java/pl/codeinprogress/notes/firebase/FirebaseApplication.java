@@ -2,13 +2,11 @@ package pl.codeinprogress.notes.firebase;
 
 import android.app.Application;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.appcompat.BuildConfig;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
 
 import pl.codeinprogress.notes.R;
@@ -26,7 +24,7 @@ public class FirebaseApplication extends Application {
     private FirebaseRemoteConfig configuration;
     private FirebaseStorage storage;
     private FirebaseAuthHelper authHandler;
-    private FirebaseLinkBuilder linkBuilder;
+    private LinkBuilder linkBuilder;
 
     public FirebaseRemoteConfig getConfiguration() {
         return configuration;
@@ -52,7 +50,7 @@ public class FirebaseApplication extends Application {
         return authHandler;
     }
 
-    public FirebaseLinkBuilder getLinkBuilder() {
+    public LinkBuilder getLinkBuilder() {
         return linkBuilder;
     }
 
@@ -68,7 +66,7 @@ public class FirebaseApplication extends Application {
         configuration = FirebaseRemoteConfig.getInstance();
         configuration.setDefaults(R.xml.firebase);
         authHandler = FirebaseAuthHelper.getInstance(this);
-        linkBuilder = FirebaseLinkBuilder.getInstance(this);
+        linkBuilder = LinkBuilder.getInstance(this);
     }
 
 }

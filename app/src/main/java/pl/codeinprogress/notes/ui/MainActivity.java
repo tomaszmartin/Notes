@@ -1,13 +1,10 @@
 package pl.codeinprogress.notes.ui;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,9 +23,8 @@ import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
 import pl.codeinprogress.notes.data.Note;
-import pl.codeinprogress.notes.data.NotesContract;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseLinkBuilder;
+import pl.codeinprogress.notes.firebase.LinkBuilder;
 
 public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener {
 
@@ -105,21 +101,12 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     @Override
     public void onItemSelected(String id) {
-
+        Intent intent = new Intent(this, DetailsActivity.class);
     }
 
     @Override
     public void onItemAdded(String id) {
 
-    }
-
-    @Override
-    public void onConfigFetched() {
-        String fabColor = getConfiguration().getString("fab_color");
-        Boolean shouldReplaceFabColor = getConfiguration().getBoolean("fab_color_replace");
-        if (shouldReplaceFabColor) {
-            fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor(fabColor)));
-        }
     }
 
     @Override
@@ -129,30 +116,27 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     private void setupView() {
-        if (navigationView != null) {
-            navigationView.setNavigationItemSelectedListener(new NavigationListener(this, drawerLayout));
-        }
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         }
-
     }
 
     private void setupData() {
-        FirebaseLinkBuilder builder = getLinkBuider();
-        DatabaseReference notesReference = getDatabase().getReference(builder.forNotes());
+        DatabaseReference notesReference = getDatabase().getReference(LinkBuilder.forNotes());
         adapter = new FirebaseNotesAdapter(this, Note.class, R.layout.main_item, notesReference);
         listView.setAdapter(adapter);
         listView.setEmptyView(emptyList);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-        listView.setMultiChoiceModeListener(null);
-        listView.setOnItemClickListener(null);
     }
 
     private void setupListeners() {
-
+        NavigationListener listener = new NavigationListener(this, drawerLayout);
+        navigationView.setNavigationItemSelectedListener(listener);
+        listView.setMultiChoiceModeListener(null);
+        listView.setOnItemClickListener(null);
+        fab.setOnClickListener(null);
     }
 
 }

@@ -63,12 +63,6 @@ public class MainFragment extends FirebaseFragment implements
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        listView = (ListView) rootView.findViewById(R.id.listView);
-        emptyView = rootView.findViewById(R.id.empty_list);
-        searchResults = (TextView) rootView.findViewById(R.id.search_results_label);
-        searchBar = rootView.findViewById(R.id.search);
-        clearSearchResults = (ImageButton) rootView.findViewById(R.id.clear_button);
 
         setupData();
 
