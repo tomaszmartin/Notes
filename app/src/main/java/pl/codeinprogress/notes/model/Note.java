@@ -1,6 +1,8 @@
-package pl.codeinprogress.notes.data;
+package pl.codeinprogress.notes.model;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by tomaszmartin on 22.06.2016.
@@ -16,6 +18,14 @@ public class Note {
     private long lastModified;
     private String tag;
     private boolean isPasswordProtected;
+
+    public Note(String id) {
+        this.id = id;
+        long timestamp = new Date().getTime();
+        this.created = timestamp;
+        this.lastModified = timestamp;
+        this.textFileAdress = UUID.randomUUID().toString();
+    }
 
     public Note() {
         this.imageFilesAdresses = new ArrayList<>();

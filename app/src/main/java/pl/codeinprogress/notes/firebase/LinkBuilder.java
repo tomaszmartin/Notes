@@ -1,6 +1,6 @@
 package pl.codeinprogress.notes.firebase;
 
-import pl.codeinprogress.notes.data.Note;
+import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.User;
 
 /**

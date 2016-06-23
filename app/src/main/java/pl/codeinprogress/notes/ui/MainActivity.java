@@ -22,7 +22,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
-import pl.codeinprogress.notes.data.Note;
+import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.LinkBuilder;
 
@@ -132,11 +132,12 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     private void setupListeners() {
-        NavigationListener listener = new NavigationListener(this, drawerLayout);
-        navigationView.setNavigationItemSelectedListener(listener);
+        NavigationListener navigationListener = new NavigationListener(this, drawerLayout);
+        NotesListener notesListener = new NotesListener(this);
+        navigationView.setNavigationItemSelectedListener(navigationListener);
         listView.setMultiChoiceModeListener(null);
         listView.setOnItemClickListener(null);
-        fab.setOnClickListener(null);
+        fab.setOnClickListener(notesListener);
     }
 
 }

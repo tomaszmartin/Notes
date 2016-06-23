@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.data.Note;
+import pl.codeinprogress.notes.model.Note;
 
 /**
  * Created by tomaszmartin on 22.06.2016.

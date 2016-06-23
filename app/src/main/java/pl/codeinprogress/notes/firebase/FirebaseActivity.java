@@ -127,11 +127,4 @@ public class FirebaseActivity extends AppCompatActivity {
 
     }
 
-    public LinkBuilder getLinkBuider() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getLinkBuilder();
-        }
-        return null;
-    }
-
 }

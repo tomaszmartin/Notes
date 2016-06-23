@@ -1,15 +1,9 @@
 package pl.codeinprogress.notes.ui;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.text.Html;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -23,19 +17,10 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
-import pl.codeinprogress.notes.data.Note;
+import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.firebase.FirebaseFragment;
-import pl.codeinprogress.notes.tasks.AddNoteTask;
-import pl.codeinprogress.notes.tasks.DeleteNoteTask;
-import pl.codeinprogress.notes.adapters.NotesAdapter;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.data.NotesContract;
-import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
 
 import java.util.ArrayList;
 import java.util.Collections;

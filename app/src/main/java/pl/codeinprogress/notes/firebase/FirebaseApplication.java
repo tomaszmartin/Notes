@@ -50,10 +50,6 @@ public class FirebaseApplication extends Application {
         return authHandler;
     }
 
-    public LinkBuilder getLinkBuilder() {
-        return linkBuilder;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -66,7 +62,6 @@ public class FirebaseApplication extends Application {
         configuration = FirebaseRemoteConfig.getInstance();
         configuration.setDefaults(R.xml.firebase);
         authHandler = FirebaseAuthHelper.getInstance(this);
-        linkBuilder = LinkBuilder.getInstance(this);
     }
 
 }
