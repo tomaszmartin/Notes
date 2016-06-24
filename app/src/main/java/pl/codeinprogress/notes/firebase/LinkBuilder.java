@@ -25,4 +25,8 @@ public class LinkBuilder {
         return forNotes() + "/" + note.getId();
     }
 
+    public static String forNote(String noteId) {
+        return forNotes() + "/" + noteId;
+    }
+
 }
