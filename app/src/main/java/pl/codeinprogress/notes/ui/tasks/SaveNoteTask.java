@@ -14,6 +14,7 @@ import java.io.InputStream;
 
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.EncryptionHelper;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
@@ -27,10 +28,10 @@ public class SaveNoteTask extends AsyncTask<String, Void, Void> {
     private String password;
 
     public SaveNoteTask(Context context, String noteFilePath) {
-        this.context = context.getApplicationContext();
+        this.context = context;
         this.noteFilePath = noteFilePath;
-        if (this.context instanceof FirebaseApplication) {
-            password = ((FirebaseApplication) context).getAuthHandler().getCredentials().getId();
+        if (this.context instanceof FirebaseActivity) {
+            password = ((FirebaseActivity) context).getAuthHandler().getCredentials().getId();
         } else {
             password = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         }
@@ -61,14 +62,14 @@ public class SaveNoteTask extends AsyncTask<String, Void, Void> {
     }
 
     private void saveToFirebase(String content) {
-        if (context instanceof FirebaseApplication) {
+        if (context instanceof FirebaseActivity) {
             try {
-                FirebaseApplication application = (FirebaseApplication) context;
+                FirebaseActivity activity = (FirebaseActivity) context;
                 EncryptionHelper encryptionHelper = new EncryptionHelper(password);
                 String encrypted = encryptionHelper.encrypt(content);
                 InputStream stream = new ByteArrayInputStream(encrypted.getBytes());
 
-                FirebaseStorage storage = application.getStorage();
+                FirebaseStorage storage = activity.getStorage();
                 StorageReference reference = storage.getReferenceFromUrl(context.getString(R.string.firebase_storage_bucket));
                 StorageReference current = reference.child(noteFilePath);
 

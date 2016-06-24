@@ -11,45 +11,46 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.data.EncryptionHelper;
+import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseApplication;
+import pl.codeinprogress.notes.model.Note;
 
 /**
  * Created by tomaszmartin on 21.06.2015.
  */
 
-public class LoadNoteTask extends AsyncTask<String, Void, String> {
+public class LoadNoteTask extends AsyncTask<Note, Void, String> {
 
     private Context context;
     private TextView view;
     private String password;
 
-    public LoadNoteTask(Context ctx, TextView view) {
-        this.context = ctx.getApplicationContext();
+    public LoadNoteTask(Context context, TextView view) {
+        this.context = context;
         this.view = view;
-        if (this.context instanceof FirebaseApplication) {
-            password = ((FirebaseApplication) context).getAuthHandler().getCredentials().getId();
+        if (this.context instanceof FirebaseActivity) {
+            password = ((FirebaseActivity) context).getAuthHandler().getCredentials().getId();
         } else {
             password = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         }
     }
 
     @Override
-    protected String doInBackground(String... strings) {
-        String fileName = strings[0];
+    protected String doInBackground(Note... notes) {
+        Note note = notes[0];
         String contents = "";
-
         try {
-            FileInputStream fis = context.openFileInput(fileName);
+            FileInputStream fis = context.openFileInput(note.getFileName());
             BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(fis)));
             String line;
             while ((line = reader.readLine()) != null) {
                 contents = contents + line;
             }
-            log("Before EncryptionHelper " + contents);
             EncryptionHelper encryptionHelper = new EncryptionHelper(password);
-            contents = encryptionHelper.decrypt(contents);
-
             fis.close();
+            String encrypted = encryptionHelper.decrypt(contents);
+            Log.d(LoadNoteTask.class.getSimpleName(), "doInBackground " + encrypted);
+            return encrypted;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,10 +62,6 @@ public class LoadNoteTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String contents) {
         view.setText(contents);
         view.setVisibility(View.VISIBLE);
-    }
-
-    private void log(String message) {
-        Log.d(LoadNoteTask.class.getSimpleName(), message);
     }
 
 }

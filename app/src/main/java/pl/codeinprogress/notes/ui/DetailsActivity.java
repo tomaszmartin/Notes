@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import butterknife.Bind;
@@ -41,6 +42,8 @@ import pl.codeinprogress.notes.firebase.LinkBuilder;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.image.ImageTransformation;
 import pl.codeinprogress.notes.ui.listeners.NotesListener;
+import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
+import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
 
 
 public class DetailsActivity extends FirebaseActivity {
@@ -212,7 +215,11 @@ public class DetailsActivity extends FirebaseActivity {
     }
 
     private void saveNote() {
-
+        note.setTitle(titleView.getText().toString());
+        note.setLastModified(new Date().getTime());
+        noteReference.setValue(note);
+        SaveNoteTask saveNoteTask = new SaveNoteTask(this, note.getFileName());
+        saveNoteTask.execute(contentView.getText().toString());
     }
 
     private void setupData() {
@@ -234,6 +241,8 @@ public class DetailsActivity extends FirebaseActivity {
 
     private void showNote(Note note) {
         titleView.setText(note.getTitle());
+        LoadNoteTask loadNoteTask = new LoadNoteTask(this, contentView);
+        loadNoteTask.execute(note);
     }
 
     private void dictateNote() {
@@ -273,7 +282,7 @@ public class DetailsActivity extends FirebaseActivity {
         logEvent(FirebaseAnalytics.Event.SHARE, bundle);
     }
 
-    public void setImage(Uri imageUri) {
+    private void setImage(Uri imageUri) {
         imageView.setVisibility(View.VISIBLE);
         ImageTransformation imageTransformation = new ImageTransformation(this);
 

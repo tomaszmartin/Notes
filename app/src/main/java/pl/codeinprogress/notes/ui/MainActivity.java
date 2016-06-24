@@ -51,7 +51,6 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
 
-        setupListeners();
         setupView();
         setupData();
     }
@@ -131,15 +130,14 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     private void setupData() {
         DatabaseReference notesReference = getDatabase().getReference(LinkBuilder.forNotes());
+        NavigationListener navigationListener = new NavigationListener(this, drawerLayout);
+
         adapter = new FirebaseNotesAdapter(this, Note.class, R.layout.main_item, notesReference);
+        notesListener = new NotesListener(this, adapter);
+
         listView.setAdapter(adapter);
         listView.setEmptyView(emptyList);
         listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE_MODAL);
-    }
-
-    private void setupListeners() {
-        NavigationListener navigationListener = new NavigationListener(this, drawerLayout);
-        notesListener = new NotesListener(this, adapter);
         navigationView.setNavigationItemSelectedListener(navigationListener);
         listView.setMultiChoiceModeListener(notesListener);
         listView.setOnItemClickListener(notesListener);
