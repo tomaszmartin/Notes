@@ -215,11 +215,14 @@ public class DetailsActivity extends FirebaseActivity {
     }
 
     private void saveNote() {
+        String content = contentView.getText().toString();
         note.setTitle(titleView.getText().toString());
         note.setLastModified(new Date().getTime());
+        note.setDescription(content);
         noteReference.setValue(note);
+
         SaveNoteTask saveNoteTask = new SaveNoteTask(this, note.getFileName());
-        saveNoteTask.execute(contentView.getText().toString());
+        saveNoteTask.execute(content);
     }
 
     private void setupData() {

@@ -51,6 +51,11 @@ public class Note {
     }
 
     public void setDescription(String description) {
+        int maxLength = 256;
+        if (description.length() > maxLength) {
+            description = description.substring(0, maxLength);
+            description = description.substring(0, description.lastIndexOf(" "));
+        }
         this.description = description;
     }
 
