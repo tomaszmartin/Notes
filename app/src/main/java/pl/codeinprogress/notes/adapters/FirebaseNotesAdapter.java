@@ -1,6 +1,7 @@
 package pl.codeinprogress.notes.adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
@@ -14,14 +15,13 @@ import pl.codeinprogress.notes.model.Note;
 /**
  * Created by tomaszmartin on 22.06.2016.
  */
+
 public class FirebaseNotesAdapter extends FirebaseListAdapter<Note> {
 
-    private Activity activity;
     private Locale locale;
 
     public FirebaseNotesAdapter(Activity activity, Class<Note> modelClass, int modelLayout, DatabaseReference ref) {
         super(activity, modelClass, modelLayout, ref);
-        this.activity = activity;
         this.locale = activity.getResources().getConfiguration().locale;
     }
 

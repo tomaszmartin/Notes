@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v4.widget.DrawerLayout
     android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,6 +13,7 @@
         >
 
         <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -37,86 +37,87 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <RelativeLayout
+            android:layout_below="@id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/searchResultsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="16dp"
+                    android:text="@string/search_results_label"
+                    />
+
+                <ImageButton
+                    android:id="@+id/clearSearchutton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/translucent"
+                    android:contentDescription="@string/clear_search_results"
+                    android:padding="16dp"
+                    android:src="@drawable/btn_close"/>
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/search"
+                android:drawSelectorOnTop="true"
+                />
+
+            <!-- Empty notes list -->
+            <LinearLayout
+                android:id="@+id/emptyList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                >
+
+                <android.support.v4.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/emptyIcon"
+                    android:layout_width="128dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_sort"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:textSize="18sp"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinator"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/search"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/searchResultsLabel"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="16dp"
-                        android:text="@string/search_results_label"
-                        />
-
-                    <ImageButton
-                        android:id="@+id/clearSearchutton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/translucent"
-                        android:contentDescription="@string/clear_search_results"
-                        android:padding="16dp"
-                        android:src="@drawable/btn_close"/>
-
-                </LinearLayout>
-
-                <ListView
-                    android:id="@+id/listView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/search"
-                    android:drawSelectorOnTop="true"
-                    />
-
-                <!-- Empty notes list -->
-                <LinearLayout
-                    android:id="@+id/emptyList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_centerInParent="true"
-                    >
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <ImageView
-                        android:id="@+id/emptyIcon"
-                        android:layout_width="128dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/ic_sort"
-                        android:layout_gravity="center"
-                        />
-
-                    <TextView
-                        android:id="@+id/text"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:textSize="18sp"
-                        />
-
-                </LinearLayout>
-
-            </RelativeLayout>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fab"
