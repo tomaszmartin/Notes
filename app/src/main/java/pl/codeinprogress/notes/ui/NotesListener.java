@@ -99,7 +99,7 @@ public class NotesListener implements View.OnClickListener,
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
             for (Note note: selectedNotes) {
-                // deleteNote(note);
+                deleteNote(note);
             }
         }
 
@@ -116,6 +116,11 @@ public class NotesListener implements View.OnClickListener,
         String quantityString = activity.getResources().getQuantityString(R.plurals.selected_notes,
                 numberOfItemsSelected);
         mode.setTitle(Html.fromHtml(String.valueOf("<small>" + quantityString + "</small>")));
+    }
+
+    private void deleteNote(Note note) {
+        DatabaseReference noteReference = activity.getDatabase().getReference(LinkBuilder.forNote(note));
+        noteReference.removeValue();
     }
 
 }
