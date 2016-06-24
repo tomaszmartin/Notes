@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +37,8 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     @Bind(R.id.coordinator) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.listView) ListView listView;
     @Bind(R.id.emptyList) View emptyList;
+    @Bind(R.id.clearSearchutton) ImageButton clearSearchutton;
+    private NotesListener notesListener;
     private FirebaseNotesAdapter adapter;
     private MenuItem searchItem;
 
@@ -100,13 +104,18 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     @Override
-    public void onItemSelected(String id) {
-        Intent intent = new Intent(this, DetailsActivity.class);
+    public void onItemSelected(String noteId) {
+        notesListener.openNote(noteId);
     }
 
     @Override
-    public void onItemAdded(String id) {
+    public void onItemAdded(String noteId) {
+        notesListener.openNote(noteId);
+    }
 
+    void showSnackbar(String text) {
+        Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override
@@ -133,11 +142,12 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     private void setupListeners() {
         NavigationListener navigationListener = new NavigationListener(this, drawerLayout);
-        NotesListener notesListener = new NotesListener(this);
+        notesListener = new NotesListener(this, adapter);
         navigationView.setNavigationItemSelectedListener(navigationListener);
-        listView.setMultiChoiceModeListener(null);
+        listView.setMultiChoiceModeListener(notesListener);
         listView.setOnItemClickListener(notesListener);
         fab.setOnClickListener(notesListener);
+        clearSearchutton.setOnClickListener(null);
     }
 
 }

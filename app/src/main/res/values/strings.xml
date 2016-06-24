@@ -206,4 +206,10 @@
     <string name="first_name_error">First name cannot be empty</string>
     <string name="last_name_error">Last name cannot be empty</string>
 
+    <plurals name="selected_notes">
+        <item quantity="zero">Nothing is chosen</item>
+        <item quantity="one">One note chosen</item>
+        <item quantity="other">%d notes chosen</item>
+    </plurals>
+
 </resources>
