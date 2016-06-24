@@ -1,9 +1,6 @@
 package pl.codeinprogress.notes.ui;
 
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +16,6 @@ import java.util.Calendar;
 
 import pl.codeinprogress.notes.services.AlarmReceiver;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.data.NotesContract;
 
 /**
  * Created by tomaszmartin on 25.07.2015.
@@ -97,12 +93,12 @@ public class AlarmDialogFragment extends DialogFragment implements DialogInterfa
 
         // Set the alarm
         Intent alarmIntent = new Intent(getActivity(), AlarmReceiver.class);
-        alarmIntent.putExtra(NotesContract.NoteEntry.COLUMN_ID,
-                getArguments().getInt(NotesContract.NoteEntry.COLUMN_ID));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
-                alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        //alarmIntent.putExtra(NotesContract.NoteEntry.COLUMN_ID,
+        //        getArguments().getInt(NotesContract.NoteEntry.COLUMN_ID));
+        //PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0,
+        //        alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     @Override

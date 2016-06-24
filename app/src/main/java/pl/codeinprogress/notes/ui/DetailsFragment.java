@@ -16,8 +16,6 @@ import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -37,11 +35,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseFragment;
-import pl.codeinprogress.notes.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.tasks.SaveToDatabaseTask;
-import pl.codeinprogress.notes.tasks.SaveToFileTask;
-import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
+import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
@@ -49,7 +44,6 @@ import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -74,7 +68,7 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.details_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.details_activity, container, false);
         titleView = (EditText) getActivity().findViewById(R.id.title_view);
         ButterKnife.bind(this, rootView);
 
@@ -84,9 +78,9 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
         registerForContextMenu(imageView);
 
         Bundle arguments = getArguments();
-        if (arguments != null && arguments.containsKey(NoteEntry.COLUMN_ID)) {
-            getLoaderManager().initLoader(DETAIL_LOADER, null, this);
-        }
+//        if (arguments != null && arguments.containsKey(NoteEntry.COLUMN_ID)) {
+//            getLoaderManager().initLoader(DETAIL_LOADER, null, this);
+//        }
 
         return rootView;
     }
@@ -109,13 +103,13 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && data != null) {
             if (requestCode == IMAGE_REQUEST_CODE || requestCode == CAMERA_REQUEST_CODE) {
-                if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null && !data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI).isEmpty()) {
-                    imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
-                } else if (data.getData() != null) {
-                    imageUri = data.getData();
-                } else {
-                    imageUri = cameraPhotoUri;
-                }
+//                if (data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI) != null && !data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI).isEmpty()) {
+//                    imageUri = Uri.parse(data.getStringExtra(NoteEntry.COLUMN_IMAGE_URI));
+//                } else if (data.getData() != null) {
+//                    imageUri = data.getData();
+//                } else {
+//                    imageUri = cameraPhotoUri;
+//                }
 
                 hasResult = true;
                 setImage(imageUri, imageView);
@@ -148,11 +142,8 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
 
     private void saveNote() {
         if (cursor != null && cursor.getCount() > 0) {
-            SaveToFileTask saveToFileTask = new SaveToFileTask(this.getActivity(), getFileName());
+            SaveNoteTask saveToFileTask = new SaveNoteTask(this.getActivity(), getFileName());
             saveToFileTask.execute(getNoteContent());
-
-            SaveToDatabaseTask saveToDatabaseTask = new SaveToDatabaseTask(this.getActivity(), getNoteUri());
-            saveToDatabaseTask.execute(getContentValues());
         }
     }
 
@@ -164,7 +155,8 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
     }
 
     public Uri getNoteUri() {
-        return NoteEntry.buildNoteUri(cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
+        //return NoteEntry.buildNoteUri(cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
+        return null;
     }
 
     public void removeImage() {
@@ -180,21 +172,21 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
         }
         ContentValues values = new ContentValues();
 
-        values.put(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
-        values.put(NoteEntry.COLUMN_TITLE, titleView.getText().toString());
-        values.put(NoteEntry.COLUMN_DESCRIPTION, getDescription());
-        values.put(NoteEntry.COLUMN_FILE_NAME, cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME)));
-        values.put(NoteEntry.COLUMN_TYPE, cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TYPE)));
-        values.put(NoteEntry.COLUMN_DATE_CREATED, cursor.getLong(cursor.getColumnIndex(NoteEntry.COLUMN_DATE_CREATED)));
-        values.put(NoteEntry.COLUMN_DATE_LAST_MODIFIED, new Date().getTime());
-        values.put(NoteEntry.COLUMN_CATEGORY, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_CATEGORY)));
-        values.put(NoteEntry.COLUMN_IMAGE_URI, imageUri.toString());
+//        values.put(NoteEntry.COLUMN_ID, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID)));
+//        values.put(NoteEntry.COLUMN_TITLE, titleView.getText().toString());
+//        values.put(NoteEntry.COLUMN_DESCRIPTION, getDescription());
+//        values.put(NoteEntry.COLUMN_FILE_NAME, cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME)));
+//        values.put(NoteEntry.COLUMN_TYPE, cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TYPE)));
+//        values.put(NoteEntry.COLUMN_DATE_CREATED, cursor.getLong(cursor.getColumnIndex(NoteEntry.COLUMN_DATE_CREATED)));
+//        values.put(NoteEntry.COLUMN_DATE_LAST_MODIFIED, new Date().getTime());
+//        values.put(NoteEntry.COLUMN_CATEGORY, cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_CATEGORY)));
+//        values.put(NoteEntry.COLUMN_IMAGE_URI, imageUri.toString());
 
         return values;
     }
 
     public String getFileName() {
-        return cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME));
+        return null;
     }
 
     public String getNoteContent() {
@@ -286,30 +278,30 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
     }
 
     private void showDialog(DialogFragment dialogFragment) {
-        Bundle args = new Bundle();
-        args.putInt(NoteEntry.COLUMN_ID, getArguments().getInt(NoteEntry.COLUMN_ID));
-        dialogFragment.setArguments(args);
-
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment previousFragment = getFragmentManager().findFragmentByTag(dialogFragment.getClass().getSimpleName());
-        if (previousFragment != null) {
-            fragmentTransaction.remove(previousFragment);
-        }
-        fragmentTransaction.addToBackStack(null);
-
-        dialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialogStyle);
-        dialogFragment.show(getFragmentManager(), dialogFragment.getClass().getSimpleName());
+//        Bundle args = new Bundle();
+//        args.putInt(NoteEntry.COLUMN_ID, getArguments().getInt(NoteEntry.COLUMN_ID));
+//        dialogFragment.setArguments(args);
+//
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        Fragment previousFragment = getFragmentManager().findFragmentByTag(dialogFragment.getClass().getSimpleName());
+//        if (previousFragment != null) {
+//            fragmentTransaction.remove(previousFragment);
+//        }
+//        fragmentTransaction.addToBackStack(null);
+//
+//        dialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.dialogStyle);
+//        dialogFragment.show(getFragmentManager(), dialogFragment.getClass().getSimpleName());
     }
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        int noteId = getArguments().getInt(NoteEntry.COLUMN_ID);
-        Uri noteUri = NoteEntry.buildNoteUri(noteId);
+//        int noteId = getArguments().getInt(NoteEntry.COLUMN_ID);
+//        Uri noteUri = NoteEntry.buildNoteUri(noteId);
 
         return new CursorLoader(
                 getActivity(),
-                noteUri,
-                NoteEntry.NOTE_COLUMNS,
+                null,
+                null,
                 null,
                 null,
                 null
@@ -319,24 +311,24 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cur) {
         cursor = cur;
-        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
-            String title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
-            String fileName = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME));
-            if (!hasResult && imageUri == null) {
-                imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_IMAGE_URI)));
-            }
-            if (!title.isEmpty()) {
-                titleView.setText(title);
-            }
-            if (!fileName.isEmpty()) {
-                LoadNoteTask loadTask = new LoadNoteTask(getActivity(), contentView);
-                loadTask.execute(fileName);
-            }
-            if (!hasResult && !imageUri.toString().isEmpty()) {
-                setImage(imageUri, imageView);
-            }
-
-        }
+//        if (cursor != null && cursor.getCount() > 0 && cursor.moveToFirst()) {
+//            String title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
+//            String fileName = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_FILE_NAME));
+//            if (!hasResult && imageUri == null) {
+//                imageUri = Uri.parse(cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_IMAGE_URI)));
+//            }
+//            if (!title.isEmpty()) {
+//                titleView.setText(title);
+//            }
+//            if (!fileName.isEmpty()) {
+//                LoadNoteTask loadTask = new LoadNoteTask(getActivity(), contentView);
+//                loadTask.execute(fileName);
+//            }
+//            if (!hasResult && !imageUri.toString().isEmpty()) {
+//                setImage(imageUri, imageView);
+//            }
+//
+//        }
     }
 
     @Override
@@ -460,7 +452,8 @@ public class DetailsFragment extends FirebaseFragment implements LoaderManager.L
     }
 
     public int getNoteId() {
-        return cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
+        return 0;
+        // cursor.getInt(cursor.getColumnIndex(NoteEntry.COLUMN_ID));
     }
 
 }

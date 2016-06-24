@@ -37,7 +37,6 @@ public class EncryptionHelper {
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(content.getBytes("UTF-8"));
             return BaseEncoding.base64().encode(encrypted);
-            // return Base64.encodeToString(encrypted, Base64.DEFAULT);
         } else {
             return "";
         }
@@ -47,7 +46,6 @@ public class EncryptionHelper {
         if (cipher != null && key != null) {
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] decrypted = cipher.doFinal(BaseEncoding.base64().decode(content));
-            // byte[] decrypted = cipher.doFinal(Base64.decode(content, Base64.DEFAULT));
             return new String(decrypted, "UTF-8");
         } else {
             return "";

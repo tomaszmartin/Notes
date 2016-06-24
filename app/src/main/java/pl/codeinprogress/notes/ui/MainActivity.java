@@ -6,7 +6,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SearchView;
@@ -27,6 +26,10 @@ import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.LinkBuilder;
+import pl.codeinprogress.notes.ui.listeners.NavigationListener;
+import pl.codeinprogress.notes.ui.listeners.NotesListener;
+import pl.codeinprogress.notes.ui.listeners.OnAddListener;
+import pl.codeinprogress.notes.ui.listeners.OnSelectListener;
 
 public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener {
 
@@ -104,18 +107,13 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     @Override
-    public void onItemSelected(String noteId) {
-        notesListener.openNote(noteId);
+    public void onItemSelected(Note note) {
+        notesListener.openNote(note);
     }
 
     @Override
-    public void onItemAdded(String noteId) {
-        notesListener.openNote(noteId);
-    }
-
-    void showSnackbar(String text) {
-        Snackbar.make(coordinatorLayout, text, Snackbar.LENGTH_LONG)
-                .show();
+    public void onItemAdded(Note note) {
+        notesListener.openNote(note);
     }
 
     @Override

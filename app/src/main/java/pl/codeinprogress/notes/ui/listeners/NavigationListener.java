@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.ui;
+package pl.codeinprogress.notes.ui.listeners;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.ui.LoginActivity;
 import pl.codeinprogress.notes.ui.MainActivity;
 import pl.codeinprogress.notes.ui.SettingsActivity;
 

@@ -10,9 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
 import pl.codeinprogress.notes.ui.DetailsActivity;
 
 /**
@@ -30,17 +28,15 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-        int id = intent.getIntExtra(NoteEntry.COLUMN_ID, 0);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = createNotification(id);
-        manager.notify(id, notification);
+        //Notification notification = createNotification(id);
+        //manager.notify(id, notification);
 
         return START_NOT_STICKY;
     }
 
     private PendingIntent createPendingIntent(int id) {
         Intent details = new Intent(this.getApplicationContext(), DetailsActivity.class);
-        details.putExtra(NoteEntry.COLUMN_ID, id);
         details.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         return PendingIntent.getActivity(this.getApplicationContext(), id, details, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -51,12 +47,12 @@ public class AlarmService extends Service {
         String description = "";
 
         ContentResolver resolver = getContentResolver();
-        Cursor cursor = resolver.query(NoteEntry.buildNoteUri(id), null, null, null, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
-            description = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_DESCRIPTION));
-            cursor.close();
-        }
+//        Cursor cursor = resolver.query(NoteEntry.buildNoteUri(id), null, null, null, null);
+//        if (cursor != null && cursor.moveToFirst()) {
+//            title = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_TITLE));
+//            description = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_DESCRIPTION));
+//            cursor.close();
+//        }
 
         Notification notification =  new NotificationCompat.Builder(this)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)

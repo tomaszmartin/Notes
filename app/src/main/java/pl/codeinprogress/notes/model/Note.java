@@ -2,7 +2,6 @@ package pl.codeinprogress.notes.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by tomaszmartin on 22.06.2016.
@@ -12,8 +11,8 @@ public class Note {
     private String id;
     private String title;
     private String description;
-    private String textFileAdress;
-    private ArrayList<String> imageFilesAdresses;
+    private String fileName;
+    private ArrayList<String> imageFileNames;
     private long created;
     private long lastModified;
     private String tag;
@@ -24,11 +23,11 @@ public class Note {
         long timestamp = new Date().getTime();
         this.created = timestamp;
         this.lastModified = timestamp;
-        this.textFileAdress = UUID.randomUUID().toString();
+        this.fileName = id + ".txt";
     }
 
     public Note() {
-        this.imageFilesAdresses = new ArrayList<>();
+        this.imageFileNames = new ArrayList<>();
     }
 
     public String getId() {
@@ -55,20 +54,20 @@ public class Note {
         this.description = description;
     }
 
-    public String getTextFileAdress() {
-        return textFileAdress;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setTextFileAdress(String textFileAdress) {
-        this.textFileAdress = textFileAdress;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
-    public ArrayList<String> getImageFilesAdresses() {
-        return imageFilesAdresses;
+    public ArrayList<String> getImageFileNames() {
+        return imageFileNames;
     }
 
-    public void setImageFilesAdresses(ArrayList<String> imageFilesAdresses) {
-        this.imageFilesAdresses = imageFilesAdresses;
+    public void setImageFileNames(ArrayList<String> imageFileNames) {
+        this.imageFileNames = imageFileNames;
     }
 
     public long getCreated() {

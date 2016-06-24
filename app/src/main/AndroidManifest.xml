@@ -66,10 +66,6 @@
 
         <receiver android:name=".services.AlarmReceiver"/>
 
-        <provider
-            android:name=".data.NotesProvider"
-            android:authorities="pl.codeinprogress.notes"/>
-
         <activity
             android:name=".ui.LoginActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.tasks;
+package pl.codeinprogress.notes.ui.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;

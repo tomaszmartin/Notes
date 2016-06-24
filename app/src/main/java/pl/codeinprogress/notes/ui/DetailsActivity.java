@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.data.NotesContract.NoteEntry;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 
@@ -28,10 +27,10 @@ public class DetailsActivity extends FirebaseActivity {
             actionBar.setTitle("");
         }
 
-        int id = getIntent().getIntExtra(NoteEntry.COLUMN_ID, 0);
-        if (savedInstanceState == null) {
-            attachFragment(id);
-        }
+        //int id = getIntent().getIntExtra(NoteEntry.COLUMN_ID, 0);
+//        if (savedInstanceState == null) {
+//            attachFragment(id);
+//        }
     }
 
     @Override
@@ -43,7 +42,7 @@ public class DetailsActivity extends FirebaseActivity {
 
     private void attachFragment(int id) {
         Bundle bundle = new Bundle();
-        bundle.putInt(NoteEntry.COLUMN_ID, id);
+        // bundle.putInt(NoteEntry.COLUMN_ID, id);
         fragment = getSupportFragmentManager().findFragmentByTag(getTag());
         if (fragment == null) {
             fragment = new DetailsFragment();
