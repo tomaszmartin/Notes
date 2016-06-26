@@ -3,6 +3,7 @@ package pl.codeinprogress.notes.ui;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -35,6 +36,7 @@ import java.util.UUID;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
@@ -49,18 +51,15 @@ public class DetailsActivity extends FirebaseActivity {
     private static final int AUDIO_REQUEST_CODE = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
     public static String NOTE_ID = "noteId";
-    @Bind(R.id.contentView) EditText contentView;
-    @Bind(R.id.imageView) ImageView imageView;
-    @Bind(R.id.titleView) EditText titleView;
     private DatabaseReference noteReference;
     private TextToSpeech textToSpeech;
     private Note note;
+    private DetailsActivityBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.details_activity);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.details_activity);
 
         setupView();
         setupListeners();
@@ -113,7 +112,7 @@ public class DetailsActivity extends FirebaseActivity {
                 shareNote();
                 return true;
             case R.id.action_size:
-                setFontSize(contentView, 1);
+                setFontSize(binding.contentView, 1);
                 return true;
             case R.id.action_alarm:
                 showAlarm();
@@ -151,7 +150,7 @@ public class DetailsActivity extends FirebaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
-        contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
+        binding.contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
     }
 
     private int getFontSize() {
@@ -212,8 +211,8 @@ public class DetailsActivity extends FirebaseActivity {
     }
 
     private void saveNote() {
-        String content = contentView.getText().toString();
-        note.setTitle(titleView.getText().toString());
+        String content = binding.contentView.getText().toString();
+        note.setTitle(binding.titleView.getText().toString());
         note.setLastModified(new Date().getTime());
         note.setDescription(content);
         noteReference.setValue(note);
@@ -240,8 +239,8 @@ public class DetailsActivity extends FirebaseActivity {
     }
 
     private void showNote(Note note) {
-        titleView.setText(note.getTitle());
-        LoadNoteTask loadNoteTask = new LoadNoteTask(this, contentView);
+        binding.titleView.setText(note.getTitle());
+        LoadNoteTask loadNoteTask = new LoadNoteTask(this, binding.contentView);
         loadNoteTask.execute(note);
     }
 
@@ -262,12 +261,12 @@ public class DetailsActivity extends FirebaseActivity {
     }
 
     private void readNote() {
-        String text = contentView.getText().toString();
+        String text = binding.contentView.getText().toString();
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     private void shareNote() {
-        String content = contentView.getText().toString();
+        String content = binding.contentView.getText().toString();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, content);
@@ -283,7 +282,7 @@ public class DetailsActivity extends FirebaseActivity {
     }
 
     private void setImage(Uri imageUri) {
-        imageView.setVisibility(View.VISIBLE);
+        binding.imageView.setVisibility(View.VISIBLE);
         ImageTransformation imageTransformation = new ImageTransformation(this);
 
         if (imageUri != null && !imageUri.toString().isEmpty()) {
@@ -291,7 +290,7 @@ public class DetailsActivity extends FirebaseActivity {
                     .with(this)
                     .load(imageUri)
                     .transform(imageTransformation)
-                    .into(imageView);
+                    .into(binding.imageView);
 
         }
     }
