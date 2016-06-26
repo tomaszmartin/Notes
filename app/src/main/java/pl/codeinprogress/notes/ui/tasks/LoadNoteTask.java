@@ -3,16 +3,15 @@ package pl.codeinprogress.notes.ui.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.data.EncryptionHelper;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseApplication;
 import pl.codeinprogress.notes.model.Note;
 
 /**
@@ -24,6 +23,7 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
     private Context context;
     private TextView view;
     private String password;
+    private Note note;
 
     public LoadNoteTask(Context context, TextView view) {
         this.context = context;
@@ -37,7 +37,7 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
 
     @Override
     protected String doInBackground(Note... notes) {
-        Note note = notes[0];
+        this.note = notes[0];
         String contents = "";
         try {
             FileInputStream fis = context.openFileInput(note.getFileName());
@@ -48,8 +48,9 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
             }
             EncryptionHelper encryptionHelper = new EncryptionHelper(password);
             fis.close();
-            String encrypted = encryptionHelper.decrypt(contents);
-            return encrypted;
+            return encryptionHelper.decrypt(contents);
+        } catch (FileNotFoundException e) {
+            // TODO: handle downloading files on first use
         } catch (Exception e) {
             e.printStackTrace();
         }

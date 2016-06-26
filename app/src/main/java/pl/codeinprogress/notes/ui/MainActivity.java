@@ -22,10 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
+import pl.codeinprogress.notes.adapters.NotesAdapter;
+import pl.codeinprogress.notes.data.NotesProvider;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.LinkBuilder;
+import pl.codeinprogress.notes.firebase.FirebaseLink;
 import pl.codeinprogress.notes.ui.listeners.NavigationListener;
 import pl.codeinprogress.notes.ui.listeners.NotesListener;
 import pl.codeinprogress.notes.ui.listeners.OnAddListener;
@@ -37,13 +38,13 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawerLayout) DrawerLayout drawerLayout;
     @Bind(R.id.fab) FloatingActionButton fab;
-    @Bind(R.id.coordinator) CoordinatorLayout coordinatorLayout;
     @Bind(R.id.listView) ListView listView;
     @Bind(R.id.emptyList) View emptyList;
     @Bind(R.id.clearSearchutton) ImageButton clearSearchutton;
     private NotesListener notesListener;
-    private FirebaseNotesAdapter adapter;
+    private NotesAdapter adapter;
     private MenuItem searchItem;
+    private NotesProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,12 +107,12 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
 
     @Override
     public void onItemSelected(Note note) {
-        notesListener.openNote(note);
+        provider.openNote(note);
     }
 
     @Override
     public void onItemAdded(Note note) {
-        notesListener.openNote(note);
+        provider.openNote(note);
     }
 
     @Override
@@ -129,10 +130,11 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     private void setupData() {
-        DatabaseReference notesReference = getDatabase().getReference(LinkBuilder.forNotes());
+        provider = new NotesProvider(this);
+        DatabaseReference notesReference = getDatabase().getReference(FirebaseLink.forNotes());
         NavigationListener navigationListener = new NavigationListener(this, drawerLayout);
 
-        adapter = new FirebaseNotesAdapter(this, Note.class, R.layout.main_item, notesReference);
+        adapter = new NotesAdapter(this, Note.class, R.layout.main_item, notesReference);
         notesListener = new NotesListener(this, adapter);
 
         listView.setAdapter(adapter);

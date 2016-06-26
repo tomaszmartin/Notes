@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.auth;
+package pl.codeinprogress.notes.firebase;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -15,8 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseApplication;
+import pl.codeinprogress.notes.auth.Credentials;
 
 /**
  * Created by tomaszmartin on 12.06.16.

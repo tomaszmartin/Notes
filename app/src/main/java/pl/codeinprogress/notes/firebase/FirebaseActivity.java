@@ -14,7 +14,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.auth.FirebaseAuthHelper;
 
 /**
  * Created by tomaszmartin on 02.07.15.

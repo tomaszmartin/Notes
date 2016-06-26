@@ -7,7 +7,7 @@ import pl.codeinprogress.notes.model.User;
  * Created by tomaszmartin on 23.06.2016.
  */
 
-public class LinkBuilder {
+public class FirebaseLink {
 
     public static String forUsers() {
         return "/users";

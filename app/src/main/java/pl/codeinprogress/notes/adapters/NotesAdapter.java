@@ -16,11 +16,11 @@ import pl.codeinprogress.notes.model.Note;
  * Created by tomaszmartin on 22.06.2016.
  */
 
-public class FirebaseNotesAdapter extends FirebaseListAdapter<Note> {
+public class NotesAdapter extends FirebaseListAdapter<Note> {
 
     private Locale locale;
 
-    public FirebaseNotesAdapter(Activity activity, Class<Note> modelClass, int modelLayout, DatabaseReference ref) {
+    public NotesAdapter(Activity activity, Class<Note> modelClass, int modelLayout, DatabaseReference ref) {
         super(activity, modelClass, modelLayout, ref);
         this.locale = activity.getResources().getConfiguration().locale;
     }

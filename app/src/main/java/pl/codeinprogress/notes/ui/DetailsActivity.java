@@ -22,14 +22,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Locale;
@@ -38,10 +36,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.LinkBuilder;
+import pl.codeinprogress.notes.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.image.ImageTransformation;
-import pl.codeinprogress.notes.ui.listeners.NotesListener;
 import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
 
@@ -227,7 +224,7 @@ public class DetailsActivity extends FirebaseActivity {
 
     private void setupData() {
         String noteId = getIntent().getStringExtra(NOTE_ID);
-        noteReference = getDatabase().getReference(LinkBuilder.forNote(noteId));
+        noteReference = getDatabase().getReference(FirebaseLink.forNote(noteId));
         noteReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -10,7 +10,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.storage.FirebaseStorage;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.auth.FirebaseAuthHelper;
 
 /**
  * Created by tomaszmartin on 02.06.2016.
@@ -24,7 +23,6 @@ public class FirebaseApplication extends Application {
     private FirebaseRemoteConfig configuration;
     private FirebaseStorage storage;
     private FirebaseAuthHelper authHandler;
-    private LinkBuilder linkBuilder;
 
     public FirebaseRemoteConfig getConfiguration() {
         return configuration;

@@ -1,6 +1,5 @@
 package pl.codeinprogress.notes.ui.listeners;
 
-import android.content.Intent;
 import android.text.Html;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -8,15 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import com.google.firebase.database.DatabaseReference;
 import java.util.ArrayList;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.adapters.FirebaseNotesAdapter;
-import pl.codeinprogress.notes.firebase.LinkBuilder;
-import pl.codeinprogress.notes.model.Note;
+import pl.codeinprogress.notes.adapters.NotesAdapter;
+import pl.codeinprogress.notes.data.NotesProvider;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
-import pl.codeinprogress.notes.ui.DetailsActivity;
+import pl.codeinprogress.notes.model.Note;
 
 /**
  * Created by tomaszmartin on 23.06.2016.
@@ -27,24 +23,26 @@ public class NotesListener implements View.OnClickListener,
         AbsListView.MultiChoiceModeListener {
 
     private FirebaseActivity activity;
-    private FirebaseNotesAdapter adapter;
+    private NotesAdapter adapter;
+    private NotesProvider provider;
     private ArrayList<Note> selectedNotes = new ArrayList<>();
 
-    public NotesListener(FirebaseActivity activity, FirebaseNotesAdapter adapter) {
+    public NotesListener(FirebaseActivity activity, NotesAdapter adapter) {
         this.activity = activity;
         this.adapter = adapter;
+        this.provider = new NotesProvider(activity);
     }
 
     @Override
     public void onClick(View v) {
-        addNote();
+        provider.addNote();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getItemAtPosition(position) instanceof Note) {
             Note clickedNote = (Note) parent.getItemAtPosition(position);
-            openNote(clickedNote);
+            provider.openNote(clickedNote);
         }
     }
 
@@ -77,7 +75,7 @@ public class NotesListener implements View.OnClickListener,
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         if (item.getItemId() == R.id.action_delete) {
             for (Note note: selectedNotes) {
-                deleteNote(note);
+                provider.deleteNote(note);
             }
         }
 
@@ -94,31 +92,6 @@ public class NotesListener implements View.OnClickListener,
         String quantityString = activity.getResources().getQuantityString(R.plurals.selected_notes,
                 numberOfItemsSelected);
         mode.setTitle(Html.fromHtml(String.format(String.valueOf("<small>" + quantityString + "</small>"), numberOfItemsSelected)));
-    }
-
-    public void addNote() {
-        DatabaseReference reference = activity.getDatabase().getReference(LinkBuilder.forNotes());
-        DatabaseReference noteReference = reference.push();
-        String noteId = noteReference.getKey();
-        Note note = new Note(noteId);
-        noteReference.setValue(note);
-    }
-
-    public void deleteNote(Note note) {
-        DatabaseReference noteReference = activity.getDatabase().getReference(LinkBuilder.forNote(note));
-        noteReference.removeValue();
-    }
-
-    public void openNote(Note note) {
-        String noteId = note.getId();
-        Intent openNote = new Intent(activity, DetailsActivity.class);
-        openNote.putExtra(DetailsActivity.NOTE_ID, noteId);
-        activity.startActivity(openNote);
-    }
-
-    public void saveNote(Note note, String contents) {
-        SaveNoteTask saveNoteTask = new SaveNoteTask(activity, note.getFileName());
-        saveNoteTask.execute(contents);
     }
 
 }
