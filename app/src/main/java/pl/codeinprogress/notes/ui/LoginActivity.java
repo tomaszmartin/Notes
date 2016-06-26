@@ -1,59 +1,48 @@
 package pl.codeinprogress.notes.ui;
 
 import android.content.Intent;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import android.view.View;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.auth.FormValidator;
+import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 
 public class LoginActivity extends FirebaseActivity {
 
-    @Bind(R.id.emailWrapper) TextInputLayout emailWrapper;
-    @Bind(R.id.emailField) TextInputEditText emailField;
-    @Bind(R.id.passwordWrapper) TextInputLayout passwordWrapper;
-    @Bind(R.id.passwordField) TextInputEditText passwordField;
-
     public static final int SIGNUP_REQUEST = 1;
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
     }
 
-    @OnClick(R.id.loginButton)
-    public void login() {
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
+    public void login(View view) {
+        String email = binding.emailField.getText().toString();
+        String password = binding.passwordField.getText().toString();
         if (FormValidator.validateEmail(email) && FormValidator.validatePassword(password)) {
             getAuthHandler().login(email, password, this);
         } else {
             if (!FormValidator.validateEmail(email)) {
-                emailWrapper.setError(getString(R.string.email_error));
-                emailWrapper.setErrorEnabled(true);
+                binding.emailWrapper.setError(getString(R.string.email_error));
+                binding.emailWrapper.setErrorEnabled(true);
             } else {
-                emailWrapper.setErrorEnabled(false);
+                binding.emailWrapper.setErrorEnabled(false);
             }
 
             if (!FormValidator.validatePassword(password)) {
-                passwordWrapper.setError(getString(R.string.password_error));
-                passwordWrapper.setErrorEnabled(true);
+                binding.passwordWrapper.setError(getString(R.string.password_error));
+                binding.passwordWrapper.setErrorEnabled(true);
             } else {
-                passwordWrapper.setErrorEnabled(false);
+                binding.passwordWrapper.setErrorEnabled(false);
             }
         }
     }
 
-    @OnClick(R.id.signupButton)
-    public void signup() {
+    public void signup(View view) {
         startActivityForResult(new Intent(this, SignupActivity.class), SIGNUP_REQUEST);
     }
 
