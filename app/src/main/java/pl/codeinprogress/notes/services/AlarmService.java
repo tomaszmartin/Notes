@@ -29,7 +29,7 @@ public class AlarmService extends Service {
         super.onStartCommand(intent, flags, startId);
 
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        //Notification notification = createNotification(id);
+        // Notification notification = createNotification(id);
         //manager.notify(id, notification);
 
         return START_NOT_STICKY;
@@ -53,6 +53,8 @@ public class AlarmService extends Service {
 //            description = cursor.getString(cursor.getColumnIndex(NoteEntry.COLUMN_DESCRIPTION));
 //            cursor.close();
 //        }
+
+
 
         Notification notification =  new NotificationCompat.Builder(this)
                 .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)

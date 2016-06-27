@@ -12,7 +12,7 @@ import android.widget.AbsListView;
 import com.google.firebase.database.DatabaseReference;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.adapters.NotesAdapter;
-import pl.codeinprogress.notes.data.NotesProvider;
+import pl.codeinprogress.notes.data.NotePresenter;
 import pl.codeinprogress.notes.databinding.MainActivityBinding;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseLink;
@@ -27,7 +27,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     private NotesListener notesListener;
     private NotesAdapter adapter;
     private MenuItem searchItem;
-    private NotesProvider provider;
+    private NotePresenter provider;
     private MainActivityBinding binding;
 
     @Override
@@ -113,7 +113,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     private void setupData() {
-        provider = new NotesProvider(this);
+        provider = new NotePresenter(this);
         DatabaseReference notesReference = getDatabase().getReference(FirebaseLink.forNotes());
         NavigationListener navigationListener = new NavigationListener(this, binding.drawerLayout);
 

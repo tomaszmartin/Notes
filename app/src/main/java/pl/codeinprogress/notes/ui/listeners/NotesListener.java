@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.adapters.NotesAdapter;
-import pl.codeinprogress.notes.data.NotesProvider;
+import pl.codeinprogress.notes.data.NotePresenter;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.Note;
 
@@ -24,13 +24,13 @@ public class NotesListener implements View.OnClickListener,
 
     private FirebaseActivity activity;
     private NotesAdapter adapter;
-    private NotesProvider provider;
+    private NotePresenter provider;
     private ArrayList<Note> selectedNotes = new ArrayList<>();
 
     public NotesListener(FirebaseActivity activity, NotesAdapter adapter) {
         this.activity = activity;
         this.adapter = adapter;
-        this.provider = new NotesProvider(activity);
+        this.provider = new NotePresenter(activity);
     }
 
     @Override
