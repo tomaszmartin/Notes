@@ -13,6 +13,7 @@ import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.DetailsActivity;
+import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
 
 /**
@@ -38,6 +39,7 @@ public class NotePresenter {
         String noteId = noteReference.getKey();
         Note note = new Note(noteId);
         noteReference.setValue(note);
+        noteView.noteAdded(note);
     }
 
     public void saveNote(Note note, String contents) {
@@ -68,6 +70,7 @@ public class NotePresenter {
     public void deleteNote(Note note) {
         DatabaseReference noteReference = activity.getDatabase().getReference(FirebaseLink.forNote(note));
         noteReference.removeValue();
+        noteView.noteDeleted(note);
     }
 
     public void openNote(Note note) {
