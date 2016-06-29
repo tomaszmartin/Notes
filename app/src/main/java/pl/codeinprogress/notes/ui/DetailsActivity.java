@@ -43,7 +43,7 @@ import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
 
 
-public class DetailsActivity extends FirebaseActivity {
+public class DetailsActivity extends FirebaseActivity implements NoteView {
 
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
@@ -293,4 +293,13 @@ public class DetailsActivity extends FirebaseActivity {
         }
     }
 
+    @Override
+    public void viewNote(Note note) {
+        binding.titleView.setText(note.getTitle());
+    }
+
+    @Override
+    public void viewNoteContent(String contents) {
+        binding.contentView.setText(contents);
+    }
 }

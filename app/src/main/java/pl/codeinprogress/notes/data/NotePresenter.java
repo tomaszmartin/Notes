@@ -39,7 +39,7 @@ public class NotePresenter {
         String noteId = noteReference.getKey();
         Note note = new Note(noteId);
         noteReference.setValue(note);
-        noteView.noteAdded(note);
+        openNote(note);
     }
 
     public void saveNote(Note note, String contents) {
@@ -72,9 +72,6 @@ public class NotePresenter {
     public void deleteNote(Note note) {
         DatabaseReference noteReference = activity.getDatabase().getReference(FirebaseLink.forNote(note));
         noteReference.removeValue();
-        if (noteView != null) {
-            noteView.noteDeleted(note);
-        }
     }
 
     public void openNote(Note note) {
