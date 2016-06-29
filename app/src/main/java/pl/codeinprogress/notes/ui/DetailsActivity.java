@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.data.NoteView;
 import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.firebase.FirebaseLink;

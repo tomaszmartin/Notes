@@ -57,7 +57,9 @@ public class NotePresenter {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Note note = dataSnapshot.getValue(Note.class);
-                noteView.viewNote(note);
+                if (noteView != null) {
+                    noteView.viewNote(note);
+                }
             }
 
             @Override
@@ -70,7 +72,9 @@ public class NotePresenter {
     public void deleteNote(Note note) {
         DatabaseReference noteReference = activity.getDatabase().getReference(FirebaseLink.forNote(note));
         noteReference.removeValue();
-        noteView.noteDeleted(note);
+        if (noteView != null) {
+            noteView.noteDeleted(note);
+        }
     }
 
     public void openNote(Note note) {
