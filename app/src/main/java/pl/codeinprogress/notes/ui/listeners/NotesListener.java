@@ -30,7 +30,7 @@ public class NotesListener implements View.OnClickListener,
     public NotesListener(FirebaseActivity activity, NotesAdapter adapter) {
         this.activity = activity;
         this.adapter = adapter;
-        this.provider = new NotePresenter(activity);
+        this.provider = new NotePresenter(null, activity);
     }
 
     @Override

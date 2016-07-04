@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -21,9 +22,24 @@ import pl.codeinprogress.notes.R;
 
 public class FirebaseActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics analytics;
+    private FirebaseAuth auth;
+    private FirebaseDatabase database;
+    private FirebaseRemoteConfig configuration;
+    private FirebaseStorage storage;
+    private FirebaseAuthHelper authHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        analytics = FirebaseAnalytics.getInstance(this);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
+        storage = FirebaseStorage.getInstance();
+        configuration = FirebaseRemoteConfig.getInstance();
+        configuration.setDefaults(R.xml.firebase);
+        authHandler = FirebaseAuthHelper.getInstance(this);
         fetchConfig();
     }
 
@@ -55,59 +71,25 @@ public class FirebaseActivity extends AppCompatActivity {
         }
     }
 
-    public FirebaseStorage getStorage() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getStorage();
-        }
-        return null;
-    }
-
-    public FirebaseDatabase getDatabase() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getDatabase();
-        }
-        return null;    }
-
-    public FirebaseAuth getAuth() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getAuth();
-        }
-        return null;    }
-
-    public FirebaseAnalytics getAnalytics() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getAnalytics();
-        }
-        return null;
-    }
-
-    public FirebaseRemoteConfig getConfiguration() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getConfiguration();
-        }
-        return null;
-    }
-
     public void fetchConfig() {
-        if (getApplication() instanceof FirebaseApplication) {
-            log("Fetching Firebase remote config");
-            getConfiguration().fetch(500).addOnSuccessListener(new OnSuccessListener<Void>() {
+        log("Fetching Firebase remote config");
+        getConfiguration().fetch(500).addOnSuccessListener(new OnSuccessListener<Void>() {
 
-                @Override
-                public void onSuccess(Void aVoid) {
-                    getConfiguration().activateFetched();
-                    onConfigFetched();
-                }
+            @Override
+            public void onSuccess(Void aVoid) {
+                getConfiguration().activateFetched();
+                onConfigFetched();
+            }
 
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                }
-            });
-        }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+            }
+        });
     }
 
-    public void onConfigFetched() {}
+    public void onConfigFetched() {
+    }
 
     public void logEvent(String name, Bundle params) {
         if (getAnalytics() != null) {
@@ -115,15 +97,31 @@ public class FirebaseActivity extends AppCompatActivity {
         }
     }
 
-    public FirebaseAuthHelper getAuthHandler() {
-        if (getApplication() instanceof FirebaseApplication) {
-            return ((FirebaseApplication) getApplication()).getAuthHandler();
-        }
-        return null;
-    }
-
     public void authenticate() {
 
     }
 
+    public FirebaseAnalytics getAnalytics() {
+        return analytics;
+    }
+
+    public FirebaseAuth getAuth() {
+        return auth;
+    }
+
+    public FirebaseDatabase getDatabase() {
+        return database;
+    }
+
+    public FirebaseRemoteConfig getConfiguration() {
+        return configuration;
+    }
+
+    public FirebaseStorage getStorage() {
+        return storage;
+    }
+
+    public FirebaseAuthHelper getAuthHandler() {
+        return authHandler;
+    }
 }

@@ -15,7 +15,6 @@ import java.io.InputStream;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.EncryptionHelper;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseApplication;
 
 /**
  * Created by tomaszmartin on 21.06.2015.

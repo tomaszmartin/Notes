@@ -30,16 +30,16 @@ public class FirebaseAuthHelper {
     private final String IMAGE_KEY = "USER_IMAGE";
     private final String STATUS_KEY = "USER_STATUS";
     private SharedPreferences manager;
-    private final FirebaseApplication application;
+    private final FirebaseActivity activity;
     private static FirebaseAuthHelper instance;
 
-    private FirebaseAuthHelper(FirebaseApplication app) {
-        this.application = app;
-        manager = PreferenceManager.getDefaultSharedPreferences(application);
-        application.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+    private FirebaseAuthHelper(FirebaseActivity anActivity) {
+        this.activity = anActivity;
+        manager = PreferenceManager.getDefaultSharedPreferences(activity);
+        activity.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = application.getAuth().getCurrentUser();
+                FirebaseUser user = activity.getAuth().getCurrentUser();
                 if (user != null) {
                     Credentials credentials = Credentials.fromFirebaseUser(user);
                     onLoggedIn(credentials);
@@ -48,16 +48,16 @@ public class FirebaseAuthHelper {
         });
     }
 
-    public static FirebaseAuthHelper getInstance(FirebaseApplication app) {
+    public static FirebaseAuthHelper getInstance(FirebaseActivity activity) {
         if (instance == null) {
-            instance = new FirebaseAuthHelper(app);
+            instance = new FirebaseAuthHelper(activity);
         }
 
         return instance;
     }
 
     public void login(String email, String password, final FirebaseActivity activity) {
-        application.getAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        activity.getAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 activity.finish();
@@ -66,7 +66,7 @@ public class FirebaseAuthHelper {
     }
 
     public void singup(final Credentials credentials, String password, final FirebaseActivity activity) {
-        application.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password)
+        activity.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
