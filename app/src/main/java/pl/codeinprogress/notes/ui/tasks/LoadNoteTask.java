@@ -3,16 +3,17 @@ package pl.codeinprogress.notes.ui.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.provider.Settings;
-import android.view.View;
-import android.widget.TextView;
+
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.data.EncryptionHelper;
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.Note;
+import pl.codeinprogress.notes.ui.views.DetailsView;
+import pl.codeinprogress.notes.ui.views.MainView;
 
 /**
  * Created by tomaszmartin on 21.06.2015.
@@ -21,11 +22,11 @@ import pl.codeinprogress.notes.model.Note;
 public class LoadNoteTask extends AsyncTask<Note, Void, String> {
 
     private Context context;
-    private TextView view;
+    private DetailsView view;
     private String password;
     private Note note;
 
-    public LoadNoteTask(Context context, TextView view) {
+    public LoadNoteTask(Context context, DetailsView view) {
         this.context = context;
         this.view = view;
         if (this.context instanceof FirebaseActivity) {
@@ -60,8 +61,7 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
 
     @Override
     protected void onPostExecute(String contents) {
-        view.setText(contents);
-        view.setVisibility(View.VISIBLE);
+        view.viewNoteContent(contents);
     }
 
 }

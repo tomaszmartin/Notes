@@ -12,22 +12,23 @@ import android.widget.AbsListView;
 import com.google.firebase.database.DatabaseReference;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.ui.adapters.NotesAdapter;
-import pl.codeinprogress.notes.data.NotePresenter;
 import pl.codeinprogress.notes.databinding.MainActivityBinding;
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseLink;
+import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.listeners.NavigationListener;
 import pl.codeinprogress.notes.ui.listeners.NotesListener;
 import pl.codeinprogress.notes.ui.listeners.OnAddListener;
 import pl.codeinprogress.notes.ui.listeners.OnSelectListener;
+import pl.codeinprogress.notes.ui.presenters.MainPresenter;
+import pl.codeinprogress.notes.ui.views.MainView;
 
-public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener {
+public class MainActivity extends FirebaseActivity implements OnSelectListener, OnAddListener, MainView {
 
     private NotesListener notesListener;
     private NotesAdapter adapter;
     private MenuItem searchItem;
-    private NotePresenter presenter;
+    private MainPresenter presenter;
     private MainActivityBinding binding;
 
     @Override
@@ -113,7 +114,7 @@ public class MainActivity extends FirebaseActivity implements OnSelectListener, 
     }
 
     private void setupData() {
-        presenter = new NotePresenter(null, this);
+        presenter = new MainPresenter(this, this);
         DatabaseReference notesReference = getDatabase().getReference(FirebaseLink.forNotes());
         NavigationListener navigationListener = new NavigationListener(this, binding.drawerLayout);
 

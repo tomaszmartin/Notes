@@ -1,45 +1,36 @@
-package pl.codeinprogress.notes.data;
+package pl.codeinprogress.notes.ui.presenters;
 
 import android.content.Intent;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
-
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseLink;
+import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.DetailsActivity;
 import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
+import pl.codeinprogress.notes.ui.views.DetailsView;
 
 /**
- * Created by tomaszmartin on 26.06.2016.
+ * Created by tomaszmartin on 05.07.2016.
  */
 
-public class NotePresenter {
+public class DetailsPresenter {
 
-    private NoteView noteView;
+    private DetailsView detailsView;
     private FirebaseActivity activity;
     private DatabaseReference database;
     private StorageReference storage;
 
-    public NotePresenter(NoteView noteView, FirebaseActivity activity) {
-        this.noteView = noteView;
+    public DetailsPresenter(DetailsView detailsView, FirebaseActivity activity) {
+        this.detailsView = detailsView;
         this.activity = activity;
         database = activity.getDatabase().getReference(FirebaseLink.forNotes());
         storage = activity.getStorage().getReferenceFromUrl(activity.getString(R.string.firebase_storage_bucket));
-    }
-
-    public void addNote() {
-        DatabaseReference noteReference = database.push();
-        String noteId = noteReference.getKey();
-        Note note = new Note(noteId);
-        noteReference.setValue(note);
-        openNote(note);
     }
 
     public void saveNote(Note note, String contents) {
@@ -48,8 +39,10 @@ public class NotePresenter {
         saveNoteTask.execute(contents);
     }
 
-    public void getNoteContent(String noteId) {
-        StorageReference fileReference = storage.child(noteId);
+    public void getNoteContent(Note note) {
+        LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView);
+        loadNoteTask.execute(note);
+
     }
 
     public void getNote(String noteId) {
@@ -58,8 +51,8 @@ public class NotePresenter {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Note note = dataSnapshot.getValue(Note.class);
-                if (noteView != null) {
-                    noteView.viewNote(note);
+                if (detailsView != null) {
+                    detailsView.viewNote(note);
                 }
             }
 
@@ -68,18 +61,6 @@ public class NotePresenter {
 
             }
         });
-    }
-
-    public void deleteNote(Note note) {
-        DatabaseReference noteReference = activity.getDatabase().getReference(FirebaseLink.forNote(note));
-        noteReference.removeValue();
-    }
-
-    public void openNote(Note note) {
-        String noteId = note.getId();
-        Intent openNote = new Intent(activity, DetailsActivity.class);
-        openNote.putExtra(DetailsActivity.NOTE_ID, noteId);
-        activity.startActivity(openNote);
     }
 
 }

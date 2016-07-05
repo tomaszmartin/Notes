@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.firebase;
+package pl.codeinprogress.notes.data.firebase;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -30,16 +30,16 @@ public class FirebaseAuthHelper {
     private final String IMAGE_KEY = "USER_IMAGE";
     private final String STATUS_KEY = "USER_STATUS";
     private SharedPreferences manager;
-    private final FirebaseActivity activity;
+    private final FirebaseApplication application;
     private static FirebaseAuthHelper instance;
 
-    private FirebaseAuthHelper(FirebaseActivity anActivity) {
-        this.activity = anActivity;
-        manager = PreferenceManager.getDefaultSharedPreferences(activity);
-        activity.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+    private FirebaseAuthHelper(FirebaseApplication app) {
+        this.application = app;
+        manager = PreferenceManager.getDefaultSharedPreferences(application);
+        application.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = activity.getAuth().getCurrentUser();
+                FirebaseUser user = application.getAuth().getCurrentUser();
                 if (user != null) {
                     Credentials credentials = Credentials.fromFirebaseUser(user);
                     onLoggedIn(credentials);
@@ -48,9 +48,9 @@ public class FirebaseAuthHelper {
         });
     }
 
-    public static FirebaseAuthHelper getInstance(FirebaseActivity activity) {
+    public static FirebaseAuthHelper getInstance(FirebaseApplication app) {
         if (instance == null) {
-            instance = new FirebaseAuthHelper(activity);
+            instance = new FirebaseAuthHelper(app);
         }
 
         return instance;

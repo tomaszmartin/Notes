@@ -7,7 +7,7 @@ import android.view.View;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.auth.FormValidator;
 import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
 
 public class LoginActivity extends FirebaseActivity {
 

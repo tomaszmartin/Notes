@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.firebase;
+package pl.codeinprogress.notes.data.firebase;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,24 +22,10 @@ import pl.codeinprogress.notes.R;
 
 public class FirebaseActivity extends AppCompatActivity {
 
-    private FirebaseAnalytics analytics;
-    private FirebaseAuth auth;
-    private FirebaseDatabase database;
-    private FirebaseRemoteConfig configuration;
-    private FirebaseStorage storage;
-    private FirebaseAuthHelper authHandler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        analytics = FirebaseAnalytics.getInstance(this);
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        storage = FirebaseStorage.getInstance();
-        configuration = FirebaseRemoteConfig.getInstance();
-        configuration.setDefaults(R.xml.firebase);
-        authHandler = FirebaseAuthHelper.getInstance(this);
+
         fetchConfig();
     }
 
@@ -102,26 +88,51 @@ public class FirebaseActivity extends AppCompatActivity {
     }
 
     public FirebaseAnalytics getAnalytics() {
-        return analytics;
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getAnalytics();
+        }
+
+        return null;
     }
 
     public FirebaseAuth getAuth() {
-        return auth;
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getAuth();
+        }
+
+        return null;
     }
 
     public FirebaseDatabase getDatabase() {
-        return database;
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getDatabase();
+        }
+
+        return null;
     }
 
     public FirebaseRemoteConfig getConfiguration() {
-        return configuration;
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getConfiguration();
+        }
+
+        return null;
     }
 
     public FirebaseStorage getStorage() {
-        return storage;
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getStorage();
+        }
+
+        return null;
     }
 
     public FirebaseAuthHelper getAuthHandler() {
-        return authHandler;
+        if (getApplication() instanceof FirebaseApplication) {
+            return ((FirebaseApplication) getApplication()).getAuthHandler();
+        }
+
+        return null;
     }
+
 }

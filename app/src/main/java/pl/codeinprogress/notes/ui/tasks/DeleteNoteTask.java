@@ -6,7 +6,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.Note;
 
 /**

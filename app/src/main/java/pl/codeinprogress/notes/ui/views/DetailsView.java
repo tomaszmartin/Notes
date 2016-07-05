@@ -1,12 +1,12 @@
-package pl.codeinprogress.notes.data;
+package pl.codeinprogress.notes.ui.views;
 
 import pl.codeinprogress.notes.model.Note;
 
 /**
- * Created by tomaszmartin on 27.06.2016.
+ * Created by tomaszmartin on 05.07.2016.
  */
 
-public interface NoteView {
+public interface DetailsView {
 
     void viewNote(Note note);
     void viewNoteContent(String contents);

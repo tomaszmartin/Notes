@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
+                android:textColor="@color/note_title"
                 tools:text="@string/lorem_short"
                 />
 
@@ -53,6 +54,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:paddingLeft="4dp"
                 android:textSize="12sp"
+                android:textColor="@color/note_title"
                 tools:text="@string/date"
                 />
 

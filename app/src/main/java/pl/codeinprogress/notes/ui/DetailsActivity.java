@@ -33,18 +33,17 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.data.NotePresenter;
-import pl.codeinprogress.notes.data.NoteView;
 import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
-import pl.codeinprogress.notes.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.firebase.FirebaseLink;
+import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.image.ImageTransformation;
+import pl.codeinprogress.notes.ui.presenters.DetailsPresenter;
 import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
-import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
+import pl.codeinprogress.notes.ui.views.DetailsView;
 
 
-public class DetailsActivity extends FirebaseActivity implements NoteView {
+public class DetailsActivity extends FirebaseActivity implements DetailsView {
 
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
@@ -54,13 +53,13 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
     private TextToSpeech textToSpeech;
     private Note note;
     private DetailsActivityBinding binding;
-    private NotePresenter presenter;
+    private DetailsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.details_activity);
-        presenter = new NotePresenter(null, this);
+        presenter = new DetailsPresenter(this, this);
 
         setupView();
         setupListeners();
@@ -217,7 +216,7 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
         note.setTitle(title);
         note.setLastModified(new Date().getTime());
         note.setDescription(content);
-        
+
         presenter.saveNote(note, content);
     }
 
@@ -239,9 +238,8 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
     }
 
     private void showNote(Note note) {
-        binding.titleView.setText(note.getTitle());
-        LoadNoteTask loadNoteTask = new LoadNoteTask(this, binding.contentView);
-        loadNoteTask.execute(note);
+        presenter.getNote(note.getId());
+        presenter.getNoteContent(note);
     }
 
     private void dictateNote() {
@@ -302,6 +300,7 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
     @Override
     public void viewNoteContent(String contents) {
         binding.contentView.setText(contents);
+        binding.contentView.setVisibility(View.VISIBLE);
     }
 
 }
