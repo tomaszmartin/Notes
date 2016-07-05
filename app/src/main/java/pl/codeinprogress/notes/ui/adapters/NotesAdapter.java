@@ -1,7 +1,6 @@
-package pl.codeinprogress.notes.adapters;
+package pl.codeinprogress.notes.ui.adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;

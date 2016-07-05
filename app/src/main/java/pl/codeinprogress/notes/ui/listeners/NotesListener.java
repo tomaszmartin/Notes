@@ -9,7 +9,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import java.util.ArrayList;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.adapters.NotesAdapter;
+import pl.codeinprogress.notes.ui.adapters.NotesAdapter;
 import pl.codeinprogress.notes.data.NotePresenter;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.Note;

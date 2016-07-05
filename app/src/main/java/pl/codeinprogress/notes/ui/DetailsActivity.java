@@ -33,6 +33,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.data.NotePresenter;
 import pl.codeinprogress.notes.data.NoteView;
 import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
 import pl.codeinprogress.notes.firebase.FirebaseActivity;
@@ -53,11 +54,13 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
     private TextToSpeech textToSpeech;
     private Note note;
     private DetailsActivityBinding binding;
+    private NotePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.details_activity);
+        presenter = new NotePresenter(null, this);
 
         setupView();
         setupListeners();
@@ -210,13 +213,12 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
 
     private void saveNote() {
         String content = binding.contentView.getText().toString();
-        note.setTitle(binding.titleView.getText().toString());
+        String title = binding.titleView.getText().toString();
+        note.setTitle(title);
         note.setLastModified(new Date().getTime());
         note.setDescription(content);
-        noteReference.setValue(note);
-
-        SaveNoteTask saveNoteTask = new SaveNoteTask(this, note.getFileName());
-        saveNoteTask.execute(content);
+        
+        presenter.saveNote(note, content);
     }
 
     private void setupData() {
@@ -284,8 +286,7 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
         ImageTransformation imageTransformation = new ImageTransformation(this);
 
         if (imageUri != null && !imageUri.toString().isEmpty()) {
-            Picasso
-                    .with(this)
+            Picasso.with(this)
                     .load(imageUri)
                     .transform(imageTransformation)
                     .into(binding.imageView);
@@ -302,4 +303,5 @@ public class DetailsActivity extends FirebaseActivity implements NoteView {
     public void viewNoteContent(String contents) {
         binding.contentView.setText(contents);
     }
+
 }

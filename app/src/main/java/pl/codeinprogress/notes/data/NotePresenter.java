@@ -43,6 +43,7 @@ public class NotePresenter {
     }
 
     public void saveNote(Note note, String contents) {
+        database.child(note.getId()).setValue(note);
         SaveNoteTask saveNoteTask = new SaveNoteTask(activity, note.getFileName());
         saveNoteTask.execute(contents);
     }
