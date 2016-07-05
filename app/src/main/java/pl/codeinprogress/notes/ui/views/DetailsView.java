@@ -8,7 +8,7 @@ import pl.codeinprogress.notes.model.Note;
 
 public interface DetailsView {
 
-    void viewNote(Note note);
-    void viewNoteContent(String contents);
+    void noteLoaded(Note note);
+    void noteContentsLoaded(String contents);
 
 }

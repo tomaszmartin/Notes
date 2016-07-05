@@ -13,7 +13,6 @@ import pl.codeinprogress.notes.data.EncryptionHelper;
 import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.ui.views.DetailsView;
-import pl.codeinprogress.notes.ui.views.MainView;
 
 /**
  * Created by tomaszmartin on 21.06.2015.
@@ -61,7 +60,7 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
 
     @Override
     protected void onPostExecute(String contents) {
-        view.viewNoteContent(contents);
+        view.noteContentsLoaded(contents);
     }
 
 }

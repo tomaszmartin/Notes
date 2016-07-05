@@ -139,6 +139,10 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
 
     private void showAlarm() {
         DialogFragment alertDialog = new AlarmDialogFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString(NOTE_ID, note.getId());
+        alertDialog.setArguments(arguments);
+
         alertDialog.show(getSupportFragmentManager(), DetailsActivity.class.getSimpleName());
     }
 
@@ -293,12 +297,12 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
     }
 
     @Override
-    public void viewNote(Note note) {
+    public void noteLoaded(Note note) {
         binding.titleView.setText(note.getTitle());
     }
 
     @Override
-    public void viewNoteContent(String contents) {
+    public void noteContentsLoaded(String contents) {
         binding.contentView.setText(contents);
         binding.contentView.setVisibility(View.VISIBLE);
     }

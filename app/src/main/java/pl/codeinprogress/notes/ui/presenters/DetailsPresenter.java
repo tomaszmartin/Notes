@@ -1,16 +1,16 @@
 package pl.codeinprogress.notes.ui.presenters;
 
-import android.content.Intent;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.ui.DetailsActivity;
 import pl.codeinprogress.notes.ui.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.ui.tasks.SaveNoteTask;
 import pl.codeinprogress.notes.ui.views.DetailsView;
@@ -29,8 +29,10 @@ public class DetailsPresenter {
     public DetailsPresenter(DetailsView detailsView, FirebaseActivity activity) {
         this.detailsView = detailsView;
         this.activity = activity;
-        database = activity.getDatabase().getReference(FirebaseLink.forNotes());
-        storage = activity.getStorage().getReferenceFromUrl(activity.getString(R.string.firebase_storage_bucket));
+        database = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes());
+        if (activity != null) {
+            Alastorage = FirebaseStorage.getInstance().getReferenceFromUrl(activity.getString(R.string.firebase_storage_bucket));
+        }
     }
 
     public void saveNote(Note note, String contents) {
@@ -42,7 +44,6 @@ public class DetailsPresenter {
     public void getNoteContent(Note note) {
         LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView);
         loadNoteTask.execute(note);
-
     }
 
     public void getNote(String noteId) {
@@ -52,7 +53,7 @@ public class DetailsPresenter {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Note note = dataSnapshot.getValue(Note.class);
                 if (detailsView != null) {
-                    detailsView.viewNote(note);
+                    detailsView.noteLoaded(note);
                 }
             }
 
