@@ -9,6 +9,7 @@ import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.presenter.views.MainView;
+import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
 /**
  * Created by tomaszmartin on 05.07.2016.
@@ -24,8 +25,8 @@ public class MainPresenter {
     public MainPresenter(MainView noteView, FirebaseActivity activity) {
         this.noteView = noteView;
         this.activity = activity;
-        database = activity.getDatabase().getReference(FirebaseLink.forNotes());
-        storage = activity.getStorage().getReferenceFromUrl(activity.getString(R.string.firebase_storage_bucket));
+        this.database = activity.getDatabase().getReference(FirebaseLink.forNotes());
+        this.storage = activity.getStorage().getReferenceFromUrl(activity.getString(R.string.firebase_storage_bucket));
     }
 
     public void addNote() {
@@ -50,6 +51,11 @@ public class MainPresenter {
         Intent openNote = new Intent(activity, DetailsActivity.class);
         openNote.putExtra(DetailsActivity.NOTE_ID, noteId);
         activity.startActivity(openNote);
+    }
+
+    public void loadNotes() {
+        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database);
+        noteView.notesLoaded(adapter);
     }
 
 }
