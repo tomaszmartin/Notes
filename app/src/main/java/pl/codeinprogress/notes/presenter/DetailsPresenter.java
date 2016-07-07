@@ -1,5 +1,8 @@
 package pl.codeinprogress.notes.presenter;
 
+import android.content.Intent;
+import android.os.Build;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,11 +44,6 @@ public class DetailsPresenter {
         saveNoteTask.execute(contents);
     }
 
-    public void getNoteContent(Note note) {
-        LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView);
-        loadNoteTask.execute(note);
-    }
-
     public void getNote(String noteId) {
         DatabaseReference noteReference = database.child(noteId);
         noteReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -54,6 +52,7 @@ public class DetailsPresenter {
                 Note note = dataSnapshot.getValue(Note.class);
                 if (detailsView != null) {
                     detailsView.noteLoaded(note);
+                    getNoteContent(note);
                 }
             }
 
@@ -62,6 +61,11 @@ public class DetailsPresenter {
 
             }
         });
+    }
+
+    private void getNoteContent(Note note) {
+        LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView);
+        loadNoteTask.execute(note);
     }
 
 }

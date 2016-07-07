@@ -107,4 +107,8 @@ public class Note {
         isPasswordProtected = passwordProtected;
     }
 
+    public String getKey() {
+        return "NOTE_ID_KEY";
+    }
+
 }

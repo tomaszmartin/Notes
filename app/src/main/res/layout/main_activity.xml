@@ -132,6 +132,7 @@
                     app:backgroundTint="@color/fab"
                     app:borderWidth="0dp"
                     app:fabSize="normal"
+                    android:onClick="addNote"
                     />
 
             </android.support.design.widget.CoordinatorLayout>

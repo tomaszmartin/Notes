@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -13,7 +14,6 @@ import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -23,10 +23,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Date;
@@ -34,12 +30,11 @@ import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.view.image.ImageTransformation;
+import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
 import pl.codeinprogress.notes.presenter.views.DetailsView;
+import pl.codeinprogress.notes.view.image.ImageTransformation;
 
 
 public class DetailsActivity extends FirebaseActivity implements DetailsView {
@@ -48,11 +43,10 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
     private static final int AUDIO_REQUEST_CODE = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
     public static String NOTE_ID = "noteId";
-    private DatabaseReference noteReference;
     private TextToSpeech textToSpeech;
-    private Note note;
     private DetailsActivityBinding binding;
     private DetailsPresenter presenter;
+    private Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,24 +219,7 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
 
     private void setupData() {
         String noteId = getIntent().getStringExtra(NOTE_ID);
-        noteReference = getDatabase().getReference(FirebaseLink.forNote(noteId));
-        noteReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                note = dataSnapshot.getValue(Note.class);
-                showNote(note);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void showNote(Note note) {
-        presenter.getNote(note.getId());
-        presenter.getNoteContent(note);
+        presenter.getNote(noteId);
     }
 
     private void dictateNote() {
@@ -274,7 +251,6 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
 
-
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(note.getId()));
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Note");
@@ -297,6 +273,7 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
 
     @Override
     public void noteLoaded(Note note) {
+        this.note = note;
         binding.titleView.setText(note.getTitle());
     }
 
