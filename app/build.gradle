@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId 'pl.codeinprogress.notes'
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 21
+        targetSdkVersion 23
         versionCode 4
         versionName "1.2"
         vectorDrawables.useSupportLibrary = true
@@ -17,7 +18,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txrt'), 'proguard-rules.pro'
             zipAlignEnabled true
         }
         debug {
@@ -30,6 +31,10 @@ android {
     dexOptions {
         javaMaxHeapSize "12g"
     }
+    lintOptions {
+        abortOnError false
+    }
+
 
 }
 
@@ -60,6 +65,10 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.guava:guava:19.0-rc2'
     compile 'com.firebaseui:firebase-ui:0.4.1'
+
+    apt 'com.google.dagger:dagger-compiler:2.2'
+    compile 'com.google.dagger:dagger:2.2'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
 buildscript {
     repositories {

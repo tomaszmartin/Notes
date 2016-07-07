@@ -9,7 +9,7 @@
         android:background="@color/background"
         android:orientation="vertical"
         android:padding="32dp"
-        tools:context="pl.codeinprogress.notes.ui.SignupActivity"
+        tools:context="pl.codeinprogress.notes.view.SignupActivity"
         >
 
         <android.support.v4.widget.Space
