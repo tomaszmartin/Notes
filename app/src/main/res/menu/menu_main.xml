@@ -7,12 +7,12 @@
     <item
         android:title="@string/sort"
         android:orderInCategory="99"
-        app:srcCompat="@drawable/ic_sort"
-        app:showAsAction="never">
+        android:icon="@drawable/ic_sort_variant_white_24dp"
+        app:showAsAction="ifRoom">
         <menu>
             <item
                 android:id="@+id/action_sort_newest"
-                android:title="@string/sort_by_newest" />
+                android:title="@string/sort_by_oldest" />
             <item
                 android:id="@+id/action_sort_title"
                 android:title="@string/sort_by_title" />

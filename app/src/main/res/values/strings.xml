@@ -180,7 +180,7 @@
     <string name="other">Other</string>
     <string name="information">Information</string>
     <string name="sort">Sort</string>
-    <string name="sort_by_newest">Sort by newest</string>
+    <string name="sort_by_oldest">Sort by oldest</string>
     <string name="sort_by_title">Sort by title</string>
     <string name="take_photo">Take photo</string>
     <string name="read_note">Read note</string>

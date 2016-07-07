@@ -107,7 +107,7 @@
     <string name="sort">Sortuj</string>
     <string name="sort_alphabet_asc">Od a do z</string>
     <string name="sort_alphabet_desc">Od z do a</string>
-    <string name="sort_by_newest">Od najnowszych</string>
+    <string name="sort_by_oldest">Od najstarszych</string>
     <string name="sort_by_title">Alfabtycznie</string>
     <string name="sort_created_asc">Najstarsze</string>
     <string name="sort_created_desc">Najnowsze</string>

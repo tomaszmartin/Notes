@@ -2,6 +2,7 @@ package pl.codeinprogress.notes.presenter;
 
 import android.content.Intent;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.StorageReference;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
@@ -55,6 +56,18 @@ public class MainPresenter {
 
     public void loadNotes() {
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database);
+        noteView.notesLoaded(adapter);
+    }
+
+    public void sortByTitle() {
+        Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("title");
+        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
+        noteView.notesLoaded(adapter);
+    }
+
+    public void sortByDate() {
+        Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("lastModified");
+        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
         noteView.notesLoaded(adapter);
     }
 

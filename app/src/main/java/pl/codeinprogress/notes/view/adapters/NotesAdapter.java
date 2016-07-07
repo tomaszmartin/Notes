@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -20,6 +22,11 @@ public class NotesAdapter extends FirebaseListAdapter<Note> {
     private Locale locale;
 
     public NotesAdapter(Activity activity, Class<Note> modelClass, int modelLayout, DatabaseReference ref) {
+        super(activity, modelClass, modelLayout, ref);
+        this.locale = activity.getResources().getConfiguration().locale;
+    }
+
+    public NotesAdapter(Activity activity, Class<Note> modelClass, int modelLayout, Query ref) {
         super(activity, modelClass, modelLayout, ref);
         this.locale = activity.getResources().getConfiguration().locale;
     }
