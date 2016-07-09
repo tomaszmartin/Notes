@@ -71,4 +71,10 @@ public class MainPresenter {
         noteView.notesLoaded(adapter);
     }
 
+    public void search(String query) {
+        Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("title").startAt(query);
+        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
+        noteView.notesLoaded(adapter);
+    }
+
 }

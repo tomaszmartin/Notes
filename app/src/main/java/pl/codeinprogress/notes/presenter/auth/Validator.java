@@ -9,20 +9,23 @@ import java.util.regex.Pattern;
 public class Validator {
 
     public static boolean validateEmail(String target) {
-        Pattern emailPattern = Pattern.compile(
+        Pattern pattern = Pattern.compile(
                 "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
-                        "\\@" +
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-                        "(" +
-                        "\\." +
-                        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-                        ")+"
+                "\\@" +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                "(" +
+                "\\." +
+                "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                ")+"
         );
-        return emailPattern.matcher(target).matches();
+        return pattern.matcher(target).matches();
     }
 
     public static boolean validatePassword(String target) {
-        return target.length() > 7;
+        Pattern pattern = Pattern.compile(
+                "[*]{8,}"
+        );
+        return pattern.matcher(target).matches();
     }
 
 }
