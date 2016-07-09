@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Validator {
 
     public static boolean validateEmail(String target) {
-        Pattern pattern = Pattern.compile(
+        Pattern emailPattern = Pattern.compile(
                 "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -18,14 +18,14 @@ public class Validator {
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
                 ")+"
         );
-        return pattern.matcher(target).matches();
+        return emailPattern.matcher(target).matches();
     }
 
     public static boolean validatePassword(String target) {
-        Pattern pattern = Pattern.compile(
-                "[*]{8,}"
+        Pattern passwordPattern = Pattern.compile(
+                "[0-9a-zA-Z&@!#+]{6,20}"
         );
-        return pattern.matcher(target).matches();
+        return passwordPattern.matcher(target).matches();
     }
 
 }

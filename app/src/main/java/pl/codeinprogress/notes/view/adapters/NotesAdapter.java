@@ -2,6 +2,8 @@ package pl.codeinprogress.notes.view.adapters;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +22,7 @@ import pl.codeinprogress.notes.model.Note;
 public class NotesAdapter extends FirebaseListAdapter<Note> {
 
     private Locale locale;
+    private String filter;
 
     public NotesAdapter(Activity activity, Class<Note> modelClass, int modelLayout, DatabaseReference ref) {
         super(activity, modelClass, modelLayout, ref);

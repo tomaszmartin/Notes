@@ -53,8 +53,8 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
         binding = DataBindingUtil.setContentView(this, R.layout.details_activity);
         presenter = new DetailsPresenter(this, this);
 
-        setupView();
         setupListeners();
+        setupView();
         setupData();
     }
 

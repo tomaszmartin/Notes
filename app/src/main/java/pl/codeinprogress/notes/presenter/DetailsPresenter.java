@@ -62,7 +62,7 @@ public class DetailsPresenter {
     }
 
     private void getNoteContent(Note note) {
-        LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView);
+        LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView, storage);
         loadNoteTask.execute(note);
     }
 

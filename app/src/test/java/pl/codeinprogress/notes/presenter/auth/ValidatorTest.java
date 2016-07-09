@@ -27,13 +27,13 @@ public class ValidatorTest {
     @Test
     public void passwordIsTooShort() throws Exception {
         String password = "12345";
-        assertFalse(Validator.validateEmail(password));
+        assertFalse(Validator.validatePassword(password));
     }
 
     @Test
     public void passwordIsCorrect() throws Exception {
-        String password = "abcde12345";
-        assertFalse(Validator.validateEmail(password));
+        String password = "tomek1987";
+        assertTrue(Validator.validatePassword(password));
     }
 
 }
