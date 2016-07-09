@@ -1,8 +1,5 @@
 package pl.codeinprogress.notes.presenter;
 
-import android.content.Intent;
-import android.os.Build;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -10,13 +7,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
-import pl.codeinprogress.notes.model.Note;
+import pl.codeinprogress.notes.presenter.views.DetailsView;
 import pl.codeinprogress.notes.view.tasks.LoadNoteTask;
 import pl.codeinprogress.notes.view.tasks.SaveNoteTask;
-import pl.codeinprogress.notes.presenter.views.DetailsView;
 
 /**
  * Created by tomaszmartin on 05.07.2016.

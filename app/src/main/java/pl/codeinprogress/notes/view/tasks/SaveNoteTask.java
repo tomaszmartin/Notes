@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.model.data.EncryptionHelper;
+import pl.codeinprogress.notes.presenter.Encryptor;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 
 /**
@@ -48,8 +48,8 @@ public class SaveNoteTask extends AsyncTask<String, Void, Void> {
     private void saveToFile(String content) {
         if (!content.isEmpty() && !noteFilePath.isEmpty()) {
             try {
-                EncryptionHelper encryptionHelper = new EncryptionHelper(password);
-                content = encryptionHelper.encrypt(content);
+                Encryptor encryptor = new Encryptor(password);
+                content = encryptor.encrypt(content);
                 FileOutputStream fos = context.openFileOutput(noteFilePath, Activity.MODE_PRIVATE);
                 fos.write(content.getBytes());
                 fos.close();
@@ -64,8 +64,8 @@ public class SaveNoteTask extends AsyncTask<String, Void, Void> {
         if (context instanceof FirebaseActivity) {
             try {
                 FirebaseActivity activity = (FirebaseActivity) context;
-                EncryptionHelper encryptionHelper = new EncryptionHelper(password);
-                String encrypted = encryptionHelper.encrypt(content);
+                Encryptor encryptor = new Encryptor(password);
+                String encrypted = encryptor.encrypt(content);
                 InputStream stream = new ByteArrayInputStream(encrypted.getBytes());
 
                 FirebaseStorage storage = activity.getStorage();

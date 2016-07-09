@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.view.View;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.presenter.auth.FormValidator;
+import pl.codeinprogress.notes.presenter.auth.Validator;
 import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 
@@ -35,17 +35,17 @@ public class LoginActivity extends FirebaseActivity {
     public void login(View view) {
         String email = binding.emailField.getText().toString();
         String password = binding.passwordField.getText().toString();
-        if (FormValidator.validateEmail(email) && FormValidator.validatePassword(password)) {
+        if (Validator.validateEmail(email) && Validator.validatePassword(password)) {
             getAuthHandler().login(email, password, this);
         } else {
-            if (!FormValidator.validateEmail(email)) {
+            if (!Validator.validateEmail(email)) {
                 binding.emailWrapper.setError(getString(R.string.email_error));
                 binding.emailWrapper.setErrorEnabled(true);
             } else {
                 binding.emailWrapper.setErrorEnabled(false);
             }
 
-            if (!FormValidator.validatePassword(password)) {
+            if (!Validator.validatePassword(password)) {
                 binding.passwordWrapper.setError(getString(R.string.password_error));
                 binding.passwordWrapper.setErrorEnabled(true);
             } else {

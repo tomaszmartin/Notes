@@ -108,7 +108,7 @@ public class Note {
     }
 
     public String getKey() {
-        return "NOTE_ID_KEY";
+        return "noteId";
     }
 
 }

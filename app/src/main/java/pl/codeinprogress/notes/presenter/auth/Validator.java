@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * Created by tomaszmartin on 21.06.2016.
  */
 
-public class FormValidator {
+public class Validator {
 
     public static boolean validateEmail(String target) {
         Pattern emailPattern = Pattern.compile(

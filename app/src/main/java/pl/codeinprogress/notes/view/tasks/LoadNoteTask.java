@@ -9,7 +9,7 @@ import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
-import pl.codeinprogress.notes.model.data.EncryptionHelper;
+import pl.codeinprogress.notes.presenter.Encryptor;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.views.DetailsView;
@@ -46,9 +46,9 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
             while ((line = reader.readLine()) != null) {
                 contents = contents + line;
             }
-            EncryptionHelper encryptionHelper = new EncryptionHelper(password);
+            Encryptor encryptor = new Encryptor(password);
             fis.close();
-            return encryptionHelper.decrypt(contents);
+            return encryptor.decrypt(contents);
         } catch (FileNotFoundException e) {
             // TODO: handle downloading files on first use
         } catch (Exception e) {

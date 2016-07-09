@@ -36,7 +36,6 @@ import pl.codeinprogress.notes.presenter.DetailsPresenter;
 import pl.codeinprogress.notes.presenter.views.DetailsView;
 import pl.codeinprogress.notes.view.image.ImageTransformation;
 
-
 public class DetailsActivity extends FirebaseActivity implements DetailsView {
 
     private static final int IMAGE_REQUEST_CODE = 1;
