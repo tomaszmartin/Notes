@@ -205,6 +205,7 @@
     <string name="create_account">No account yet? Create one</string>
     <string name="first_name_error">First name cannot be empty</string>
     <string name="last_name_error">Last name cannot be empty</string>
+    <string name="action_authenticating">Logging in …</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

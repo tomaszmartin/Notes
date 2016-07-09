@@ -171,5 +171,6 @@
     <string name="email_error">Podany adres e-mail jest błędny</string>
     <string name="password_error">Podane hasło jest błędne</string>
     <string name="google_login">Zaloguj z Google</string>
+    <string name="action_authenticating">Loguję …</string>
 
 </resources>

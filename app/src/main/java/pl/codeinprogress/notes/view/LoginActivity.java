@@ -1,5 +1,6 @@
 package pl.codeinprogress.notes.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -37,6 +38,10 @@ public class LoginActivity extends FirebaseActivity {
         String password = binding.passwordField.getText().toString();
         if (Validator.validateEmail(email) && Validator.validatePassword(password)) {
             getAuthHandler().login(email, password, this);
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setIndeterminate(true);
+            progressDialog.setMessage(getString(R.string.action_authenticating));
+            progressDialog.show();
         } else {
             if (!Validator.validateEmail(email)) {
                 binding.emailWrapper.setError(getString(R.string.email_error));

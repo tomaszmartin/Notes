@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +27,7 @@ import pl.codeinprogress.notes.presenter.views.DetailsView;
  * Created by tomaszmartin on 21.06.2015.
  */
 
-public class LoadNoteTask extends AsyncTask<Note, Void, String> {
+public class LoadNoteTask extends AsyncTask<Note, Void, Void> {
 
     private Activity context;
     private DetailsView view;
@@ -46,7 +47,7 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Note... notes) {
+    protected Void doInBackground(Note... notes) {
         this.note = notes[0];
         String contents = "";
         final Encryptor encryptor = new Encryptor(password);
@@ -59,9 +60,10 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
                     contents = contents + line;
                 }
                 fis.close();
-                return encryptor.decrypt(contents);
+                showContent(contents);
             } catch (Exception e) {
                 e.printStackTrace();
+                showContent("");
             }
         } else {
             StorageReference fileReference = storage.child(note.getFileName());
@@ -76,23 +78,31 @@ public class LoadNoteTask extends AsyncTask<Note, Void, String> {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.noteContentsLoaded(encryptor.decrypt(new String(bytes)));
-                        }
-                    });
+                    showContent(bytes);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    showContent("");
                 }
             });
         }
 
-
-        return contents;
+        return null;
     }
 
-    @Override
-    protected void onPostExecute(String contents) {
-        view.noteContentsLoaded(contents);
+    private void showContent(final String content) {
+        final Encryptor encryptor = new Encryptor(password);
+        context.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                view.noteContentsLoaded(encryptor.decrypt(content));
+            }
+        });
+    }
+
+    private void showContent(byte[] bytes) {
+        showContent(new String(bytes));
     }
 
 }
