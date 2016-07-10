@@ -1,10 +1,18 @@
 package pl.codeinprogress.notes.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.auth.Validator;
 import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
@@ -34,33 +42,33 @@ public class LoginActivity extends FirebaseActivity {
     }
 
     public void login(View view) {
+        hideKeyboard();
         String email = binding.emailField.getText().toString();
         String password = binding.passwordField.getText().toString();
+        setEmailError(!Validator.validateEmail(email));
+        setPasswordError(!Validator.validatePassword(password));
         if (Validator.validateEmail(email) && Validator.validatePassword(password)) {
             getAuthHandler().login(email, password, this);
-            ProgressDialog progressDialog = new ProgressDialog(this);
+            ProgressDialog progressDialog = new ProgressDialog(this, R.style.LoginDialog);
             progressDialog.setIndeterminate(true);
             progressDialog.setMessage(getString(R.string.action_authenticating));
             progressDialog.show();
-        } else {
-            if (!Validator.validateEmail(email)) {
-                binding.emailWrapper.setError(getString(R.string.email_error));
-                binding.emailWrapper.setErrorEnabled(true);
-            } else {
-                binding.emailWrapper.setErrorEnabled(false);
-            }
-
-            if (!Validator.validatePassword(password)) {
-                binding.passwordWrapper.setError(getString(R.string.password_error));
-                binding.passwordWrapper.setErrorEnabled(true);
-            } else {
-                binding.passwordWrapper.setErrorEnabled(false);
-            }
         }
     }
 
     public void signup(View view) {
+        hideKeyboard();
         startActivityForResult(new Intent(this, SignupActivity.class), SIGNUP_REQUEST);
+    }
+
+    private void setPasswordError(boolean isError) {
+        binding.passwordWrapper.setError(getString(R.string.password_error));
+        binding.passwordWrapper.setErrorEnabled(isError);
+    }
+
+    private void setEmailError(boolean isError) {
+        binding.emailWrapper.setError(getString(R.string.email_error));
+        binding.emailWrapper.setErrorEnabled(isError);
     }
 
     @Override
@@ -71,4 +79,13 @@ public class LoginActivity extends FirebaseActivity {
             }
         }
     }
+
+    private void hideKeyboard() {
+        View view = getCurrentFocus();
+        if (view != null) {
+            ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).
+                    hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
 }

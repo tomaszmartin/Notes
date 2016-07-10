@@ -38,10 +38,10 @@ import pl.codeinprogress.notes.view.image.ImageTransformation;
 
 public class DetailsActivity extends FirebaseActivity implements DetailsView {
 
+    public static String NOTE_ID = "noteId";
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
-    public static String NOTE_ID = "noteId";
     private TextToSpeech textToSpeech;
     private DetailsActivityBinding binding;
     private DetailsPresenter presenter;
@@ -155,7 +155,7 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
         try {
             size =  Integer.valueOf(prefs.getString(getString(R.string.font_size_preference), getString(R.string.font_size_default)));
         } catch (NumberFormatException e) {
-
+            e.printStackTrace();
         }
 
         return size;

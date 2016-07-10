@@ -102,4 +102,10 @@
         <item name="android:background">@color/black_overlay</item>
     </style>
 
+    <style name="LoginDialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">@color/primary</item>
+    </style>
+
 </resources>
