@@ -27,7 +27,6 @@ public class MainPresenter {
     public MainPresenter(MainView noteView, FirebaseActivity activity) {
         this.noteView = noteView;
         this.activity = activity;
-        // this.database = activity.getDatabase().getReference(FirebaseLink.forNotes());
         this.database = FirebaseDatabase.getInstance();
     }
 
@@ -40,7 +39,7 @@ public class MainPresenter {
     }
 
     public void deleteNote(Note note) {
-        DatabaseReference noteReference = activity.getDatabase().getReference(FirebaseLink.forNote(note));
+        DatabaseReference noteReference = database.getReference(FirebaseLink.forNote(note));
         noteReference.removeValue();
     }
 
@@ -61,13 +60,13 @@ public class MainPresenter {
     }
 
     public void sortByTitle() {
-        Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("title");
+        Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("title");
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
         noteView.notesLoaded(adapter);
     }
 
     public void sortByDate() {
-        Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("lastModified");
+        Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("lastModified");
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
         noteView.notesLoaded(adapter);
     }
