@@ -2,7 +2,9 @@ package pl.codeinprogress.notes.presenter;
 
 import android.content.Intent;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
@@ -20,18 +22,17 @@ public class MainPresenter {
 
     private MainView noteView;
     private FirebaseActivity activity;
-    private DatabaseReference database;
-    private StorageReference storage;
+    private FirebaseDatabase database;
 
     public MainPresenter(MainView noteView, FirebaseActivity activity) {
         this.noteView = noteView;
         this.activity = activity;
-        this.database = activity.getDatabase().getReference(FirebaseLink.forNotes());
-        this.storage = activity.getStorage().getReferenceFromUrl(activity.getString(R.string.firebase_storage_bucket));
+        // this.database = activity.getDatabase().getReference(FirebaseLink.forNotes());
+        this.database = FirebaseDatabase.getInstance();
     }
 
     public void addNote() {
-        DatabaseReference noteReference = database.push();
+        DatabaseReference noteReference = database.getReference(FirebaseLink.forNotes()).push();
         String noteId = noteReference.getKey();
         Note note = new Note(noteId);
         noteReference.setValue(note);
@@ -55,7 +56,7 @@ public class MainPresenter {
     }
 
     public void loadNotes() {
-        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database);
+        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database.getReference(FirebaseLink.forNotes()));
         noteView.notesLoaded(adapter);
     }
 
