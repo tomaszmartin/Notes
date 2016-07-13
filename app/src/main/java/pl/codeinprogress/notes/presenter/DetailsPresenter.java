@@ -131,45 +131,59 @@ public class DetailsPresenter {
         return activity.getFileStreamPath(note.getFileName()).exists();
     }
 
-    private void loadNoteContentsFromFile(Note note) {
-        String contents = "";
-        final Encryptor encryptor = new Encryptor(password);
-        try {
-            FileInputStream inputStream = activity.openFileInput(note.getFileName());
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                contents = contents + line;
+    private void loadNoteContentsFromFile(final Note note) {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                String contents = "";
+                final Encryptor encryptor = new Encryptor(password);
+                try {
+                    FileInputStream inputStream = activity.openFileInput(note.getFileName());
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        contents = contents + line;
+                    }
+                    inputStream.close();
+                    displayContents(contents);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayContents("");
+                }
             }
-            inputStream.close();
-            displayContents(contents);
-        } catch (Exception e) {
-            e.printStackTrace();
-            displayContents("");
-        }
+        };
+        Thread thread = new Thread(task);
+        thread.run();
     }
 
     private void downloadNoteFile(final Note note) {
-        StorageReference fileReference = storage.child(note.getFileName());
-        final long oneMegabyte = 1024 * 1024;
-        fileReference.getBytes(oneMegabyte).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        Runnable task = new Runnable() {
             @Override
-            public void onSuccess(final byte[] bytes) {
-                try {
-                    FileOutputStream outputStream = activity.openFileOutput(note.getFileName(), Context.MODE_PRIVATE);
-                    outputStream.write(bytes);
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                displayContents(new String(bytes));
+            public void run() {
+                StorageReference fileReference = storage.child(note.getFileName());
+                final long oneMegabyte = 1024 * 1024;
+                fileReference.getBytes(oneMegabyte).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                    @Override
+                    public void onSuccess(final byte[] bytes) {
+                        try {
+                            FileOutputStream outputStream = activity.openFileOutput(note.getFileName(), Context.MODE_PRIVATE);
+                            outputStream.write(bytes);
+                            outputStream.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        displayContents(new String(bytes));
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        displayContents("");
+                    }
+                });
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                displayContents("");
-            }
-        });
+        };
+        Thread thread = new Thread(task);
+        thread.run();
     }
 
     private void displayContents(final String content) {
