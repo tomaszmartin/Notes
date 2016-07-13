@@ -1,8 +1,8 @@
 package pl.codeinprogress.notes.presenter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-
+import android.os.Environment;
+import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -12,15 +12,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
@@ -38,6 +37,7 @@ public class DetailsPresenter {
     private DatabaseReference database;
     private StorageReference storage;
     private String password;
+    private File filesDir;
 
     public DetailsPresenter(DetailsView detailsView, FirebaseActivity activity) {
         this.detailsView = detailsView;
@@ -45,6 +45,7 @@ public class DetailsPresenter {
         this.database = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes());
         this.storage = FirebaseStorage.getInstance().getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
         this.password = activity.getAuthHandler().getCredentials().getId();
+        this.filesDir = activity.getFilesDir();
     }
 
     public void saveNote(Note note, String contents) {
@@ -72,7 +73,7 @@ public class DetailsPresenter {
         });
     }
 
-    private void getNoteContent(Note note) {
+    private void getNoteContent(Note note) RemovinWorkingo{
         if (noteFileExists(note)) {
             loadNoteContentsFromFile(note);
         } else {
@@ -80,7 +81,7 @@ public class DetailsPresenter {
         }
     }
 
-    private void saveToFile(@NonNull final Note note, final String password, @NonNull final String content) {
+    private void saveToFile(final Note note, final String password, final String content) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -88,7 +89,7 @@ public class DetailsPresenter {
                     try {
                         Encryptor encryptor = new Encryptor(password);
                         String result = encryptor.encrypt(content);
-                        FileOutputStream outputStream = activity.openFileOutput(note.getFileName(), Context.MODE_PRIVATE);
+                        FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
                         outputStream.write(result.getBytes());
                         outputStream.close();
                     } catch (Exception e) {
@@ -101,7 +102,7 @@ public class DetailsPresenter {
         thread.run();
     }
 
-    private void saveToFirebase(@NonNull final Note note, final String password, @NonNull final String content) {
+    private void saveToFirebase( final Note note, final String password, final String content) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -124,7 +125,7 @@ public class DetailsPresenter {
     }
 
     private boolean noteFileExists(Note note) {
-        return activity.getFileStreamPath(note.getFileName()).exists();
+        return new File(filesDir, note.getFileName()).exists();
     }
 
     private void loadNoteContentsFromFile(final Note note) {
@@ -134,7 +135,7 @@ public class DetailsPresenter {
                 String contents = "";
                 final Encryptor encryptor = new Encryptor(password);
                 try {
-                    FileInputStream inputStream = activity.openFileInput(note.getFileName());
+                    FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getFileName()));
                     BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
                     String line;
                     while ((line = reader.readLine()) != null) {
@@ -162,7 +163,7 @@ public class DetailsPresenter {
                     @Override
                     public void onSuccess(final byte[] bytes) {
                         try {
-                            FileOutputStream outputStream = activity.openFileOutput(note.getFileName(), Context.MODE_PRIVATE);
+                            FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
                             outputStream.write(bytes);
                             outputStream.close();
                         } catch (Exception e) {
@@ -172,7 +173,7 @@ public class DetailsPresenter {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure(Exception e) {
                         displayContents("");
                     }
                 });
