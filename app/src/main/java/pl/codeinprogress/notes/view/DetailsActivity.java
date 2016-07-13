@@ -129,6 +129,18 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void noteLoaded(Note note) {
+        this.note = note;
+        binding.titleView.setText(note.getTitle());
+    }
+
+    @Override
+    public void noteContentsLoaded(String contents) {
+        binding.contentView.setText(contents);
+        binding.contentView.setVisibility(View.VISIBLE);
+    }
+
     private void showAlarm() {
         DialogFragment alertDialog = new AlarmDialogFragment();
         Bundle arguments = new Bundle();
@@ -268,18 +280,6 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
                     .into(binding.imageView);
 
         }
-    }
-
-    @Override
-    public void noteLoaded(Note note) {
-        this.note = note;
-        binding.titleView.setText(note.getTitle());
-    }
-
-    @Override
-    public void noteContentsLoaded(String contents) {
-        binding.contentView.setText(contents);
-        binding.contentView.setVisibility(View.VISIBLE);
     }
 
 }

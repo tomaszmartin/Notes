@@ -1,8 +1,12 @@
 package pl.codeinprogress.notes.presenter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -11,10 +15,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
@@ -69,8 +77,11 @@ public class DetailsPresenter {
     }
 
     private void getNoteContent(Note note) {
-        LoadNoteTask loadNoteTask = new LoadNoteTask(activity, detailsView, storage);
-        loadNoteTask.execute(note);
+        if (noteFileExists(note)) {
+            loadNoteContentsFromFile(note);
+        } else {
+            downloadNoteFile(note);
+        }
     }
 
     private void saveToFile(@NonNull final Note note, final String password, @NonNull final String content) {
@@ -81,10 +92,9 @@ public class DetailsPresenter {
                     try {
                         Encryptor encryptor = new Encryptor(password);
                         String result = encryptor.encrypt(content);
-                        FileOutputStream fos = activity.openFileOutput(note.getFileName(), Activity.MODE_PRIVATE);
-                        //FileOutputStream fos = new FileOutputStream(new File(note.getFileName()));
-                        fos.write(result.getBytes());
-                        fos.close();
+                        FileOutputStream outputStream = activity.openFileOutput(note.getFileName(), Context.MODE_PRIVATE);
+                        outputStream.write(result.getBytes());
+                        outputStream.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -115,6 +125,61 @@ public class DetailsPresenter {
         };
         Thread thread = new Thread(task);
         thread.run();
+    }
+
+    private boolean noteFileExists(Note note) {
+        return activity.getFileStreamPath(note.getFileName()).exists();
+    }
+
+    private void loadNoteContentsFromFile(Note note) {
+        String contents = "";
+        final Encryptor encryptor = new Encryptor(password);
+        try {
+            FileInputStream inputStream = activity.openFileInput(note.getFileName());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                contents = contents + line;
+            }
+            inputStream.close();
+            displayContents(contents);
+        } catch (Exception e) {
+            e.printStackTrace();
+            displayContents("");
+        }
+    }
+
+    private void downloadNoteFile(final Note note) {
+        StorageReference fileReference = storage.child(note.getFileName());
+        final long oneMegabyte = 1024 * 1024;
+        fileReference.getBytes(oneMegabyte).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(final byte[] bytes) {
+                try {
+                    FileOutputStream outputStream = activity.openFileOutput(note.getFileName(), Context.MODE_PRIVATE);
+                    outputStream.write(bytes);
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                displayContents(new String(bytes));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                displayContents("");
+            }
+        });
+    }
+
+    private void displayContents(final String content) {
+        final Encryptor encryptor = new Encryptor(password);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                detailsView.noteContentsLoaded(encryptor.decrypt(content));
+            }
+        });
     }
 
 }
