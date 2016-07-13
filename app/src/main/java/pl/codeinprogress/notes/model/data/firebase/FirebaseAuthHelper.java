@@ -29,17 +29,17 @@ public class FirebaseAuthHelper {
     private final String EMAIL_KEY = "USER_EMAIL";
     private final String IMAGE_KEY = "USER_IMAGE";
     private final String STATUS_KEY = "USER_STATUS";
-    private SharedPreferences manager;
-    private final FirebaseApplication application;
+    private final SharedPreferences manager;
+    private final FirebaseAuth auth;
     private static FirebaseAuthHelper instance;
 
     private FirebaseAuthHelper(FirebaseApplication app) {
-        this.application = app;
-        manager = PreferenceManager.getDefaultSharedPreferences(application);
-        application.getAuth().addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+        this.manager = PreferenceManager.getDefaultSharedPreferences(app);
+        this.auth = FirebaseAuth.getInstance();
+        auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = application.getAuth().getCurrentUser();
+                FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
                     Credentials credentials = Credentials.fromFirebaseUser(user);
                     onLoggedIn(credentials);
@@ -57,7 +57,7 @@ public class FirebaseAuthHelper {
     }
 
     public void login(String email, String password, final FirebaseActivity activity) {
-        activity.getAuth().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 activity.finish();
@@ -66,18 +66,17 @@ public class FirebaseAuthHelper {
     }
 
     public void singup(final Credentials credentials, String password, final FirebaseActivity activity) {
-        activity.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        log("User has been created with email " + credentials.getEmail());
-                        onSignedUp(credentials, activity);
-                    }
-                });
+        activity.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                log("User has been created with email " + credentials.getEmail());
+                onSignedUp(credentials, activity);
+            }
+        });
     }
 
     public void onSignedUp(Credentials credentials, FirebaseActivity activity) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
         Uri image = null;
         try {
             image = Uri.parse(credentials.getImage());
@@ -111,7 +110,6 @@ public class FirebaseAuthHelper {
 
     public void onLoggedIn(Credentials credentials) {
         saveCredentials(credentials);
-        log(getCredentials().toString());
     }
 
     public void onLoggedOut() {
