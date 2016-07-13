@@ -1,8 +1,6 @@
 package pl.codeinprogress.notes.presenter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -18,7 +16,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -29,7 +26,6 @@ import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.presenter.views.DetailsView;
 import pl.codeinprogress.notes.secret.Secrets;
-import pl.codeinprogress.notes.view.tasks.LoadNoteTask;
 
 /**
  * Created by tomaszmartin on 05.07.2016.
