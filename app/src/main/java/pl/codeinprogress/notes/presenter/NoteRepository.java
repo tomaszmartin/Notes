@@ -12,7 +12,8 @@ public interface NoteRepository {
 
     Note getNote(String noteId);
     ArrayList<Note> getNotes();
-    boolean updateNote(String noteId);
-    boolean deleteNote(String noteId);
+    void updateNote(Note note);
+    void deleteNote(Note note);
+    void addNote();
 
 }
