@@ -32,7 +32,7 @@ public class FirebaseNoteRepository implements NoteRepository {
     public void FirebaseNoteRepository() {
         this.database = FirebaseDatabase.getInstance();
         this.storage = FirebaseStorage.getInstance();
-        this.notes = new ArrayList<>();
+        this.notes = getNotes();
     }
 
     @Override
@@ -48,8 +48,12 @@ public class FirebaseNoteRepository implements NoteRepository {
         return null;
     }
 
+    // TODO: async...
     @Override
     public ArrayList<Note> getNotes() {
+        if (this.notes == null) {
+            this.notes = new ArrayList<>();
+        }
         database.getReference(FirebaseLink.forNotes()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
