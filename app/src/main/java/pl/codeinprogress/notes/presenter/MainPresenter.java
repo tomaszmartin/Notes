@@ -2,7 +2,6 @@ package pl.codeinprogress.notes.presenter;
 
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -18,7 +17,7 @@ import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.secret.Secrets;
 import pl.codeinprogress.notes.view.DetailsActivity;
-import pl.codeinprogress.notes.presenter.views.MainView;
+import pl.codeinprogress.notes.view.views.MainView;
 import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
 /**

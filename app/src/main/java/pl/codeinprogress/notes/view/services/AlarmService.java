@@ -12,7 +12,7 @@ import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
-import pl.codeinprogress.notes.presenter.views.DetailsView;
+import pl.codeinprogress.notes.view.views.DetailsView;
 
 /**
  * Created by tomaszmartin on 03.05.15.

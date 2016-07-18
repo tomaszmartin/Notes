@@ -1,8 +1,5 @@
 package pl.codeinprogress.notes.presenter;
 
-import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -23,7 +20,7 @@ import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
-import pl.codeinprogress.notes.presenter.views.DetailsView;
+import pl.codeinprogress.notes.view.views.DetailsView;
 import pl.codeinprogress.notes.secret.Secrets;
 
 /**
@@ -73,7 +70,7 @@ public class DetailsPresenter {
         });
     }
 
-    private void getNoteContent(Note note) RemovinWorkingo{
+    private void getNoteContent(Note note) {
         if (noteFileExists(note)) {
             loadNoteContentsFromFile(note);
         } else {

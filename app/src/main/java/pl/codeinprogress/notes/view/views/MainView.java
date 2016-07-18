@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.presenter.views;
+package pl.codeinprogress.notes.view.views;
 
 import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
