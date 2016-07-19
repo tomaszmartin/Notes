@@ -15,5 +15,6 @@ public interface NotesRepository {
     void saveNote(Note note);
     void deleteNote(Note note);
     void addNote();
+    void searchNotes(String query);
 
 }

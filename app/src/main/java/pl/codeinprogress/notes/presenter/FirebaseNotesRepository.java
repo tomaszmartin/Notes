@@ -48,6 +48,11 @@ public class FirebaseNotesRepository implements NotesRepository {
     }
 
     @Override
+    public void searchNotes(String query) {
+
+    }
+
+    @Override
     public Note getNote(String noteId) {
         if (notes != null && !notes.isEmpty()) {
             for (Note note : notes) {

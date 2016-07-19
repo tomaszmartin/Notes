@@ -10,6 +10,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
@@ -106,14 +107,6 @@ public class MainPresenter {
     private void deleteFromStorage(Note note) {
         StorageReference current = storage.child(note.getFileName());
         current.delete();
-    }
-
-    public void onNoteLoaded() {
-        
-    }
-
-    public void onNotesLoaded() {
-
     }
 
 }
