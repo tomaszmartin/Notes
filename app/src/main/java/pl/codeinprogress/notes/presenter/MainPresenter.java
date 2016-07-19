@@ -108,4 +108,12 @@ public class MainPresenter {
         current.delete();
     }
 
+    public void onNoteLoaded() {
+        
+    }
+
+    public void onNotesLoaded() {
+
+    }
+
 }

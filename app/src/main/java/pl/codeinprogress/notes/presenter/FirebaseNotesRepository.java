@@ -15,11 +15,11 @@ import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
 import pl.codeinprogress.notes.secret.Secrets;
 
 /**
- * Implementation of NoteRepository.
+ * Implementation of NotesRepository.
  * Uses FirebaseDatabase and FirebaseStorage backed by local copies.
  */
 
-public class FirebaseNoteRepository implements NoteRepository {
+public class FirebaseNotesRepository implements NotesRepository {
 
     private FirebaseDatabase database;
     private FirebaseStorage storage;
@@ -30,7 +30,7 @@ public class FirebaseNoteRepository implements NoteRepository {
      * Creates a class that provides notes
      * @param homePath should be set to Environment.getExternalStorageDirectory() + File.separator for Android developemtn
      */
-    public FirebaseNoteRepository(String homePath) {
+    public FirebaseNotesRepository(String homePath) {
         this.database = FirebaseDatabase.getInstance();
         this.storage = FirebaseStorage.getInstance();
         this.homePath = homePath;
@@ -68,7 +68,7 @@ public class FirebaseNoteRepository implements NoteRepository {
     }
 
     @Override
-    public void updateNote(Note note) {
+    public void saveNote(Note note) {
         DatabaseReference current = database.getReference(FirebaseLink.forNote(note));
         current.setValue(note);
     }
