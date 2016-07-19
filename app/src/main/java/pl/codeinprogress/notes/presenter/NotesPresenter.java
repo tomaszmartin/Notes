@@ -5,14 +5,18 @@ import java.util.ArrayList;
 import pl.codeinprogress.notes.model.Note;
 
 /**
- * Created by tomaszmartin on 19.07.2016.
+ * Interface for presenting notes.
  */
 
 public interface NotesPresenter {
 
-    Note getNote(String noteId);
-    ArrayList<Note> getNotes();
+    void getNotes();
+    void getNote(String noteId);
+    void noteLoaded(Note note);
+    void notesLoaded(ArrayList<Note> notes);
+
     void addNote();
     void saveNote(Note note);
+    void deleteNote(Note note);
 
 }

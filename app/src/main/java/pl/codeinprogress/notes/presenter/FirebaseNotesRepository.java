@@ -24,16 +24,18 @@ public class FirebaseNotesRepository implements NotesRepository {
     private FirebaseDatabase database;
     private FirebaseStorage storage;
     private ArrayList<Note> notes;
+    private NotesPresenter presenter;
     private String homePath;
 
     /**
      * Creates a class that provides notes
      * @param homePath should be set to Environment.getExternalStorageDirectory() + File.separator for Android developemtn
      */
-    public FirebaseNotesRepository(String homePath) {
+    public FirebaseNotesRepository(String homePath, NotesPresenter presenter) {
         this.database = FirebaseDatabase.getInstance();
         this.storage = FirebaseStorage.getInstance();
         this.homePath = homePath;
+        this.presenter = presenter;
         initNotes();
     }
 
