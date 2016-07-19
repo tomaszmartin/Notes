@@ -9,7 +9,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.view.listeners.NavigationListener;
 
 public class SettingsActivity extends FirebaseActivity {

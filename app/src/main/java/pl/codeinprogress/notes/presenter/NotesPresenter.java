@@ -1,7 +1,6 @@
 package pl.codeinprogress.notes.presenter;
 
 import java.util.ArrayList;
-
 import pl.codeinprogress.notes.model.Note;
 
 /**

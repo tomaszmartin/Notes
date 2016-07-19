@@ -31,7 +31,7 @@ import java.util.UUID;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
 import pl.codeinprogress.notes.view.views.DetailsView;
 import pl.codeinprogress.notes.view.image.ImageTransformation;

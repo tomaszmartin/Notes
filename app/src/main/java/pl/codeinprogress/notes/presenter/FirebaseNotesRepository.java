@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseLink;
+import pl.codeinprogress.notes.presenter.firebase.FirebaseLink;
 import pl.codeinprogress.notes.secret.Secrets;
 
 /**

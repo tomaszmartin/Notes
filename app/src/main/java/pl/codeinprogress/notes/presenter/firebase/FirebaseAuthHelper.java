@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.model.data.firebase;
+package pl.codeinprogress.notes.presenter.firebase;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

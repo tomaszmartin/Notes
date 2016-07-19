@@ -5,7 +5,7 @@ import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Transformation;
 
-import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 
 /**
  * Created by tomaszmartin on 24.06.2016.

@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.model.data.firebase;
+package pl.codeinprogress.notes.presenter.firebase;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.User;

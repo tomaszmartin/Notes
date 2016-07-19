@@ -5,18 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.auth.Validator;
 import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 
 public class LoginActivity extends FirebaseActivity {
 

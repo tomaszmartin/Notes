@@ -7,7 +7,7 @@ import android.view.View;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.auth.Credentials;
 import pl.codeinprogress.notes.databinding.ActivitySignupBinding;
-import pl.codeinprogress.notes.model.data.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 
 public class SignupActivity extends FirebaseActivity {
 
