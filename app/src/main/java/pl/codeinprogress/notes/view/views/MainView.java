@@ -8,6 +8,6 @@ import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
 public interface MainView {
 
-    void notesLoaded(NotesAdapter adapter);
+    void showNotes(NotesAdapter adapter);
 
 }

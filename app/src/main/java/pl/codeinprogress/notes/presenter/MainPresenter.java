@@ -10,7 +10,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.util.ArrayList;
 
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
@@ -60,25 +59,25 @@ public class MainPresenter {
 
     public void loadNotes() {
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database.getReference(FirebaseLink.forNotes()));
-        noteView.notesLoaded(adapter);
+        noteView.showNotes(adapter);
     }
 
     public void sortByTitle() {
         Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("title");
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        noteView.notesLoaded(adapter);
+        noteView.showNotes(adapter);
     }
 
     public void sortByDate() {
         Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("lastModified");
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        noteView.notesLoaded(adapter);
+        noteView.showNotes(adapter);
     }
 
     public void search(String query) {
         Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("title").startAt(query);
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        noteView.notesLoaded(adapter);
+        noteView.showNotes(adapter);
     }
 
     public void deleteNote(Note note) {

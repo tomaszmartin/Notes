@@ -50,7 +50,7 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.details_activity);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
         presenter = new DetailsPresenter(this, this);
 
         setupListeners();

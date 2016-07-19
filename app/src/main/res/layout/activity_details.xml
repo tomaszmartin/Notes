@@ -6,7 +6,8 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,10 +35,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_margin="16dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:hint="@string/title"
                     android:inputType="textCapSentences|textMultiLine"
                     android:textColor="@color/white"
+                    tools:text="@string/lorem_short"
+                    android:textSize="24sp"
                     />
 
             </android.support.design.widget.AppBarLayout>
@@ -47,6 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/appbar"
+                android:layout_margin="16dp"
                 >
 
                 <ScrollView
@@ -80,7 +87,7 @@
                             android:inputType="textMultiLine|textCapSentences"
                             android:visibility="gone"
                             tools:text="@string/lorem_long"
-                            tools:visibility="invisible"/>
+                            tools:visibility="visible"/>
 
                     </LinearLayout>
 

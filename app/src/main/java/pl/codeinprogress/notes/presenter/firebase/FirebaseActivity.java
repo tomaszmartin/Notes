@@ -16,10 +16,6 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import pl.codeinprogress.notes.R;
 
-/**
- * Created by tomaszmartin on 02.07.15.
- */
-
 public class FirebaseActivity extends AppCompatActivity {
 
     @Override
