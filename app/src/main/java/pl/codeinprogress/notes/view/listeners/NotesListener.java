@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import java.util.ArrayList;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.view.adapters.NotesAdapter;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.MainPresenter;
 
@@ -22,12 +22,12 @@ public class NotesListener implements View.OnClickListener,
         AdapterView.OnItemClickListener,
         AbsListView.MultiChoiceModeListener {
 
-    private FirebaseActivity activity;
+    private BaseActivity activity;
     private NotesAdapter adapter;
     private MainPresenter provider;
     private ArrayList<Note> selectedNotes = new ArrayList<>();
 
-    public NotesListener(FirebaseActivity activity, NotesAdapter adapter) {
+    public NotesListener(BaseActivity activity, NotesAdapter adapter) {
         this.activity = activity;
         this.adapter = adapter;
         this.provider = new MainPresenter(null, activity);

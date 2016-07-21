@@ -11,9 +11,9 @@ import android.view.inputmethod.InputMethodManager;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.auth.Validator;
 import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 
-public class LoginActivity extends FirebaseActivity {
+public class LoginActivity extends BaseActivity {
 
     public static final int SIGNUP_REQUEST = 1;
     private ActivityLoginBinding binding;

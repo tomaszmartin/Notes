@@ -5,7 +5,7 @@ import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Transformation;
 
-import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 
 /**
  * Created by tomaszmartin on 24.06.2016.
@@ -13,9 +13,9 @@ import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 
 public class ImageTransformation implements Transformation {
 
-    private FirebaseActivity activity;
+    private BaseActivity activity;
 
-    public ImageTransformation(FirebaseActivity activity) {
+    public ImageTransformation(BaseActivity activity) {
         this.activity = activity;
     }
 

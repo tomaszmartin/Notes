@@ -22,28 +22,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.databinding.DetailsActivityBinding;
+import pl.codeinprogress.notes.databinding.ActivityDetailsBinding;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
-import pl.codeinprogress.notes.view.views.DetailsView;
+import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 import pl.codeinprogress.notes.view.image.ImageTransformation;
+import pl.codeinprogress.notes.view.views.DetailsView;
 
-public class DetailsActivity extends FirebaseActivity implements DetailsView {
+public class DetailsActivity extends BaseActivity implements DetailsView {
 
     public static String NOTE_ID = "noteId";
     private static final int IMAGE_REQUEST_CODE = 1;
     private static final int AUDIO_REQUEST_CODE = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
     private TextToSpeech textToSpeech;
-    private DetailsActivityBinding binding;
+    private ActivityDetailsBinding binding;
     private DetailsPresenter presenter;
     private Note note;
 
@@ -262,11 +261,6 @@ public class DetailsActivity extends FirebaseActivity implements DetailsView {
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
 
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, String.valueOf(note.getId()));
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Note");
-        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Note");
-        logEvent(FirebaseAnalytics.Event.SHARE, bundle);
     }
 
     private void setImage(Uri imageUri) {

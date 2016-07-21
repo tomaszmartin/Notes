@@ -2,6 +2,7 @@ package pl.codeinprogress.notes.presenter;
 
 import android.content.Intent;
 import android.os.Environment;
+import android.util.Log;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -12,7 +13,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 import pl.codeinprogress.notes.presenter.firebase.FirebaseLink;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.secret.Secrets;
@@ -26,13 +27,13 @@ import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
 public class MainPresenter {
 
-    private MainView noteView;
-    private FirebaseActivity activity;
+    private MainView view;
+    private BaseActivity activity;
     private FirebaseDatabase database;
     private StorageReference storage;
 
-    public MainPresenter(MainView noteView, FirebaseActivity activity) {
-        this.noteView = noteView;
+    public MainPresenter(MainView view, BaseActivity activity) {
+        this.view = view;
         this.activity = activity;
         this.database = FirebaseDatabase.getInstance();
         this.storage = FirebaseStorage.getInstance().getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
@@ -58,26 +59,27 @@ public class MainPresenter {
     }
 
     public void loadNotes() {
+        Log.d("MainPresenter", "loadNotes called with " + database.getReference(FirebaseLink.forNotes()).toString());
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database.getReference(FirebaseLink.forNotes()));
-        noteView.showNotes(adapter);
+        view.showNotes(adapter);
     }
 
     public void sortByTitle() {
         Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("title");
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        noteView.showNotes(adapter);
+        view.showNotes(adapter);
     }
 
     public void sortByDate() {
         Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("lastModified");
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        noteView.showNotes(adapter);
+        view.showNotes(adapter);
     }
 
     public void search(String query) {
-        Query reference = activity.getDatabase().getReference(FirebaseLink.forNotes()).orderByChild("title").startAt(query);
+        Query reference = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes()).orderByChild("title").startAt(query);
         NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        noteView.showNotes(adapter);
+        view.showNotes(adapter);
     }
 
     public void deleteNote(Note note) {

@@ -13,6 +13,7 @@ public class NotesPresenterImpl implements NotesPresenter {
     private NotesView view;
     private NotesRepository repository;
 
+
     public NotesPresenterImpl(NotesView view) {
         this.view = view;
         this.repository = new FirebaseNotesRepository(null, this);

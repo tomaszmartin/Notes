@@ -18,7 +18,7 @@ public class FirebaseApplication extends Application {
     private FirebaseDatabase database;
     private FirebaseRemoteConfig configuration;
     private FirebaseStorage storage;
-    private FirebaseAuthHelper authHandler;
+    private Auth authHandler;
 
     @Override
     public void onCreate() {
@@ -30,7 +30,7 @@ public class FirebaseApplication extends Application {
         storage = FirebaseStorage.getInstance();
         configuration = FirebaseRemoteConfig.getInstance();
         configuration.setDefaults(R.xml.firebase);
-        authHandler = FirebaseAuthHelper.getInstance(this);
+        authHandler = Auth.getInstance(this);
     }
 
     public FirebaseAnalytics getAnalytics() {
@@ -53,7 +53,7 @@ public class FirebaseApplication extends Application {
         return storage;
     }
 
-    public FirebaseAuthHelper getAuthHandler() {
+    public Auth getAuthHandler() {
         return authHandler;
     }
 }

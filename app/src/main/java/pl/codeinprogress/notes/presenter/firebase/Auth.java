@@ -1,6 +1,7 @@
 package pl.codeinprogress.notes.presenter.firebase;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
@@ -22,7 +23,7 @@ import pl.codeinprogress.notes.presenter.auth.Credentials;
  * Class hor handling authorization.
  */
 
-public class FirebaseAuthHelper {
+public class Auth implements Authentication {
 
     private final String ID_KEY = "USER_ID";
     private final String NAME_KEY = "USER_NAME";
@@ -31,10 +32,10 @@ public class FirebaseAuthHelper {
     private final String STATUS_KEY = "USER_STATUS";
     private final SharedPreferences manager;
     private final FirebaseAuth auth;
-    private static FirebaseAuthHelper instance;
+    private static Auth instance;
 
-    private FirebaseAuthHelper(FirebaseApplication app) {
-        this.manager = PreferenceManager.getDefaultSharedPreferences(app);
+    private Auth(Context ctx) {
+        this.manager = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
             @Override
@@ -48,15 +49,15 @@ public class FirebaseAuthHelper {
         });
     }
 
-    public static FirebaseAuthHelper getInstance(FirebaseApplication app) {
+    public static Auth getInstance(Context ctx) {
         if (instance == null) {
-            instance = new FirebaseAuthHelper(app);
+            instance = new Auth(ctx);
         }
 
         return instance;
     }
 
-    public void login(String email, String password, final FirebaseActivity activity) {
+    public void login(String email, String password, final BaseActivity activity) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -65,8 +66,8 @@ public class FirebaseAuthHelper {
         });
     }
 
-    public void singup(final Credentials credentials, String password, final FirebaseActivity activity) {
-        activity.getAuth().createUserWithEmailAndPassword(credentials.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    public void singup(final Credentials credentials, String password, final BaseActivity activity) {
+        auth.createUserWithEmailAndPassword(credentials.getEmail(), password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 log("User has been created with email " + credentials.getEmail());
@@ -75,7 +76,7 @@ public class FirebaseAuthHelper {
         });
     }
 
-    public void onSignedUp(Credentials credentials, FirebaseActivity activity) {
+    public void onSignedUp(Credentials credentials, BaseActivity activity) {
         FirebaseUser user = auth.getCurrentUser();
         Uri image = null;
         try {
@@ -138,7 +139,7 @@ public class FirebaseAuthHelper {
     }
 
     private void log(String message) {
-        Log.d(FirebaseAuthHelper.class.getSimpleName(), message);
+        Log.d(Auth.class.getSimpleName(), message);
     }
 
     public Credentials getCredentials() {
@@ -151,4 +152,8 @@ public class FirebaseAuthHelper {
         return new Credentials(name, id, email, image, state);
     }
 
+    @Override
+    public void authenticate() {
+
+    }
 }

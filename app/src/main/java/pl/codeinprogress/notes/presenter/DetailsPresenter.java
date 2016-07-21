@@ -18,7 +18,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseActivity;
+import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 import pl.codeinprogress.notes.presenter.firebase.FirebaseLink;
 import pl.codeinprogress.notes.view.views.DetailsView;
 import pl.codeinprogress.notes.secret.Secrets;
@@ -30,13 +30,13 @@ import pl.codeinprogress.notes.secret.Secrets;
 public class DetailsPresenter {
 
     private DetailsView detailsView;
-    private FirebaseActivity activity;
+    private BaseActivity activity;
     private DatabaseReference database;
     private StorageReference storage;
     private String password;
     private File filesDir;
 
-    public DetailsPresenter(DetailsView detailsView, FirebaseActivity activity) {
+    public DetailsPresenter(DetailsView detailsView, BaseActivity activity) {
         this.detailsView = detailsView;
         this.activity = activity;
         this.database = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes());
@@ -108,7 +108,7 @@ public class DetailsPresenter {
                     String encrypted = encryptor.encrypt(content);
                     InputStream stream = new ByteArrayInputStream(encrypted.getBytes());
 
-                    FirebaseStorage storage = activity.getStorage();
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
                     StorageReference reference = storage.getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
                     StorageReference current = reference.child(note.getFileName());
                     current.putStream(stream);
