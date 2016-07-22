@@ -3,9 +3,6 @@ package pl.codeinprogress.notes.model;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by tomaszmartin on 22.06.2016.
- */
 public class Note {
 
     private String id;
