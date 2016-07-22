@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.auth.Validator;
 import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
-import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 
 public class LoginActivity extends BaseActivity {
 

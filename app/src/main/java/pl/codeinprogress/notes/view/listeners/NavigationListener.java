@@ -8,7 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.view.LoginActivity;
+import pl.codeinprogress.notes.presenter.auth.Auth;
 import pl.codeinprogress.notes.view.MainActivity;
 import pl.codeinprogress.notes.view.SettingsActivity;
 
@@ -35,9 +35,10 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
             case R.id.drawer_settings:
                 startActivity(SettingsActivity.class);
                 return true;
-            case R.id.drawer_login:
-                startActivity(LoginActivity.class);
-                return false;
+            case R.id.drawer_logout:
+                Auth auth = Auth.getInstance(activity);
+                auth.logout();
+                return true;
         }
         return false;
     }

@@ -1,20 +1,12 @@
-package pl.codeinprogress.notes.presenter.firebase;
+package pl.codeinprogress.notes.view;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.storage.FirebaseStorage;
-
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.presenter.auth.Auth;
 
 public class BaseActivity extends AppCompatActivity {
 

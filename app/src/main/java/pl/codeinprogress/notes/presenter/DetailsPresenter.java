@@ -18,8 +18,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseLink;
+import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.view.views.DetailsView;
 import pl.codeinprogress.notes.secret.Secrets;
 

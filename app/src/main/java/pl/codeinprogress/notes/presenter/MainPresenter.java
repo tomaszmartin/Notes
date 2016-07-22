@@ -13,8 +13,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
-import pl.codeinprogress.notes.presenter.firebase.FirebaseLink;
+import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.secret.Secrets;
 import pl.codeinprogress.notes.view.DetailsActivity;

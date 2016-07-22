@@ -2,10 +2,6 @@ package pl.codeinprogress.notes.presenter.auth;
 
 import java.util.regex.Pattern;
 
-/**
- * Created by tomaszmartin on 21.06.2016.
- */
-
 public class Validator {
 
     public static boolean validateEmail(String target) {

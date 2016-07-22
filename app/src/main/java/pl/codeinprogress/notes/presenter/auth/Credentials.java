@@ -1,11 +1,5 @@
 package pl.codeinprogress.notes.presenter.auth;
 
-import com.google.firebase.auth.FirebaseUser;
-
-/**
- * Created by tomaszmartin on 12.06.16.
- */
-
 public class Credentials {
 
     private String name;
@@ -24,21 +18,6 @@ public class Credentials {
 
     public Credentials(String name, String email, String image, boolean logged) {
         this(name, email.replace(".", ","), email, image, logged);
-    }
-
-    public static Credentials fromFirebaseUser(FirebaseUser user) {
-        String image = null;
-        if (user.getPhotoUrl() != null) {
-            image = user.getPhotoUrl().toString();
-        }
-
-        return new Credentials(
-                user.getDisplayName(),
-                user.getUid(),
-                user.getEmail(),
-                image,
-                true
-        );
     }
 
     public String getName() {

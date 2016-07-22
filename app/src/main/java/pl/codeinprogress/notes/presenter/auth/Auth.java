@@ -1,7 +1,8 @@
-package pl.codeinprogress.notes.presenter.firebase;
+package pl.codeinprogress.notes.presenter.auth;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
@@ -16,14 +17,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import pl.codeinprogress.notes.presenter.auth.Credentials;
+import pl.codeinprogress.notes.view.BaseActivity;
+import pl.codeinprogress.notes.view.LoginActivity;
 
 /**
- * Created by tomaszmartin on 12.06.16.
- * Class hor handling authorization.
+ * Class hor handling authentication.
+ * Works wih Firebase and local preferences.
  */
 
-public class Auth implements Authentication {
+public class Auth {
 
     private final String ID_KEY = "USER_ID";
     private final String NAME_KEY = "USER_NAME";
@@ -33,8 +35,10 @@ public class Auth implements Authentication {
     private final SharedPreferences manager;
     private final FirebaseAuth auth;
     private static Auth instance;
+    private Context context;
 
     private Auth(Context ctx) {
+        this.context = ctx;
         this.manager = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.auth = FirebaseAuth.getInstance();
         auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
@@ -42,7 +46,7 @@ public class Auth implements Authentication {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = auth.getCurrentUser();
                 if (user != null) {
-                    Credentials credentials = Credentials.fromFirebaseUser(user);
+                    Credentials credentials = fromFirebaseUser(user);
                     onLoggedIn(credentials);
                 }
             }
@@ -64,6 +68,13 @@ public class Auth implements Authentication {
                 activity.finish();
             }
         });
+    }
+
+    public void logout() {
+        auth.signOut();
+        onLoggedOut();
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 
     public void singup(final Credentials credentials, String password, final BaseActivity activity) {
@@ -152,8 +163,19 @@ public class Auth implements Authentication {
         return new Credentials(name, id, email, image, state);
     }
 
-    @Override
-    public void authenticate() {
+    public static Credentials fromFirebaseUser(FirebaseUser user) {
+        String image = null;
+        if (user.getPhotoUrl() != null) {
+            image = user.getPhotoUrl().toString();
+        }
 
+        return new Credentials(
+                user.getDisplayName(),
+                user.getUid(),
+                user.getEmail(),
+                image,
+                true
+        );
     }
+
 }

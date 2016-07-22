@@ -31,7 +31,6 @@ import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.databinding.ActivityDetailsBinding;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
-import pl.codeinprogress.notes.presenter.firebase.BaseActivity;
 import pl.codeinprogress.notes.view.image.ImageTransformation;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
