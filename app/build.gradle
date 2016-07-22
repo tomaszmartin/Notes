@@ -4,7 +4,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion '23'
+    buildToolsVersion '23.0.3'
     defaultConfig {
         applicationId 'pl.codeinprogress.notes'
         minSdkVersion 16
