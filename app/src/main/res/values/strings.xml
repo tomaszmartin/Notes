@@ -207,6 +207,9 @@
     <string name="first_name_error">First name cannot be empty</string>
     <string name="last_name_error">Last name cannot be empty</string>
     <string name="action_authenticating">Logging in …</string>
+    <string name="create_shortcut_short_label">Create note</string>
+    <string name="create_shortcut_long_label">Create note</string>
+    <string name="create_shortcut_disabled_label">Note creation disabled</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

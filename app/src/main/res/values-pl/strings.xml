@@ -172,5 +172,13 @@
     <string name="password_error">Podane hasło jest błędne</string>
     <string name="google_login">Zaloguj z Google</string>
     <string name="action_authenticating">Loguję …</string>
+    <string name="create_account">Nie masz konta? Zarejestruj się</string>
+    <string name="create_shortcut_disabled_label">Brak możliwości tworzenia notatki</string>
+    <string name="create_shortcut_long_label">Nowa notatka</string>
+    <string name="create_shortcut_short_label">Nowa notatka</string>
+    <string name="first_name_error">Imię nie może być puste</string>
+    <string name="last_name_error">Nazwisko nie może być puste</string>
+    <string name="login">Zaloguj</string>
+    <string name="logout">Wyloguj</string>
 
 </resources>

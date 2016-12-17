@@ -3,12 +3,12 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.neenbedankt.android-apt'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '24.0.0'
+    compileSdkVersion 25
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId 'pl.codeinprogress.notes'
         minSdkVersion 16
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 4
         versionName "1.2"
         vectorDrawables.useSupportLibrary = true

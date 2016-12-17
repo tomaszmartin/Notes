@@ -1,0 +1,19 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <shortcut
+        android:shortcutId="create"
+        android:enabled="true"
+        android:icon="@mipmap/ic_add"
+        android:shortcutShortLabel="@string/create_shortcut_short_label"
+        android:shortcutLongLabel="@string/create_shortcut_long_label"
+        android:shortcutDisabledMessage="@string/create_shortcut_disabled_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="pl.codeinprogress.notes"
+            android:targetClass="pl.codeinprogress.notes.view.MainActivity" />
+        <categories
+            android:name="android.shortcut.conversation" />
+    </shortcut>
+
+</shortcuts>
+
