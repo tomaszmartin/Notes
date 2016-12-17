@@ -53,4 +53,5 @@ public class NotesPresenterImpl implements NotesPresenter {
     public void deleteNote(Note note) {
         repository.deleteNote(note);
     }
+
 }

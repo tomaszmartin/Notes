@@ -3,10 +3,6 @@ package pl.codeinprogress.notes.view.services;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-/**
- * Created by tomaszmartin on 05.06.16.
- */
-
 public class FirebaseService extends FirebaseMessagingService {
 
     @Override

@@ -15,7 +15,7 @@ import pl.codeinprogress.notes.secret.Secrets;
 
 /**
  * Implementation of NotesRepository.
- * Uses FirebaseDatabase and FirebaseStorage backed by local copies.
+ * Uses Firebase Database and Firebase Storage backed by local copies.
  */
 
 public class FirebaseNotesRepository implements NotesRepository {
@@ -28,8 +28,9 @@ public class FirebaseNotesRepository implements NotesRepository {
 
     /**
      * Creates a class that provides notes
-     * @param homePath should be set to Environment.getExternalStorageDirectory() + File.separator for Android developemtn
+     * @param homePath should be set to Environment.getExternalStorageDirectory() + File.separator for Android development
      */
+
     public FirebaseNotesRepository(String homePath, NotesPresenter presenter) {
         this.database = FirebaseDatabase.getInstance();
         this.storage = FirebaseStorage.getInstance();

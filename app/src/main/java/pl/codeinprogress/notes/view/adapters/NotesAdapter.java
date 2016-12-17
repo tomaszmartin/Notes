@@ -12,10 +12,6 @@ import java.util.Locale;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 
-/**
- * Created by tomaszmartin on 22.06.2016.
- */
-
 public class NotesAdapter extends FirebaseListAdapter<Note> {
 
     private Locale locale;

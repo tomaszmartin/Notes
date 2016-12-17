@@ -22,10 +22,6 @@ import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.view.views.DetailsView;
 import pl.codeinprogress.notes.secret.Secrets;
 
-/**
- * Created by tomaszmartin on 05.07.2016.
- */
-
 public class DetailsPresenter {
 
     private DetailsView detailsView;
@@ -69,6 +65,7 @@ public class DetailsPresenter {
         });
     }
 
+    // todo: issues downloading files
     private void getNoteContent(Note note) {
         if (noteFileExists(note)) {
             loadNoteContentsFromFile(note);
@@ -170,7 +167,7 @@ public class DetailsPresenter {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(Exception e) {
-                        displayContents("");
+                        displayContents("Error downloading file");
                     }
                 });
             }

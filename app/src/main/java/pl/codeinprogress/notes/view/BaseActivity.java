@@ -6,13 +6,19 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.presenter.Analytics;
+import pl.codeinprogress.notes.presenter.NotesAnalytics;
 import pl.codeinprogress.notes.presenter.auth.Auth;
 
 public class BaseActivity extends AppCompatActivity {
 
+    private Analytics analytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        analytics = NotesAnalytics.getInstance(this.getApplicationContext());
+        analytics.sendScreen(getTag());
     }
 
     @Override
