@@ -210,7 +210,7 @@
     <string name="create_shortcut_short_label">Create note</string>
     <string name="create_shortcut_long_label">Create note</string>
     <string name="create_shortcut_disabled_label">Note creation disabled</string>
-    <string name="empty_list">Nothing to see \nhere...</string>
+    <string name="empty_list">Nothing to see here yet…</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

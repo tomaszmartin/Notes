@@ -97,7 +97,7 @@
 
                     <ImageView
                         android:id="@+id/emptyIcon"
-                        android:layout_width="128dp"
+                        android:layout_width="192dp"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
@@ -111,7 +111,7 @@
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:text="@string/empty_list"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         />
 
                 </LinearLayout>
