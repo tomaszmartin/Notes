@@ -44,6 +44,7 @@
                     android:textColor="@color/white"
                     tools:text="@string/lorem_short"
                     android:textSize="24sp"
+                    android:textStyle="bold"
                     />
 
             </android.support.design.widget.AppBarLayout>

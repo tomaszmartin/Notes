@@ -104,9 +104,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             case R.id.action_size:
                 setFontSize(binding.contentView, 1);
                 return true;
-            case R.id.action_alarm:
-                showAlarm();
-                return true;
             case R.id.action_image:
                 pickImage();
                 return true;
@@ -137,15 +134,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void noteContentsLoaded(String contents) {
         binding.contentView.setText(contents);
         binding.contentView.setVisibility(View.VISIBLE);
-    }
-
-    private void showAlarm() {
-        DialogFragment alertDialog = new AlarmDialogFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString(NOTE_ID, note.getId());
-        alertDialog.setArguments(arguments);
-
-        alertDialog.show(getSupportFragmentManager(), DetailsActivity.class.getSimpleName());
     }
 
     private void setupView() {
