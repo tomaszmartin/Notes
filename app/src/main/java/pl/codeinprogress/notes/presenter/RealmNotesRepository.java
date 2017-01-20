@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import pl.codeinprogress.notes.model.Note;
 
 public class RealmNotesRepository implements NotesRepository {
@@ -32,8 +34,7 @@ public class RealmNotesRepository implements NotesRepository {
 
     @Override
     public void deleteNote(Note note) {
-
-
+        note.deleteFromRealm();
     }
 
     @Override
@@ -49,6 +50,7 @@ public class RealmNotesRepository implements NotesRepository {
 
     @Override
     public void searchNotes(String query) {
-
+        RealmResults<Note> results = realm.where(Note.class).contains("name", query, Case.INSENSITIVE).findAll();
+        // todo: return results
     }
 }
