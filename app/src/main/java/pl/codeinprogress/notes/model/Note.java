@@ -3,7 +3,9 @@ package pl.codeinprogress.notes.model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Note {
+import io.realm.RealmObject;
+
+public class Note extends RealmObject {
 
     private String id;
     private String title;
