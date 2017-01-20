@@ -24,12 +24,15 @@ public class RealmNotesRepository implements NotesRepository {
 
     @Override
     public ArrayList<Note> getNotes() {
-        return null;
+        RealmResults<Note> results = realm.where(Note.class).findAll();
+        ArrayList<Note> notes = new ArrayList<>(results);
+
+        return notes;
     }
 
     @Override
     public void saveNote(Note note) {
-
+        realm.executeTransaction(realm -> realm.copyToRealmOrUpdate(note));
     }
 
     @Override
