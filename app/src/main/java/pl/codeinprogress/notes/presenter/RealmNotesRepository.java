@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 import io.realm.Realm;
+
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.RealmNote;
 
