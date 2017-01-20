@@ -89,13 +89,11 @@ public class MainPresenter {
     }
 
     private void deleteFromFile(final Note note) {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                File file = new File(Environment.getExternalStorageDirectory() + File.separator + note.getFileName());
-                file.delete();
-            }
+        Runnable task = () -> {
+            File file = new File(Environment.getExternalStorageDirectory() + File.separator + note.getFileName());
+            file.delete();
         };
+
         Thread thread = new Thread(task);
         thread.run();
     }

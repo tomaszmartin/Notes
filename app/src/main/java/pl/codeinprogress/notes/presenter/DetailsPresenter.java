@@ -75,19 +75,16 @@ public class DetailsPresenter {
     }
 
     private void saveToFile(final Note note, final String password, final String content) {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                if (!content.isEmpty() && !note.getFileName().isEmpty()) {
-                    try {
-                        Encryptor encryptor = new Encryptor(password);
-                        String result = encryptor.encrypt(content);
-                        FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
-                        outputStream.write(result.getBytes());
-                        outputStream.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+        Runnable task = () -> {
+            if (!content.isEmpty() && !note.getFileName().isEmpty()) {
+                try {
+                    Encryptor encryptor = new Encryptor(password);
+                    String result = encryptor.encrypt(content);
+                    FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
+                    outputStream.write(result.getBytes());
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
@@ -96,21 +93,18 @@ public class DetailsPresenter {
     }
 
     private void saveToFirebase( final Note note, final String password, final String content) {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Encryptor encryptor = new Encryptor(password);
-                    String encrypted = encryptor.encrypt(content);
-                    InputStream stream = new ByteArrayInputStream(encrypted.getBytes());
+        Runnable task = () -> {
+            try {
+                Encryptor encryptor = new Encryptor(password);
+                String encrypted = encryptor.encrypt(content);
+                InputStream stream = new ByteArrayInputStream(encrypted.getBytes());
 
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                    StorageReference reference = storage.getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
-                    StorageReference current = reference.child(note.getFileName());
-                    current.putStream(stream);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                FirebaseStorage storage1 = FirebaseStorage.getInstance();
+                StorageReference reference = storage1.getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
+                StorageReference current = reference.child(note.getFileName());
+                current.putStream(stream);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         };
         Thread thread = new Thread(task);
@@ -122,24 +116,21 @@ public class DetailsPresenter {
     }
 
     private void loadNoteContentsFromFile(final Note note) {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                String contents = "";
-                final Encryptor encryptor = new Encryptor(password);
-                try {
-                    FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getFileName()));
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        contents = contents + line;
-                    }
-                    inputStream.close();
-                    displayContents(contents);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    displayContents("");
+        Runnable task = () -> {
+            String contents = "";
+            final Encryptor encryptor = new Encryptor(password);
+            try {
+                FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getFileName()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    contents = contents + line;
                 }
+                inputStream.close();
+                displayContents(contents);
+            } catch (Exception e) {
+                e.printStackTrace();
+                displayContents("");
             }
         };
         Thread thread = new Thread(task);
@@ -147,30 +138,19 @@ public class DetailsPresenter {
     }
 
     private void downloadNoteFile(final Note note) {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                StorageReference fileReference = storage.child(note.getFileName());
-                final long oneMegabyte = 1024 * 1024;
-                fileReference.getBytes(oneMegabyte).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-                    @Override
-                    public void onSuccess(final byte[] bytes) {
-                        try {
-                            FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
-                            outputStream.write(bytes);
-                            outputStream.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        displayContents(new String(bytes));
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        displayContents("Error downloading file");
-                    }
-                });
-            }
+        Runnable task = () -> {
+            StorageReference fileReference = storage.child(note.getFileName());
+            final long oneMegabyte = 1024 * 1024;
+            fileReference.getBytes(oneMegabyte).addOnSuccessListener(bytes -> {
+                try {
+                    FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
+                    outputStream.write(bytes);
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                displayContents(new String(bytes));
+            }).addOnFailureListener(e -> displayContents("Error downloading file"));
         };
         Thread thread = new Thread(task);
         thread.run();
@@ -178,12 +158,7 @@ public class DetailsPresenter {
 
     private void displayContents(final String content) {
         final Encryptor encryptor = new Encryptor(password);
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                detailsView.noteContentsLoaded(encryptor.decrypt(content));
-            }
-        });
+        activity.runOnUiThread(() -> detailsView.noteContentsLoaded(encryptor.decrypt(content)));
     }
 
 }
