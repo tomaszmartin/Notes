@@ -11,6 +11,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.view.BaseActivity;
@@ -26,20 +27,19 @@ public class MainPresenter {
     private BaseActivity activity;
     private FirebaseDatabase database;
     private StorageReference storage;
+    private NotesRepository repository;
 
     public MainPresenter(MainView view, BaseActivity activity) {
         this.view = view;
         this.activity = activity;
+        this.repository = new RealmNotesRepository();
         this.database = FirebaseDatabase.getInstance();
         this.storage = FirebaseStorage.getInstance().getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
     }
 
     public void addNote() {
-        DatabaseReference noteReference = database.getReference(FirebaseLink.forNotes()).push();
-        String noteId = noteReference.getKey();
-        Note note = new Note(noteId);
-        noteReference.setValue(note);
-        openNote(note);
+        String noteId = repository.addNote();
+        openNote(noteId);
     }
 
     public void openNote(Note note) {
@@ -54,38 +54,36 @@ public class MainPresenter {
     }
 
     public void loadNotes() {
-        Log.d("MainPresenter", "loadNotes called with " + database.getReference(FirebaseLink.forNotes()).toString());
-        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, database.getReference(FirebaseLink.forNotes()));
-        view.showNotes(adapter);
+        ArrayList<Note> notes = repository.getNotes();
+        view.showNotes(notes);
     }
 
     public void sortByTitle() {
-        Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("title");
-        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        view.showNotes(adapter);
+        // todo: add sorting
+
+        ArrayList<Note> notes = repository.getNotes();
+        view.showNotes(notes);
     }
 
     public void sortByDate() {
-        Query reference = database.getReference(FirebaseLink.forNotes()).orderByChild("lastModified");
-        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        view.showNotes(adapter);
+        // todo: add sorting
+
+        ArrayList<Note> notes = repository.getNotes();
+        view.showNotes(notes);
     }
 
     public void search(String query) {
-        Query reference = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes()).orderByChild("title").startAt(query);
-        NotesAdapter adapter = new NotesAdapter(activity, Note.class, R.layout.main_item, reference);
-        view.showNotes(adapter);
+        ArrayList<Note> notes = repository.searchNotes(query);
+        view.showNotes(notes);
     }
 
     public void deleteNote(Note note) {
         deleteFromFile(note);
-        deleteFromStorage(note);
-        deleteFromDatabase(note);
+        deleteFromRepository(note);
     }
 
-    private void deleteFromDatabase(Note note) {
-        DatabaseReference noteReference = database.getReference(FirebaseLink.forNote(note));
-        noteReference.removeValue();
+    private void deleteFromRepository(Note note) {
+        repository.deleteNote(note);
     }
 
     private void deleteFromFile(final Note note) {
@@ -96,11 +94,6 @@ public class MainPresenter {
 
         Thread thread = new Thread(task);
         thread.run();
-    }
-
-    private void deleteFromStorage(Note note) {
-        StorageReference current = storage.child(note.getFileName());
-        current.delete();
     }
 
 }

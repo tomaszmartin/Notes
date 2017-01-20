@@ -1,7 +1,5 @@
 package pl.codeinprogress.notes.presenter;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,15 +22,15 @@ import pl.codeinprogress.notes.secret.Secrets;
 
 public class DetailsPresenter {
 
-    private DetailsView detailsView;
+    private DetailsView view;
     private BaseActivity activity;
     private DatabaseReference database;
     private StorageReference storage;
     private String password;
     private File filesDir;
 
-    public DetailsPresenter(DetailsView detailsView, BaseActivity activity) {
-        this.detailsView = detailsView;
+    public DetailsPresenter(DetailsView view, BaseActivity activity) {
+        this.view = view;
         this.activity = activity;
         this.database = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes());
         this.storage = FirebaseStorage.getInstance().getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
@@ -52,8 +50,8 @@ public class DetailsPresenter {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Note note = dataSnapshot.getValue(Note.class);
-                if (detailsView != null) {
-                    detailsView.noteLoaded(note);
+                if (view != null) {
+                    view.noteLoaded(note);
                     getNoteContent(note);
                 }
             }
@@ -158,7 +156,7 @@ public class DetailsPresenter {
 
     private void displayContents(final String content) {
         final Encryptor encryptor = new Encryptor(password);
-        activity.runOnUiThread(() -> detailsView.noteContentsLoaded(encryptor.decrypt(content)));
+        activity.runOnUiThread(() -> view.noteContentsLoaded(encryptor.decrypt(content)));
     }
 
 }

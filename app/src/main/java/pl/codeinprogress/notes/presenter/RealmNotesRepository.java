@@ -41,19 +41,25 @@ public class RealmNotesRepository implements NotesRepository {
     }
 
     @Override
-    public void addNote() {
+    public String addNote() {
+        final String noteId = UUID.randomUUID().toString();
+
         realm.executeTransaction(realm -> {
             Note note = realm.createObject(Note.class);
             long timestamp = new Date().getTime();
             note.setCreated(timestamp);
             note.setLastModified(timestamp);
-            note.setId(UUID.randomUUID().toString());
+            note.setId(noteId);
         });
+
+        return noteId;
     }
 
     @Override
-    public void searchNotes(String query) {
+    public ArrayList<Note> searchNotes(String query) {
         RealmResults<Note> results = realm.where(Note.class).contains("name", query, Case.INSENSITIVE).findAll();
-        // todo: return results
+        ArrayList<Note> notes = new ArrayList<>(results);
+
+        return notes;
     }
 }

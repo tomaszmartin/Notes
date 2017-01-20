@@ -1,13 +1,11 @@
 package pl.codeinprogress.notes.view.views;
 
-import pl.codeinprogress.notes.view.adapters.NotesAdapter;
+import java.util.ArrayList;
 
-/**
- * Created by tomaszmartin on 05.07.2016.
- */
+import pl.codeinprogress.notes.model.Note;
 
 public interface MainView {
 
-    void showNotes(NotesAdapter adapter);
+    void showNotes(ArrayList<Note> notes);
 
 }
