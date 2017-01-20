@@ -20,10 +20,6 @@ import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.view.views.MainView;
 import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
-/**
- * Created by tomaszmartin on 05.07.2016.
- */
-
 public class MainPresenter {
 
     private MainView view;

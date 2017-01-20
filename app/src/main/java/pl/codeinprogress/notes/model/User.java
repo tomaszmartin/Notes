@@ -1,8 +1,5 @@
 package pl.codeinprogress.notes.model;
 
-/**
- * Created by tomaszmartin on 23.06.2016.
- */
 public class User {
 
     private String name;
