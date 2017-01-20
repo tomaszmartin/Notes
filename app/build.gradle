@@ -76,6 +76,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.guava:guava:19.0-rc2'
     compile 'com.firebaseui:firebase-ui:0.4.1'
+    compile 'io.realm:android-adapters:1.4.0'
 
     apt 'com.google.dagger:dagger-compiler:2.2'
     compile 'com.google.dagger:dagger:2.2'
