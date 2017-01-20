@@ -1,5 +1,7 @@
 package pl.codeinprogress.notes.presenter;
 
+import android.app.Activity;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,52 +25,34 @@ import pl.codeinprogress.notes.secret.Secrets;
 public class DetailsPresenter {
 
     private DetailsView view;
-    private BaseActivity activity;
-    private DatabaseReference database;
-    private StorageReference storage;
+    private Activity activity;
     private String password;
     private File filesDir;
 
     public DetailsPresenter(DetailsView view, BaseActivity activity) {
         this.view = view;
+        // todo: create password
+        this.password = "todo";
         this.activity = activity;
-        this.database = FirebaseDatabase.getInstance().getReference(FirebaseLink.forNotes());
-        this.storage = FirebaseStorage.getInstance().getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
-        this.password = activity.getAuthHandler().getCredentials().getId();
         this.filesDir = activity.getFilesDir();
     }
 
     public void saveNote(Note note, String contents) {
-        database.child(note.getId()).setValue(note);
         saveToFile(note, password, contents);
-        saveToFirebase(note, password, contents);
     }
 
     public void getNote(String noteId) {
-        DatabaseReference noteReference = database.child(noteId);
-        noteReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Note note = dataSnapshot.getValue(Note.class);
-                if (view != null) {
-                    view.noteLoaded(note);
-                    getNoteContent(note);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        
     }
 
-    // todo: issues downloading files
+    private void showNote(Note note) {
+        view.noteLoaded(note);
+        getNoteContent(note);
+    }
+
     private void getNoteContent(Note note) {
         if (noteFileExists(note)) {
             loadNoteContentsFromFile(note);
-        } else {
-            downloadNoteFile(note);
         }
     }
 
@@ -84,25 +68,6 @@ public class DetailsPresenter {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
-        };
-        Thread thread = new Thread(task);
-        thread.run();
-    }
-
-    private void saveToFirebase( final Note note, final String password, final String content) {
-        Runnable task = () -> {
-            try {
-                Encryptor encryptor = new Encryptor(password);
-                String encrypted = encryptor.encrypt(content);
-                InputStream stream = new ByteArrayInputStream(encrypted.getBytes());
-
-                FirebaseStorage storage1 = FirebaseStorage.getInstance();
-                StorageReference reference = storage1.getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
-                StorageReference current = reference.child(note.getFileName());
-                current.putStream(stream);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         };
         Thread thread = new Thread(task);
@@ -130,25 +95,6 @@ public class DetailsPresenter {
                 e.printStackTrace();
                 displayContents("");
             }
-        };
-        Thread thread = new Thread(task);
-        thread.run();
-    }
-
-    private void downloadNoteFile(final Note note) {
-        Runnable task = () -> {
-            StorageReference fileReference = storage.child(note.getFileName());
-            final long oneMegabyte = 1024 * 1024;
-            fileReference.getBytes(oneMegabyte).addOnSuccessListener(bytes -> {
-                try {
-                    FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
-                    outputStream.write(bytes);
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                displayContents(new String(bytes));
-            }).addOnFailureListener(e -> displayContents("Error downloading file"));
         };
         Thread thread = new Thread(task);
         thread.run();
