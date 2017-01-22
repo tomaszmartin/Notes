@@ -14,10 +14,6 @@ import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
-/**
- * Created by tomaszmartin on 03.05.15.
- */
-
 public class AlarmService extends Service implements DetailsView {
 
     @Override

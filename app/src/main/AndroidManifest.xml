@@ -57,39 +57,10 @@
             android:label="@string/title_activity_settings" />
 
         <service
-            android:name=".view.services.FirebaseService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
             android:name=".view.services.AlarmService"
             android:enabled="true" />
 
         <receiver android:name=".view.services.AlarmReceiver" />
-
-        <activity
-            android:name=".view.LoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/login"
-            android:parentActivityName=".view.MainActivity"
-            android:theme="@style/Fullscreen">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.codeinprogress.notes.view.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".view.SignupActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/signup"
-            android:parentActivityName=".view.LoginActivity"
-            android:theme="@style/Fullscreen">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="pl.codeinprogress.notes.view.LoginActivity" />
-        </activity>
 
     </application>
 

@@ -9,7 +9,6 @@ import io.realm.Realm;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.Analytics;
 import pl.codeinprogress.notes.presenter.NotesAnalytics;
-import pl.codeinprogress.notes.presenter.auth.Auth;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -26,9 +25,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!Auth.getInstance(this).isLogged()) {
-            authenticate();
-        }
     }
 
     public String getTag() {
@@ -48,14 +44,6 @@ public class BaseActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             recreate();
         }
-    }
-
-    public void authenticate() {
-
-    }
-
-    public Auth getAuthHandler() {
-        return Auth.getInstance(this);
     }
 
 }

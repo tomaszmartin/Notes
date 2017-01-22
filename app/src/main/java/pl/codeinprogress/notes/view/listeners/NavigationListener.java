@@ -8,13 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.presenter.auth.Auth;
 import pl.codeinprogress.notes.view.MainActivity;
 import pl.codeinprogress.notes.view.SettingsActivity;
-
-/**
- * Created by tomaszmartin on 27.07.2015.
- */
 
 public class NavigationListener implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,8 +31,6 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
                 startActivity(SettingsActivity.class);
                 return true;
             case R.id.drawer_logout:
-                Auth auth = Auth.getInstance(activity);
-                auth.logout();
                 return true;
         }
         return false;

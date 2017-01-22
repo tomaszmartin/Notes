@@ -6,10 +6,6 @@ import android.content.Intent;
 
 import pl.codeinprogress.notes.view.DetailsActivity;
 
-/**
- * Created by tomaszmartin on 03.05.15.
- */
-
 public class AlarmReceiver extends BroadcastReceiver {
 
     @Override

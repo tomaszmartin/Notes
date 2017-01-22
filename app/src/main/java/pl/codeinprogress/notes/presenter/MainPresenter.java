@@ -2,17 +2,13 @@ package pl.codeinprogress.notes.presenter;
 
 import android.content.Intent;
 import android.os.Environment;
-
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.secret.Secrets;
+import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.view.views.MainView;
 
@@ -20,16 +16,12 @@ public class MainPresenter {
 
     private MainView view;
     private BaseActivity activity;
-    private FirebaseDatabase database;
-    private StorageReference storage;
     private NotesRepository repository;
 
     public MainPresenter(MainView view, BaseActivity activity) {
         this.view = view;
         this.activity = activity;
         this.repository = new RealmNotesRepository();
-        this.database = FirebaseDatabase.getInstance();
-        this.storage = FirebaseStorage.getInstance().getReferenceFromUrl(Secrets.FIREBASE_STORAGE);
     }
 
     public void addNote() {
@@ -37,12 +29,12 @@ public class MainPresenter {
         openNote(noteId);
     }
 
-    public void openNote(Note note) {
+    public void openNote(@NonNull Note note) {
         String noteId = note.getId();
         openNote(noteId);
     }
 
-    public void openNote(String noteId) {
+    public void openNote(@NonNull String noteId) {
         Intent openNote = new Intent(activity, DetailsActivity.class);
         openNote.putExtra(DetailsActivity.NOTE_ID, noteId);
         activity.startActivity(openNote);
@@ -67,7 +59,7 @@ public class MainPresenter {
         view.showNotes(notes);
     }
 
-    public void search(String query) {
+    public void search(@NonNull String query) {
         ArrayList<Note> notes = repository.query(query);
         view.showNotes(notes);
     }
@@ -77,11 +69,11 @@ public class MainPresenter {
         deleteFromRepository(note);
     }
 
-    private void deleteFromRepository(Note note) {
+    private void deleteFromRepository(@NonNull Note note) {
         repository.delete(note);
     }
 
-    private void deleteFromFile(final Note note) {
+    private void deleteFromFile(@NonNull Note note) {
         Runnable task = () -> {
             File file = new File(Environment.getExternalStorageDirectory() + File.separator + note.getFileName());
             file.delete();
