@@ -34,6 +34,17 @@ public class Note extends RealmObject {
         this.fileName = id + ".txt";
     }
 
+    public Note(Note note) {
+        this.id = note.getId();
+        this.title = note.getTitle();
+        this.description = note.getDescription();
+        this.fileName = note.getFileName();
+        this.created = note.getCreated();
+        this.lastModified = note.getLastModified();
+        this.tag = note.getTag();
+        this.isPasswordProtected = note.isPasswordProtected();
+    }
+
     public String getId() {
         return id;
     }
@@ -107,4 +118,30 @@ public class Note extends RealmObject {
         return "noteId";
     }
 
+    public Note copy() {
+        try {
+            return (Note) this.clone();
+        } catch (CloneNotSupportedException e) {
+            return new Note();
+        }
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", fileName='" + fileName + '\'' +
+                ", created=" + created +
+                ", lastModified=" + lastModified +
+                ", tag='" + tag + '\'' +
+                ", isPasswordProtected=" + isPasswordProtected +
+                '}';
+    }
 }

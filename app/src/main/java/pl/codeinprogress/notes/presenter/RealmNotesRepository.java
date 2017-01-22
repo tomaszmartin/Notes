@@ -20,7 +20,7 @@ public class RealmNotesRepository implements NotesRepository {
     @Override
     public Note get(String noteId) {
         Note note = realm.where(Note.class).equalTo("id", noteId).findFirst();
-        return note;
+        return note.copy();
     }
 
     @Override

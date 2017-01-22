@@ -213,10 +213,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
         String content = contentView.getText().toString();
         String title = titleView.getText().toString();
-        // todo: cannot modify realm object without transaction?!
-        //note.setTitle(title);
-        //note.setLastModified(new Date().getTime());
-        //note.setDescription(content);
+        note.setTitle(title);
+        note.setLastModified(new Date().getTime());
+        note.setDescription(content);
 
         presenter.saveNote(note, content);
     }

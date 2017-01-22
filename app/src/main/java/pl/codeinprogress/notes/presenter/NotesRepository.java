@@ -4,11 +4,7 @@ import java.util.ArrayList;
 
 import pl.codeinprogress.notes.model.Note;
 
-/**
- * Created by tomaszmartin on 18.07.2016.
- */
-
-public interface NotesRepository {
+interface NotesRepository {
 
     Note get(String noteId);
     ArrayList<Note> getAll();
