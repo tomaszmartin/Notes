@@ -140,6 +140,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         contentView.setVisibility(View.VISIBLE);
     }
 
+
+
     private void setupView() {
         EditText contentView = (EditText) findViewById(R.id.contentView);
 
@@ -184,16 +186,11 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void setupListeners() {
-        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-
-            @Override
-            public void onInit(int status) {
-                Locale current = getResources().getConfiguration().locale;
-                if (status == TextToSpeech.SUCCESS) {
-                    textToSpeech.setLanguage(current);
-                }
+        textToSpeech = new TextToSpeech(this, status -> {
+            Locale current = getResources().getConfiguration().locale;
+            if (status == TextToSpeech.SUCCESS) {
+                textToSpeech.setLanguage(current);
             }
-
         });
     }
 
@@ -216,9 +213,10 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
         String content = contentView.getText().toString();
         String title = titleView.getText().toString();
-        note.setTitle(title);
-        note.setLastModified(new Date().getTime());
-        note.setDescription(content);
+        // todo: cannot modify realm object without transaction?!
+        //note.setTitle(title);
+        //note.setLastModified(new Date().getTime());
+        //note.setDescription(content);
 
         presenter.saveNote(note, content);
     }

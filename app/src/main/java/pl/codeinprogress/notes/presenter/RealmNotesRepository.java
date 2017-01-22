@@ -19,7 +19,8 @@ public class RealmNotesRepository implements NotesRepository {
 
     @Override
     public Note get(String noteId) {
-        return realm.where(Note.class).equalTo("id", noteId).findFirst();
+        Note note = realm.where(Note.class).equalTo("id", noteId).findFirst();
+        return note;
     }
 
     @Override
@@ -45,11 +46,10 @@ public class RealmNotesRepository implements NotesRepository {
         final String noteId = UUID.randomUUID().toString();
 
         realm.executeTransaction(realm -> {
-            Note note = realm.createObject(Note.class);
+            Note note = realm.createObject(Note.class, noteId);
             long timestamp = new Date().getTime();
             note.setCreated(timestamp);
             note.setLastModified(timestamp);
-            note.setId(noteId);
         });
 
         return noteId;

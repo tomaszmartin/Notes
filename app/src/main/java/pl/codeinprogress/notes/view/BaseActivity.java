@@ -21,11 +21,6 @@ public class BaseActivity extends AppCompatActivity {
         analytics.sendScreen(getTag());
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     public String getTag() {
         return this.getClass().getSimpleName();
     }
@@ -37,12 +32,24 @@ public class BaseActivity extends AppCompatActivity {
     public void switchNightMode() {
         boolean isNight = getResources().getBoolean(R.bool.isNight);
         if (isNight) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            recreate();
+            setDay();
         } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            recreate();
+            setNight();
         }
+    }
+
+
+
+
+
+    private void setDay() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        recreate();
+    }
+
+    private void setNight() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        recreate();
     }
 
 }
