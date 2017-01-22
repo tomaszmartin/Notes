@@ -2,24 +2,19 @@ package pl.codeinprogress.notes.presenter;
 
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.secret.Secrets;
 import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.view.views.MainView;
-import pl.codeinprogress.notes.view.adapters.NotesAdapter;
 
 public class MainPresenter {
 
@@ -38,7 +33,7 @@ public class MainPresenter {
     }
 
     public void addNote() {
-        String noteId = repository.addNote();
+        String noteId = repository.add();
         openNote(noteId);
     }
 
@@ -54,26 +49,26 @@ public class MainPresenter {
     }
 
     public void loadNotes() {
-        ArrayList<Note> notes = repository.getNotes();
+        ArrayList<Note> notes = repository.getAll();
         view.showNotes(notes);
     }
 
     public void sortByTitle() {
         // todo: add sorting
 
-        ArrayList<Note> notes = repository.getNotes();
+        ArrayList<Note> notes = repository.getAll();
         view.showNotes(notes);
     }
 
     public void sortByDate() {
         // todo: add sorting
 
-        ArrayList<Note> notes = repository.getNotes();
+        ArrayList<Note> notes = repository.getAll();
         view.showNotes(notes);
     }
 
     public void search(String query) {
-        ArrayList<Note> notes = repository.searchNotes(query);
+        ArrayList<Note> notes = repository.query(query);
         view.showNotes(notes);
     }
 
@@ -83,7 +78,7 @@ public class MainPresenter {
     }
 
     private void deleteFromRepository(Note note) {
-        repository.deleteNote(note);
+        repository.delete(note);
     }
 
     private void deleteFromFile(final Note note) {

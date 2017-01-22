@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -28,7 +29,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.databinding.ActivityDetailsBinding;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
 import pl.codeinprogress.notes.view.image.ImageTransformation;
@@ -41,14 +41,13 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     private static final int AUDIO_REQUEST_CODE = 2;
     private static final int CAMERA_REQUEST_CODE = 3;
     private TextToSpeech textToSpeech;
-    private ActivityDetailsBinding binding;
     private DetailsPresenter presenter;
     private Note note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_details);
+        setContentView(R.layout.activity_details);
         presenter = new DetailsPresenter(this, this);
 
         setupListeners();
@@ -102,7 +101,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 shareNote();
                 return true;
             case R.id.action_size:
-                setFontSize(binding.contentView, 1);
+                EditText contentView = (EditText) findViewById(R.id.contentView);
+                setFontSize(contentView, 1);
                 return true;
             case R.id.action_image:
                 pickImage();
@@ -126,17 +126,23 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void noteLoaded(Note note) {
+        EditText titleView = (EditText) findViewById(R.id.titleView);
+
         this.note = note;
-        binding.titleView.setText(note.getTitle());
+        titleView.setText(note.getTitle());
     }
 
     @Override
     public void noteContentsLoaded(String contents) {
-        binding.contentView.setText(contents);
-        binding.contentView.setVisibility(View.VISIBLE);
+        EditText contentView = (EditText) findViewById(R.id.contentView);
+
+        contentView.setText(contents);
+        contentView.setVisibility(View.VISIBLE);
     }
 
     private void setupView() {
+        EditText contentView = (EditText) findViewById(R.id.contentView);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -144,7 +150,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
-        binding.contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
+        contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
     }
 
     private int getFontSize() {
@@ -205,8 +211,11 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void saveNote() {
-        String content = binding.contentView.getText().toString();
-        String title = binding.titleView.getText().toString();
+        EditText contentView = (EditText) findViewById(R.id.contentView);
+        EditText titleView = (EditText) findViewById(R.id.titleView);
+
+        String content = contentView.getText().toString();
+        String title = titleView.getText().toString();
         note.setTitle(title);
         note.setLastModified(new Date().getTime());
         note.setDescription(content);
@@ -236,12 +245,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void readNote() {
-        String text = binding.contentView.getText().toString();
+        EditText contentView = (EditText) findViewById(R.id.contentView);
+
+        String text = contentView.getText().toString();
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 
     private void shareNote() {
-        String content = binding.contentView.getText().toString();
+        EditText contentView = (EditText) findViewById(R.id.contentView);
+
+        String content = contentView.getText().toString();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, content);
@@ -251,14 +264,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void setImage(Uri imageUri) {
-        binding.imageView.setVisibility(View.VISIBLE);
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+
+        imageView.setVisibility(View.VISIBLE);
         ImageTransformation imageTransformation = new ImageTransformation(this);
 
         if (imageUri != null && !imageUri.toString().isEmpty()) {
             Picasso.with(this)
                     .load(imageUri)
                     .transform(imageTransformation)
-                    .into(binding.imageView);
+                    .into(imageView);
 
         }
     }

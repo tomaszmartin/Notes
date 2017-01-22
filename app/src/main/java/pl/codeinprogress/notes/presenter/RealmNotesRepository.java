@@ -13,17 +13,17 @@ public class RealmNotesRepository implements NotesRepository {
 
     private Realm realm;
 
-    public RealmNotesRepository() {
+    RealmNotesRepository() {
         realm = Realm.getDefaultInstance();
     }
 
     @Override
-    public Note getNote(String noteId) {
+    public Note get(String noteId) {
         return realm.where(Note.class).equalTo("id", noteId).findFirst();
     }
 
     @Override
-    public ArrayList<Note> getNotes() {
+    public ArrayList<Note> getAll() {
         RealmResults<Note> results = realm.where(Note.class).findAll();
         ArrayList<Note> notes = new ArrayList<>(results);
 
@@ -31,17 +31,17 @@ public class RealmNotesRepository implements NotesRepository {
     }
 
     @Override
-    public void saveNote(Note note) {
+    public void save(Note note) {
         realm.executeTransaction(realm -> realm.copyToRealmOrUpdate(note));
     }
 
     @Override
-    public void deleteNote(Note note) {
+    public void delete(Note note) {
         note.deleteFromRealm();
     }
 
     @Override
-    public String addNote() {
+    public String add() {
         final String noteId = UUID.randomUUID().toString();
 
         realm.executeTransaction(realm -> {
@@ -56,10 +56,11 @@ public class RealmNotesRepository implements NotesRepository {
     }
 
     @Override
-    public ArrayList<Note> searchNotes(String query) {
+    public ArrayList<Note> query(String query) {
         RealmResults<Note> results = realm.where(Note.class).contains("name", query, Case.INSENSITIVE).findAll();
         ArrayList<Note> notes = new ArrayList<>(results);
 
         return notes;
     }
+
 }

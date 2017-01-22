@@ -2,6 +2,7 @@ package pl.codeinprogress.notes.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import io.realm.RealmObject;
 
@@ -11,7 +12,6 @@ public class Note extends RealmObject {
     private String title;
     private String description;
     private String fileName;
-    private ArrayList<String> imageFileNames;
     private long created;
     private long lastModified;
     private String tag;
@@ -26,7 +26,11 @@ public class Note extends RealmObject {
     }
 
     public Note() {
-        this.imageFileNames = new ArrayList<>();
+        this.id = UUID.randomUUID().toString();
+        long timestamp = new Date().getTime();
+        this.created = timestamp;
+        this.lastModified = timestamp;
+        this.fileName = id + ".txt";
     }
 
     public String getId() {
@@ -64,14 +68,6 @@ public class Note extends RealmObject {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
-    }
-
-    public ArrayList<String> getImageFileNames() {
-        return imageFileNames;
-    }
-
-    public void setImageFileNames(ArrayList<String> imageFileNames) {
-        this.imageFileNames = imageFileNames;
     }
 
     public long getCreated() {

@@ -6,6 +6,7 @@ import pl.codeinprogress.notes.model.Note;
 
 /**
  * Temporary class, should be replaced with MainPresenter and DetailsPresenter.
+ * // todo: delete this class
  */
 
 public class NotesPresenterImpl implements NotesPresenter {
@@ -16,17 +17,17 @@ public class NotesPresenterImpl implements NotesPresenter {
 
     public NotesPresenterImpl(NotesView view) {
         this.view = view;
-        this.repository = new FirebaseNotesRepository(null, this);
+        this.repository = new RealmNotesRepository();
     }
 
     @Override
     public void getNotes() {
-        repository.getNotes();
+        repository.getAll();
     }
 
     @Override
     public void getNote(String noteId) {
-        repository.getNote(noteId);
+        repository.get(noteId);
     }
 
     @Override
@@ -41,17 +42,17 @@ public class NotesPresenterImpl implements NotesPresenter {
 
     @Override
     public void addNote() {
-        repository.addNote();
+        repository.add();
     }
 
     @Override
     public void saveNote(Note note) {
-        repository.saveNote(note);
+        repository.save(note);
     }
 
     @Override
     public void deleteNote(Note note) {
-        repository.deleteNote(note);
+        repository.delete(note);
     }
 
 }

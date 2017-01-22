@@ -2,25 +2,15 @@ package pl.codeinprogress.notes.presenter;
 
 import android.app.Activity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.view.views.DetailsView;
-import pl.codeinprogress.notes.secret.Secrets;
 
 public class DetailsPresenter {
 
@@ -40,12 +30,12 @@ public class DetailsPresenter {
     }
 
     public void saveNote(Note note, String contents) {
-        repository.saveNote(note);
+        repository.save(note);
         saveToFile(note, password, contents);
     }
 
     public void getNote(String noteId) {
-        Note note = repository.getNote(noteId);
+        Note note = repository.get(noteId);
         showNote(note);
     }
 

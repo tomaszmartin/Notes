@@ -10,11 +10,11 @@ import pl.codeinprogress.notes.model.Note;
 
 public interface NotesRepository {
 
-    Note getNote(String noteId);
-    ArrayList<Note> getNotes();
-    void saveNote(Note note);
-    void deleteNote(Note note);
-    String addNote();
-    ArrayList<Note> searchNotes(String query);
+    Note get(String noteId);
+    ArrayList<Note> getAll();
+    void save(Note note);
+    void delete(Note note);
+    String add();
+    ArrayList<Note> query(String query);
 
 }

@@ -3,31 +3,34 @@ package pl.codeinprogress.notes.view;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.auth.Validator;
-import pl.codeinprogress.notes.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends BaseActivity {
 
     public static final int SIGNUP_REQUEST = 1;
-    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        binding.loginButton.setOnClickListener(new View.OnClickListener() {
+        setContentView(R.layout.activity_login);
+        Button loginButton = (Button) findViewById(R.id.loginButton);
+        Button signupButton = (Button) findViewById(R.id.signupButton);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 login(v);
             }
         });
-        binding.signupButton.setOnClickListener(new View.OnClickListener() {
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signup(v);
@@ -37,8 +40,11 @@ public class LoginActivity extends BaseActivity {
 
     public void login(View view) {
         hideKeyboard();
-        String email = binding.emailField.getText().toString();
-        String password = binding.passwordField.getText().toString();
+        TextInputEditText emailField = (TextInputEditText) findViewById(R.id.emailField);
+        TextInputEditText passwordField = (TextInputEditText) findViewById(R.id.passwordField);
+
+        String email = emailField.getText().toString();
+        String password = passwordField.getText().toString();
         setEmailError(!Validator.validateEmail(email));
         setPasswordError(!Validator.validatePassword(password));
         if (Validator.validateEmail(email) && Validator.validatePassword(password)) {
@@ -56,13 +62,17 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void setPasswordError(boolean isError) {
-        binding.passwordWrapper.setError(getString(R.string.password_error));
-        binding.passwordWrapper.setErrorEnabled(isError);
+        TextInputLayout passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
+
+        passwordWrapper.setError(getString(R.string.password_error));
+        passwordWrapper.setErrorEnabled(isError);
     }
 
     private void setEmailError(boolean isError) {
-        binding.emailWrapper.setError(getString(R.string.email_error));
-        binding.emailWrapper.setErrorEnabled(isError);
+        TextInputLayout emailWrapper = (TextInputLayout) findViewById(R.id.emailWrapper);
+
+        emailWrapper.setError(getString(R.string.email_error));
+        emailWrapper.setErrorEnabled(isError);
     }
 
     @Override
