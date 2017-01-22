@@ -144,4 +144,37 @@ public class Note extends RealmObject {
                 ", isPasswordProtected=" + isPasswordProtected +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Note note = (Note) o;
+
+        if (created != note.created) return false;
+        if (lastModified != note.lastModified) return false;
+        if (isPasswordProtected != note.isPasswordProtected) return false;
+        if (id != null ? !id.equals(note.id) : note.id != null) return false;
+        if (title != null ? !title.equals(note.title) : note.title != null) return false;
+        if (description != null ? !description.equals(note.description) : note.description != null)
+            return false;
+        if (fileName != null ? !fileName.equals(note.fileName) : note.fileName != null)
+            return false;
+        return tag != null ? tag.equals(note.tag) : note.tag == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
+        result = 31 * result + (int) (created ^ (created >>> 32));
+        result = 31 * result + (int) (lastModified ^ (lastModified >>> 32));
+        result = 31 * result + (tag != null ? tag.hashCode() : 0);
+        result = 31 * result + (isPasswordProtected ? 1 : 0);
+        return result;
+    }
 }

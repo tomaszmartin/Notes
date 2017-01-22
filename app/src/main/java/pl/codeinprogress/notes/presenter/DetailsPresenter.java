@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
+import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
@@ -20,23 +21,27 @@ public class DetailsPresenter {
     private String password;
     private File filesDir;
 
+    // todo: create repository
     public DetailsPresenter(DetailsView view, BaseActivity activity) {
         this.view = view;
-        // todo: create password
+        // todo: change password
         this.password = "todo";
         this.activity = activity;
         this.filesDir = activity.getFilesDir();
-        this.repository = new RealmNotesRepository();
     }
 
     public void saveNote(Note note, String contents) {
-        repository.save(note);
-        saveToFile(note, password, contents);
+        if (repository != null) {
+            repository.save(note);
+            saveToFile(note, password, contents);
+        }
     }
 
     public void getNote(String noteId) {
-        Note note = repository.get(noteId);
-        showNote(note);
+        if (repository != null) {
+            Note note = repository.get(noteId);
+            showNote(note);
+        }
     }
 
 
@@ -78,7 +83,6 @@ public class DetailsPresenter {
     private void loadNoteContentsFromFile(final Note note) {
         Runnable task = () -> {
             String contents = "";
-            final Encryptor encryptor = new Encryptor(password);
             try {
                 FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getFileName()));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));

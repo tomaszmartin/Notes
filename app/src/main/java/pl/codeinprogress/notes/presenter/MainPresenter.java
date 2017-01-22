@@ -8,6 +8,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import pl.codeinprogress.notes.model.Note;
+import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.view.BaseActivity;
 import pl.codeinprogress.notes.view.DetailsActivity;
 import pl.codeinprogress.notes.view.views.MainView;
@@ -21,12 +22,13 @@ public class MainPresenter {
     public MainPresenter(MainView view, BaseActivity activity) {
         this.view = view;
         this.activity = activity;
-        this.repository = new RealmNotesRepository();
     }
 
     public void addNote() {
-        String noteId = repository.add();
-        openNote(noteId);
+        if (repository != null) {
+            String noteId = repository.add();
+            openNote(noteId);
+        }
     }
 
     public void openNote(@NonNull Note note) {
@@ -65,12 +67,9 @@ public class MainPresenter {
     }
 
     public void deleteNote(Note note) {
-        deleteFromFile(note);
-        deleteFromRepository(note);
-    }
-
-    private void deleteFromRepository(@NonNull Note note) {
         repository.delete(note);
+        deleteFromFile(note);
+        loadNotes();
     }
 
     private void deleteFromFile(@NonNull Note note) {

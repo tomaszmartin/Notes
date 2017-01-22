@@ -2,27 +2,28 @@ package pl.codeinprogress.notes.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmBaseAdapter;
+import io.realm.RealmResults;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 
-public class NotesAdapter extends ArrayAdapter<Note> {
+public class NotesAdapter extends RealmBaseAdapter<Note> implements ListAdapter {
 
-    private NotesAdapter(Context context, int resource, List<Note> notes) {
-        super(context, resource, notes);
-    }
-
-    public NotesAdapter(Context context, List<Note> notes) {
-        this(context, -1, notes);
+    public NotesAdapter(Context context, RealmResults<Note> notes) {
+        super(context, notes);
     }
 
     @NonNull
@@ -31,7 +32,7 @@ public class NotesAdapter extends ArrayAdapter<Note> {
         View view = convertView;
 
         if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             view = inflater.inflate(R.layout.main_item, null);
         }
 
@@ -41,7 +42,7 @@ public class NotesAdapter extends ArrayAdapter<Note> {
             TextView date = (TextView) view.findViewById(R.id.item_date);
             TextView description = (TextView) view.findViewById(R.id.item_desc);
 
-            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getContext());
+            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(parent.getContext());
             title.setText(note.getTitle());
             date.setText(dateFormat.format(note.getLastModified()));
             description.setText(note.getDescription());
@@ -51,4 +52,6 @@ public class NotesAdapter extends ArrayAdapter<Note> {
         return view;
 
     }
+
+
 }
