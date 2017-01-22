@@ -25,6 +25,7 @@ import pl.codeinprogress.notes.secret.Secrets;
 public class DetailsPresenter {
 
     private DetailsView view;
+    private NotesRepository repository;
     private Activity activity;
     private String password;
     private File filesDir;
@@ -35,15 +36,21 @@ public class DetailsPresenter {
         this.password = "todo";
         this.activity = activity;
         this.filesDir = activity.getFilesDir();
+        this.repository = new RealmNotesRepository();
     }
 
     public void saveNote(Note note, String contents) {
+        repository.saveNote(note);
         saveToFile(note, password, contents);
     }
 
     public void getNote(String noteId) {
-        
+        Note note = repository.getNote(noteId);
+        showNote(note);
     }
+
+
+
 
     private void showNote(Note note) {
         view.noteLoaded(note);
