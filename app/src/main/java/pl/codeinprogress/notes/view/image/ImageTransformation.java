@@ -7,10 +7,6 @@ import com.squareup.picasso.Transformation;
 
 import pl.codeinprogress.notes.view.BaseActivity;
 
-/**
- * Created by tomaszmartin on 24.06.2016.
- */
-
 public class ImageTransformation implements Transformation {
 
     private BaseActivity activity;

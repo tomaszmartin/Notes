@@ -8,7 +8,6 @@ import android.util.Log;
 import io.realm.Realm;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.presenter.Analytics;
-import pl.codeinprogress.notes.presenter.NotesAnalytics;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -18,7 +17,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(this);
-        analytics = NotesAnalytics.getInstance(this.getApplicationContext());
+        analytics = Analytics.getInstance(this.getApplicationContext());
         analytics.sendScreen(getTag());
     }
 
