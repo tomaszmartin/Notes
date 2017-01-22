@@ -45,8 +45,8 @@
     <string name="action_present">Present View</string>
     <string name="action_edit">Edit View</string>
     <string name="new_note">New note</string>
-    <string name="alert_cant_save">Unable to save the file</string>
-    <string name="alert_cant_load">Unable to load the file</string>
+    <string name="alert_cant_save">Unable to save the path</string>
+    <string name="alert_cant_load">Unable to load the path</string>
     <string name="title_activity_details_acitivity">New note</string>
     <string name="delete_question">Are you sure You want to delete?</string>
     <string name="note_content_hint">This is a place for Your note</string>
