@@ -1,7 +1,9 @@
 package pl.codeinprogress.notes.model.local;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -17,6 +19,7 @@ import pl.codeinprogress.notes.util.SchedulerProvider;
 import rx.Observable;
 import rx.functions.Func1;
 import static pl.codeinprogress.notes.model.local.NotesContract.*;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class LocalNotesDataSource implements NotesDataSource {
 
@@ -74,7 +77,17 @@ public class LocalNotesDataSource implements NotesDataSource {
 
     @Override
     public void saveNote(@NonNull Note note) {
+        checkNotNull(note);
+        ContentValues values = new ContentValues();
+        values.put(ENTRY_ID, note.getId());
+        values.put(TITLE, note.getTitle());
+        values.put(DESCRIPTION, note.getDescription());
+        values.put(PATH, note.getPath());
+        values.put(CREATED, note.getCreated());
+        values.put(MODIFIED, note.getModified());
+        values.put(SECURED, note.isSecured());
 
+        database.insert(TABLE_NAME, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     @Override
