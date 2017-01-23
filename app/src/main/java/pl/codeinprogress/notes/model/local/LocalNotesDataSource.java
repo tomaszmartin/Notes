@@ -44,7 +44,17 @@ public class LocalNotesDataSource implements NotesDataSource {
 
     @Override
     public Observable<List<Note>> getNotes() {
-        return null;
+        String[] projection = {
+                ENTRY_ID,
+                TITLE,
+                DESCRIPTION,
+                PATH,
+                CREATED,
+                MODIFIED,
+                SECURED
+        };
+        String sql = String.format("SELECT %s FROM %s", TextUtils.join(",", projection), TABLE_NAME);
+        return database.createQuery(TABLE_NAME, sql).mapToList(mapper);
     }
 
     @Override
