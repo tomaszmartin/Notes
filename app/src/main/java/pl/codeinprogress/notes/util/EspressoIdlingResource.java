@@ -1,49 +1,19 @@
 package pl.codeinprogress.notes.util;
 
-import android.support.test.espresso.IdlingResource;
+public class EspressoIdlingResource {
 
-import java.util.concurrent.atomic.AtomicInteger;
-import static com.google.common.base.Preconditions.checkNotNull;
+    private static final String name = "global";
+    private static SimpleCountingIdlingResource idlingResource = new SimpleCountingIdlingResource(name);
 
-public class EspressoIdlingResource implements IdlingResource {
-
-    private final String name;
-    private volatile ResourceCallback resourceCallback;
-    private final AtomicInteger counter = new AtomicInteger(0);
-
-    public EspressoIdlingResource(String name) {
-        this.name = checkNotNull(name);
+    public static void increment() {
+        idlingResource.increment();
     }
 
-    @Override
-    public String getName() {
-        return name;
+    public static void decrement() {
+        idlingResource.decrement();
     }
 
-    @Override
-    public boolean isIdleNow() {
-        return counter.get() == 0;
+    public static SimpleCountingIdlingResource getIdlingResource() {
+        return idlingResource;
     }
-
-    @Override
-    public void registerIdleTransitionCallback(ResourceCallback callback) {
-        this.resourceCallback = resourceCallback;
-    }
-
-    public void increment() {
-        counter.getAndIncrement();
-    }
-
-    public void decrement() {
-        int counterValue = counter.getAndDecrement();
-        if (counterValue == 0) {
-            if (null != resourceCallback) {
-                resourceCallback.onTransitionToIdle();
-            }
-        }
-        if (counterValue < 0) {
-            throw new IllegalArgumentException("Counter cannot be lower than 0!");
-        }
-    }
-
 }

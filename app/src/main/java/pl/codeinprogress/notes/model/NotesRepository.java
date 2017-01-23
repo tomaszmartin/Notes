@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
-import io.reactivex.Observable;
+import rx.Observable;
 
 public class NotesRepository implements NotesDataSource {
 
@@ -32,7 +32,7 @@ public class NotesRepository implements NotesDataSource {
     }
 
     @Override
-    public rx.Observable<Note> getNote(@NonNull String noteId) {
+    public Observable<Note> getNote(@NonNull String noteId) {
         return null;
     }
 
@@ -42,7 +42,8 @@ public class NotesRepository implements NotesDataSource {
     }
 
     @Override
-    public void deleteTask(@NonNull Note note) {
+    public void deleteNote(@NonNull String noteId) {
 
     }
+
 }

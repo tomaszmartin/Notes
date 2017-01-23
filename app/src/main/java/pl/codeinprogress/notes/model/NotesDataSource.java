@@ -6,6 +6,7 @@ import java.util.List;
 
 import rx.Observable;
 
+
 public interface NotesDataSource {
 
     Observable<List<Note>> getNotes();
