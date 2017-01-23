@@ -44,7 +44,7 @@ public class NotesAdapter extends RealmBaseAdapter<Note> implements ListAdapter 
 
             DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(parent.getContext());
             title.setText(note.getTitle());
-            date.setText(dateFormat.format(note.getLastModified()));
+            date.setText(dateFormat.format(note.getModified()));
             description.setText(note.getDescription());
 
         }

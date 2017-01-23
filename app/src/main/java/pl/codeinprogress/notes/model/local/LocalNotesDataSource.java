@@ -27,14 +27,11 @@ public class LocalNotesDataSource implements NotesDataSource {
     private static LocalNotesDataSource instance;
     @NonNull
     private static BriteDatabase database;
-    @NonNull
-    private Func1<Cursor, Note> mapper;
 
     private LocalNotesDataSource(@NonNull Context context, @NonNull SchedulerProvider schedulerProvider) {
         LocalNotesDatabaseHelper databaseHelper = new LocalNotesDatabaseHelper(context);
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
         database = sqlBrite.wrapDatabaseHelper(databaseHelper, schedulerProvider.io());
-        mapper = this::getNote;
     }
 
     public static LocalNotesDataSource getInstance(@NonNull Context context, @NonNull SchedulerProvider schedulerProvider) {
@@ -57,7 +54,7 @@ public class LocalNotesDataSource implements NotesDataSource {
                 SECURED
         };
         String sql = String.format("SELECT %s FROM %s", TextUtils.join(",", projection), TABLE_NAME);
-        return database.createQuery(TABLE_NAME, sql).mapToList(mapper);
+        return database.createQuery(TABLE_NAME, sql).mapToList(this::getNote);
     }
 
     @Override
@@ -72,7 +69,7 @@ public class LocalNotesDataSource implements NotesDataSource {
                 SECURED
         };
         String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID);
-        return database.createQuery(TABLE_NAME, sql, noteId).mapToOneOrDefault(mapper, null);
+        return database.createQuery(TABLE_NAME, sql, noteId).mapToOneOrDefault(this::getNote, null);
     }
 
     @Override
@@ -91,8 +88,11 @@ public class LocalNotesDataSource implements NotesDataSource {
     }
 
     @Override
-    public void deleteTask(@NonNull Note note) {
+    public void deleteNote(@NonNull String noteId) {
+        String selection = ENTRY_ID + "LIKE ?";
+        String[] selectionArgs = {noteId};
 
+        database.delete(TABLE_NAME, selection, selectionArgs);
     }
 
 
