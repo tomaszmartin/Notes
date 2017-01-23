@@ -2,19 +2,19 @@ package pl.codeinprogress.notes.model.local;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.support.annotation.BoolRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesDataSource;
 import pl.codeinprogress.notes.util.SchedulerProvider;
+import rx.Observable;
 import rx.functions.Func1;
 import static pl.codeinprogress.notes.model.local.NotesContract.*;
 
@@ -31,6 +31,7 @@ public class LocalNotesDataSource implements NotesDataSource {
         LocalNotesDatabaseHelper databaseHelper = new LocalNotesDatabaseHelper(context);
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
         database = sqlBrite.wrapDatabaseHelper(databaseHelper, schedulerProvider.io());
+        mapper = this::getNote;
     }
 
     public static LocalNotesDataSource getInstance(@NonNull Context context, @NonNull SchedulerProvider schedulerProvider) {
@@ -48,7 +49,17 @@ public class LocalNotesDataSource implements NotesDataSource {
 
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
-        return null;
+        String[] projection = {
+                ENTRY_ID,
+                TITLE,
+                DESCRIPTION,
+                PATH,
+                CREATED,
+                MODIFIED,
+                SECURED
+        };
+        String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID);
+        return database.createQuery(TABLE_NAME, sql, noteId).mapToOneOrDefault(mapper, null);
     }
 
     @Override

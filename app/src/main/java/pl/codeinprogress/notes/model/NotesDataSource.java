@@ -4,8 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import pl.codeinprogress.notes.model.Note;
+import rx.Observable;
 
 public interface NotesDataSource {
 

@@ -32,7 +32,7 @@ public class NotesRepository implements NotesDataSource {
     }
 
     @Override
-    public Observable<Note> getNote(@NonNull String noteId) {
+    public rx.Observable<Note> getNote(@NonNull String noteId) {
         return null;
     }
 
