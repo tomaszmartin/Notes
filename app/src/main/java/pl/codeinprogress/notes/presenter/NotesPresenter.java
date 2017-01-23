@@ -1,21 +1,32 @@
 package pl.codeinprogress.notes.presenter;
 
-import java.util.ArrayList;
-import pl.codeinprogress.notes.model.Note;
+import android.support.annotation.NonNull;
 
-/**
- * Interface for presenting notes.
- */
+import pl.codeinprogress.notes.model.NotesRepository;
+import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.view.views.NotesView;
+import rx.subscriptions.CompositeSubscription;
 
-public interface NotesPresenter {
+import static com.google.common.base.Preconditions.checkNotNull;
 
-    void getNotes();
-    void getNote(String noteId);
-    void noteLoaded(Note note);
-    void notesLoaded(ArrayList<Note> notes);
+public class NotesPresenter {
 
-    void addNote();
-    void saveNote(Note note);
-    void deleteNote(Note note);
+    @NonNull
+    private NotesRepository repository;
+    @NonNull
+    private NotesView view;
+    @NonNull
+    private SchedulerProvider schedulerProvider;
+    @NonNull
+    private CompositeSubscription subscriptions;
+
+    public NotesPresenter(@NonNull NotesRepository repository, @NonNull NotesView view, @NonNull SchedulerProvider provider) {
+        this.schedulerProvider = checkNotNull(provider);
+        this.repository = checkNotNull(repository);
+        this.view = checkNotNull(view);
+        this.subscriptions = new CompositeSubscription();
+    }
+
+    
 
 }
