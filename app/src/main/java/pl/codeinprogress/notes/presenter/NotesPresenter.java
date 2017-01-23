@@ -27,6 +27,10 @@ public class NotesPresenter {
         this.subscriptions = new CompositeSubscription();
     }
 
-    
+    private void loadNotes() {
+
+        
+
+    }
 
 }
