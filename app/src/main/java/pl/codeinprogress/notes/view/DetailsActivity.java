@@ -87,7 +87,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     protected void onPause() {
         super.onPause();
-        saveNote();
+        // saveNote();
     }
 
     @Override
@@ -132,9 +132,10 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void showNote(Note note) {
-        EditText titleView = (EditText) findViewById(R.id.titleView);
-
+        log(note.toString());
         this.note = note;
+
+        EditText titleView = (EditText) findViewById(R.id.titleView);
         titleView.setText(note.getTitle());
     }
 

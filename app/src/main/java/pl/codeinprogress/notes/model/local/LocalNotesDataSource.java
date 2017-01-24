@@ -12,6 +12,7 @@ import android.util.Log;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
+import java.util.Date;
 import java.util.List;
 
 import pl.codeinprogress.notes.model.Note;
@@ -63,11 +64,13 @@ public class LocalNotesDataSource implements NotesDataSource {
                 SECURED
         };
         String sql = String.format("SELECT %s FROM %s", TextUtils.join(",", projection), TABLE_NAME);
+        Log.d(this.getClass().getSimpleName(), "getNotes: " + sql);
         return database.createQuery(TABLE_NAME, sql).mapToList(this::getNote);
     }
 
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
+        Log.d(this.getClass().getSimpleName(), "getNote: " + noteId);
         String[] projection = {
                 ENTRY_ID,
                 TITLE,
@@ -77,9 +80,12 @@ public class LocalNotesDataSource implements NotesDataSource {
                 MODIFIED,
                 SECURED
         };
-        String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID);
-        return database.createQuery(TABLE_NAME, sql, noteId).mapToOneOrDefault(this::getNote, null);
+        String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID, noteId);
+        Log.d(this.getClass().getSimpleName(), "getNote: " + sql);
+        return database.createQuery(TABLE_NAME, sql, noteId).mapToOne(this::getNote);
     }
+
+
 
     @Override
     public void saveNote(@NonNull Note note) {
@@ -90,10 +96,11 @@ public class LocalNotesDataSource implements NotesDataSource {
         values.put(DESCRIPTION, note.getDescription());
         values.put(PATH, note.getPath());
         values.put(CREATED, note.getCreated());
-        values.put(MODIFIED, note.getModified());
+        values.put(MODIFIED, new Date().getTime());
         values.put(SECURED, note.isSecured());
 
-        database.insert(TABLE_NAME, values, SQLiteDatabase.CONFLICT_REPLACE);
+        String selection = ENTRY_ID + " LIKE ?";
+        database.update(TABLE_NAME, values, selection, note.getId());
     }
 
     @Override
@@ -104,6 +111,18 @@ public class LocalNotesDataSource implements NotesDataSource {
         database.delete(TABLE_NAME, selection, selectionArgs);
     }
 
+    @Override
+    public void addNote(@NonNull String noteId) {
+        checkNotNull(noteId);
+        ContentValues values = new ContentValues();
+        long timestamp = new Date().getTime();
+        values.put(ENTRY_ID, noteId);
+        values.put(CREATED, timestamp);
+        values.put(MODIFIED, timestamp);
+
+        String selection = ENTRY_ID + " LIKE ?";
+        database.update(TABLE_NAME, values, selection, noteId);
+    }
 
 
     @NonNull
@@ -116,6 +135,7 @@ public class LocalNotesDataSource implements NotesDataSource {
         note.setCreated(cursor.getLong(cursor.getColumnIndexOrThrow(CREATED)));
         note.setModified(cursor.getLong(cursor.getColumnIndexOrThrow(MODIFIED)));
         note.setSecured(cursor.getInt(cursor.getColumnIndexOrThrow(SECURED)) == 1);
+        Log.d(this.getClass().getSimpleName(), "getNote: " + note.toString());
 
         return note;
     }

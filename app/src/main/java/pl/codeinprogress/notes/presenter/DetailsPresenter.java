@@ -1,6 +1,7 @@
 package pl.codeinprogress.notes.presenter;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -13,6 +14,8 @@ import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.DetailsView;
+import rx.Observer;
+import rx.functions.Action1;
 
 public class DetailsPresenter {
 
@@ -31,6 +34,7 @@ public class DetailsPresenter {
     }
 
     public void saveNote(Note note, String contents) {
+        repository.saveNote(note);
         saveToFile(note, password, contents);
 
     }
@@ -39,9 +43,7 @@ public class DetailsPresenter {
         repository.getNote(noteId)
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())
-                .subscribe(note -> {
-                    view.showNote(note);
-                });
+                .subscribe(note -> view.showNote(note));
     }
 
 

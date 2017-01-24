@@ -13,5 +13,6 @@ public interface NotesDataSource {
     Observable<Note> getNote(@NonNull String noteId);
     void saveNote(@NonNull Note note);
     void deleteNote(@NonNull String noteId);
+    void addNote(@NonNull String noteId);
 
 }
