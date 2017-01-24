@@ -105,7 +105,7 @@ public class LocalNotesDataSource implements NotesDataSource {
 
     @Override
     public void deleteNote(@NonNull String noteId) {
-        String selection = ENTRY_ID + "LIKE ?";
+        String selection = ENTRY_ID + " LIKE ?";
         String[] selectionArgs = {noteId};
 
         database.delete(TABLE_NAME, selection, selectionArgs);

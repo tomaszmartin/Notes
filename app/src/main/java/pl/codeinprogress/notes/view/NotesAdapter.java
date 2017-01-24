@@ -32,7 +32,7 @@ public class NotesAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Note getItem(int position) {
         return notes.get(position);
     }
 
@@ -67,6 +67,5 @@ public class NotesAdapter extends BaseAdapter {
         return view;
 
     }
-
 
 }
