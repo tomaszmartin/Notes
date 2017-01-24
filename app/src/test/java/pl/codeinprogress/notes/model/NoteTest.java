@@ -3,6 +3,7 @@ package pl.codeinprogress.notes.model;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class NoteTest {
 
@@ -18,6 +19,14 @@ public class NoteTest {
                 "Lorem";
         note.setDescription(tested);
         assertEquals(expected, note.getDescription());
+    }
+
+    @Test
+    public void shouldCreateNullDescription() {
+        Note note = new Note();
+        String tested = null;
+        note.setDescription(tested);
+        assertNull(note.getDescription());
     }
 
 }

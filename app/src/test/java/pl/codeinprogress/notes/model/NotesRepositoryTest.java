@@ -1,14 +1,30 @@
 package pl.codeinprogress.notes.model;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
 
 import static org.junit.Assert.*;
 
 public class NotesRepositoryTest {
-    
-    @Test
-    public void getInstance() throws Exception {
 
+    @Mock
+    private LocalNotesDataSource dataSource;
+    private NotesRepository repository;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        repository = NotesRepository.getInstance(dataSource);
+    }
+
+    @Test
+    public void shouldBeSingleton() throws Exception {
+        NotesRepository anotherRepository = NotesRepository.getInstance(dataSource);
+        assertEquals(repository, anotherRepository);
     }
 
     @Test
