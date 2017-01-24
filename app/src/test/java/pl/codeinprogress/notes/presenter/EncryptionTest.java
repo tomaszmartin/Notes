@@ -25,9 +25,9 @@ public class EncryptionTest {
         String message = "message";
 
         String encrypted = encryption.encrypt(message);
-        String dectypted = encryption.decrypt(encrypted);
+        String decrypted = encryption.decrypt(encrypted);
 
-        assertEquals(dectypted, message);
+        assertEquals(decrypted, message);
     }
 
 }

@@ -21,11 +21,6 @@ public class NotesAdapter extends BaseAdapter {
         this.notes = notes;
     }
 
-    public void setData(List<Note> notes) {
-        this.notes = notes;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
         return notes.size();
@@ -66,6 +61,15 @@ public class NotesAdapter extends BaseAdapter {
 
         return view;
 
+    }
+
+
+
+
+
+    public void setData(List<Note> notes) {
+        this.notes = notes;
+        notifyDataSetChanged();
     }
 
 }

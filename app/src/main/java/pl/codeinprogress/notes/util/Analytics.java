@@ -19,7 +19,7 @@ public class Analytics {
     /**
      * Creates and instance of @Analytics object
      *
-     * @param context
+     * @param context Android context
      * @return instance of @Analytics object
      */
     public static Analytics getInstance(Context context) {
