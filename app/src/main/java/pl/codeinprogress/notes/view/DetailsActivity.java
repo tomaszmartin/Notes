@@ -30,7 +30,11 @@ import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
+import pl.codeinprogress.notes.model.NotesDataSource;
+import pl.codeinprogress.notes.model.NotesRepository;
+import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
+import pl.codeinprogress.notes.util.SchedulerProvider;
 import pl.codeinprogress.notes.view.image.ImageTransformation;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
@@ -48,7 +52,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        presenter = new DetailsPresenter(this, this);
+        NotesDataSource notesDataSource = LocalNotesDataSource.getInstance(getApplicationContext(), SchedulerProvider.getInstance());
+        NotesRepository repository = NotesRepository.getInstance(notesDataSource);
+        presenter = new DetailsPresenter(this, repository, SchedulerProvider.getInstance());
 
         setupListeners();
         setupView();
@@ -125,7 +131,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     @Override
-    public void noteLoaded(Note note) {
+    public void showNote(Note note) {
         EditText titleView = (EditText) findViewById(R.id.titleView);
 
         this.note = note;

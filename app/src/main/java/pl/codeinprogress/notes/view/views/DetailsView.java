@@ -4,7 +4,7 @@ import pl.codeinprogress.notes.model.Note;
 
 public interface DetailsView {
 
-    void noteLoaded(Note note);
+    void showNote(Note note);
     void noteContentsLoaded(String contents);
 
 }

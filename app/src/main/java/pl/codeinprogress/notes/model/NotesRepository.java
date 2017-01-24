@@ -30,7 +30,7 @@ public class NotesRepository implements NotesDataSource {
     public Observable<List<Note>> getNotes() {
         return dataSource.getNotes();
     }
-    
+
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
         return dataSource.getNote(noteId);

@@ -10,8 +10,8 @@ public class LocalNotesDatabaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "notes.db";
     private final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME + "("
-            + _ID + " TEXT PRIMARY KEY"
-            + ENTRY_ID + " TEXT ,"
+            + _ID + " TEXT PRIMARY KEY, "
+            + ENTRY_ID + " TEXT, "
             + TITLE + " TEXT, "
             + DESCRIPTION + " TEXT,"
             + PATH + " TEXT,"

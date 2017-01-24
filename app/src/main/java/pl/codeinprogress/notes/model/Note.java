@@ -68,4 +68,16 @@ public class Note extends RealmObject {
         this.secured = secured;
     }
 
+    @Override
+    public String toString() {
+        return "Note{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", path='" + path + '\'' +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", secured=" + secured +
+                '}';
+    }
 }

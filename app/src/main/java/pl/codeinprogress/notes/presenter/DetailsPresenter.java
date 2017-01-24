@@ -1,6 +1,6 @@
 package pl.codeinprogress.notes.presenter;
 
-import android.app.Activity;
+import android.support.annotation.NonNull;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -8,50 +8,46 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
-import pl.codeinprogress.notes.view.BaseActivity;
+import pl.codeinprogress.notes.util.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsPresenter {
 
+    @NonNull
     private DetailsView view;
+    @NonNull
     private NotesRepository repository;
-    private Activity activity;
-    private String password;
-    private File filesDir;
+    @NonNull
+    private SchedulerProvider schedulerProvider;
+    private String password = "secret";
 
-    // todo: create repository
-    public DetailsPresenter(DetailsView view, BaseActivity activity) {
+    public DetailsPresenter(@NonNull DetailsView view, @NonNull NotesRepository repository, @NonNull SchedulerProvider provider) {
         this.view = view;
-        // todo: change password
-        this.password = "todo";
-        this.activity = activity;
-        this.filesDir = activity.getFilesDir();
+        this.repository = repository;
+        this.schedulerProvider = provider;
     }
 
     public void saveNote(Note note, String contents) {
-        if (repository != null) {
-            // todo
-            //repository.save(note);
-            saveToFile(note, password, contents);
-        }
+        saveToFile(note, password, contents);
+
     }
 
     public void getNote(String noteId) {
-        if (repository != null) {
-            // todo
-            //Note note = repository.getNote(noteId);
-            // showNote(note);
-        }
+        repository.getNote(noteId)
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(note -> {
+                    view.showNote(note);
+                });
     }
 
 
-
-
     private void showNote(Note note) {
-        view.noteLoaded(note);
-        getNoteContent(note);
+        view.showNote(note);
+        // getNoteContent(note);
     }
 
     private void getNoteContent(Note note) {
@@ -66,7 +62,7 @@ public class DetailsPresenter {
                 try {
                     Encryptor encryptor = new Encryptor(password);
                     String result = encryptor.encrypt(content);
-                    FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getPath()));
+                    FileOutputStream outputStream = new FileOutputStream(new File(note.getPath()));
                     outputStream.write(result.getBytes());
                     outputStream.close();
                 } catch (Exception e) {
@@ -79,14 +75,15 @@ public class DetailsPresenter {
     }
 
     private boolean noteFileExists(Note note) {
-        return new File(filesDir, note.getPath()).exists();
+        //return new File(filesDir, note.getPath()).exists();
+        return false;
     }
 
     private void loadNoteContentsFromFile(final Note note) {
         Runnable task = () -> {
             String contents = "";
             try {
-                FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getPath()));
+                FileInputStream inputStream = new FileInputStream(new File(note.getPath()));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -105,7 +102,7 @@ public class DetailsPresenter {
 
     private void displayContents(final String content) {
         final Encryptor encryptor = new Encryptor(password);
-        activity.runOnUiThread(() -> view.noteContentsLoaded(encryptor.decrypt(content)));
+        // activity.runOnUiThread(() -> view.noteContentsLoaded(encryptor.decrypt(content)));
     }
 
 }

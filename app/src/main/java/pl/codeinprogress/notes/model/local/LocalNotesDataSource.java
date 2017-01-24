@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
@@ -17,9 +18,17 @@ import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesDataSource;
 import pl.codeinprogress.notes.util.SchedulerProvider;
 import rx.Observable;
-import rx.functions.Func1;
-import static pl.codeinprogress.notes.model.local.NotesContract.*;
+import rx.functions.Action1;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+import static pl.codeinprogress.notes.model.local.NotesContract.CREATED;
+import static pl.codeinprogress.notes.model.local.NotesContract.DESCRIPTION;
+import static pl.codeinprogress.notes.model.local.NotesContract.ENTRY_ID;
+import static pl.codeinprogress.notes.model.local.NotesContract.MODIFIED;
+import static pl.codeinprogress.notes.model.local.NotesContract.PATH;
+import static pl.codeinprogress.notes.model.local.NotesContract.SECURED;
+import static pl.codeinprogress.notes.model.local.NotesContract.TABLE_NAME;
+import static pl.codeinprogress.notes.model.local.NotesContract.TITLE;
 
 public class LocalNotesDataSource implements NotesDataSource {
 
