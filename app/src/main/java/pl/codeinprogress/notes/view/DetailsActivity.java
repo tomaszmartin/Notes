@@ -214,7 +214,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         String content = contentView.getText().toString();
         String title = titleView.getText().toString();
         note.setTitle(title);
-        note.setLastModified(new Date().getTime());
+        note.setModified(new Date().getTime());
         note.setDescription(content);
 
         presenter.saveNote(note, content);

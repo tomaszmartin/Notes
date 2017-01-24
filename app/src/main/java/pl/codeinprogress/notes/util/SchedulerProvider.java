@@ -1,18 +1,41 @@
 package pl.codeinprogress.notes.util;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import rx.Scheduler;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public interface SchedulerProvider {
+public class SchedulerProvider {
+
+    @Nullable
+    private static SchedulerProvider instance;
+
+    private SchedulerProvider() {
+    }
+
+    public static SchedulerProvider getInstance() {
+        if (instance == null) {
+            instance = new SchedulerProvider();
+        }
+
+        return instance;
+    }
 
     @NonNull
-    Scheduler computation();
+    public Scheduler computation() {
+        return Schedulers.computation();
+    }
 
     @NonNull
-    Scheduler io();
+    public Scheduler io() {
+        return Schedulers.io();
+    }
 
     @NonNull
-    Scheduler ui();
+    public Scheduler ui() {
+        return AndroidSchedulers.mainThread();
+    }
 
 }

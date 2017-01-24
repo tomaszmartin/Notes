@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
@@ -20,10 +21,32 @@ import io.realm.RealmResults;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 
-public class NotesAdapter extends RealmBaseAdapter<Note> implements ListAdapter {
+public class NotesAdapter extends BaseAdapter {
 
-    public NotesAdapter(Context context, RealmResults<Note> notes) {
-        super(context, notes);
+    private List<Note> notes;
+
+    public NotesAdapter(List<Note> notes) {
+        this.notes = notes;
+    }
+
+    public void setData(List<Note> notes) {
+        this.notes = notes;
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public int getCount() {
+        return notes.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return notes.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @NonNull
@@ -36,7 +59,7 @@ public class NotesAdapter extends RealmBaseAdapter<Note> implements ListAdapter 
             view = inflater.inflate(R.layout.main_item, null);
         }
 
-        Note note = getItem(position);
+        Note note = (Note) getItem(position);
         if (note != null) {
             TextView title = (TextView) view.findViewById(R.id.item_title);
             TextView date = (TextView) view.findViewById(R.id.item_date);

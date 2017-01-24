@@ -28,19 +28,22 @@ public class NotesRepository implements NotesDataSource {
 
     @Override
     public Observable<List<Note>> getNotes() {
-        return null;
+        return dataSource.getNotes();
     }
 
+    // TODO: 24.01.2017
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
         return null;
     }
 
+    // TODO: 24.01.2017  
     @Override
     public void saveNote(@NonNull Note note) {
 
     }
 
+    // TODO: 24.01.2017  
     @Override
     public void deleteNote(@NonNull String noteId) {
 

@@ -49,4 +49,8 @@ public class NotesPresenter {
         subscriptions.add(subscription);
     }
 
+    public void deleteNote(String noteId) {
+        repository.deleteNote(noteId);
+    }
+
 }

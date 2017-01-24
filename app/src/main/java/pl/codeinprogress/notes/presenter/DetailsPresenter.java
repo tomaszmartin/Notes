@@ -32,15 +32,17 @@ public class DetailsPresenter {
 
     public void saveNote(Note note, String contents) {
         if (repository != null) {
-            repository.save(note);
+            // todo
+            //repository.save(note);
             saveToFile(note, password, contents);
         }
     }
 
     public void getNote(String noteId) {
         if (repository != null) {
-            Note note = repository.get(noteId);
-            showNote(note);
+            // todo
+            //Note note = repository.getNote(noteId);
+            // showNote(note);
         }
     }
 
@@ -60,11 +62,11 @@ public class DetailsPresenter {
 
     private void saveToFile(final Note note, final String password, final String content) {
         Runnable task = () -> {
-            if (!content.isEmpty() && !note.getFileName().isEmpty()) {
+            if (!content.isEmpty() && !note.getPath().isEmpty()) {
                 try {
                     Encryptor encryptor = new Encryptor(password);
                     String result = encryptor.encrypt(content);
-                    FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getFileName()));
+                    FileOutputStream outputStream = new FileOutputStream(new File(filesDir, note.getPath()));
                     outputStream.write(result.getBytes());
                     outputStream.close();
                 } catch (Exception e) {
@@ -77,14 +79,14 @@ public class DetailsPresenter {
     }
 
     private boolean noteFileExists(Note note) {
-        return new File(filesDir, note.getFileName()).exists();
+        return new File(filesDir, note.getPath()).exists();
     }
 
     private void loadNoteContentsFromFile(final Note note) {
         Runnable task = () -> {
             String contents = "";
             try {
-                FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getFileName()));
+                FileInputStream inputStream = new FileInputStream(new File(filesDir, note.getPath()));
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
                 String line;
                 while ((line = reader.readLine()) != null) {
