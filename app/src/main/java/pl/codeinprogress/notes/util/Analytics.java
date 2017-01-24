@@ -1,6 +1,8 @@
 package pl.codeinprogress.notes.util;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
@@ -43,8 +45,11 @@ public class Analytics {
 
     public void sendScreen(String screenName) {
         if (firebaseAnalytics != null) {
+            Log.d(screenName, "sendScreen: " + screenName);
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_ID, screenName);
+            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, screenName);
+            bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "screen");
             firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         }
     }

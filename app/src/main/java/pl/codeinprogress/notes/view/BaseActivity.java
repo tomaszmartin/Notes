@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        analytics = Analytics.getInstance(getApplicationContext());
+        analytics = Analytics.getInstance(this);
         analytics.sendScreen(getTag());
     }
 
