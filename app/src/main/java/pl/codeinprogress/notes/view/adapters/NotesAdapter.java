@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.view;
+package pl.codeinprogress.notes.view.adapters;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;

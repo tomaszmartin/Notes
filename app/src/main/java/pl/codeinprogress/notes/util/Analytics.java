@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.presenter;
+package pl.codeinprogress.notes.util;
 import android.content.Context;
 import android.os.Bundle;
 import com.google.firebase.analytics.FirebaseAnalytics;

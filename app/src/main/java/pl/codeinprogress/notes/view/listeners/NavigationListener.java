@@ -8,7 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
-import pl.codeinprogress.notes.view.MainActivity;
+import pl.codeinprogress.notes.view.NotesActivity;
 import pl.codeinprogress.notes.view.SettingsActivity;
 
 public class NavigationListener implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,7 +25,7 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.drawer_home:
-                startActivity(MainActivity.class);
+                startActivity(NotesActivity.class);
                 return true;
             case R.id.drawer_settings:
                 startActivity(SettingsActivity.class);

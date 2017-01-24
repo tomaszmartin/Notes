@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.view.image;
+package pl.codeinprogress.notes.util;
 
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;

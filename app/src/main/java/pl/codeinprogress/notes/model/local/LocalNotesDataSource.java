@@ -12,6 +12,7 @@ import android.util.Log;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
@@ -37,11 +38,14 @@ public class LocalNotesDataSource implements NotesDataSource {
     private static LocalNotesDataSource instance;
     @NonNull
     private static BriteDatabase database;
+    @NonNull
+    private final File directory;
 
     private LocalNotesDataSource(@NonNull Context context, @NonNull SchedulerProvider schedulerProvider) {
         LocalNotesDatabaseHelper databaseHelper = new LocalNotesDatabaseHelper(context);
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
         database = sqlBrite.wrapDatabaseHelper(databaseHelper, schedulerProvider.io());
+        directory = context.getFilesDir();
     }
 
     public static LocalNotesDataSource getInstance(@NonNull Context context, @NonNull SchedulerProvider schedulerProvider) {
@@ -85,8 +89,6 @@ public class LocalNotesDataSource implements NotesDataSource {
         return database.createQuery(TABLE_NAME, sql, noteId).mapToOne(this::getNote);
     }
 
-
-
     @Override
     public void saveNote(@NonNull Note note) {
         checkNotNull(note);
@@ -114,11 +116,13 @@ public class LocalNotesDataSource implements NotesDataSource {
     @Override
     public void addNote(@NonNull String noteId) {
         checkNotNull(noteId);
+        File file = new File(directory, noteId + ".txt");
         ContentValues values = new ContentValues();
         long timestamp = new Date().getTime();
         values.put(ENTRY_ID, noteId);
         values.put(CREATED, timestamp);
         values.put(MODIFIED, timestamp);
+        values.put(PATH, file.getPath());
 
         database.insert(TABLE_NAME, values, SQLiteDatabase.CONFLICT_REPLACE);
     }

@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.presenter;
+package pl.codeinprogress.notes.util;
 
 import com.google.common.io.BaseEncoding;
 
@@ -16,13 +16,13 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by tomaszmartin on 22.06.2016.
  */
 
-public class Encryptor {
+public class Encryption {
     private String encryption;
     private Cipher cipher;
     private Key key;
     private String password;
 
-    public Encryptor(String pass) {
+    public Encryption(String pass) {
         password = pass;
         setEncryption("AES");
     }

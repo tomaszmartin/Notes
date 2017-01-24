@@ -11,7 +11,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetPackage="pl.codeinprogress.notes"
-            android:targetClass="pl.codeinprogress.notes.view.MainActivity" />
+            android:targetClass="pl.codeinprogress.notes.view.NotesActivity" />
         <categories
             android:name="android.shortcut.conversation" />
     </shortcut>

@@ -1,9 +1,7 @@
 package pl.codeinprogress.notes.presenter;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import java.util.List;
 import java.util.UUID;
 
 import pl.codeinprogress.notes.model.Note;
@@ -11,9 +9,7 @@ import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.EspressoIdlingResource;
 import pl.codeinprogress.notes.util.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.NotesView;
-import rx.Observable;
 import rx.Subscription;
-import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 import static com.google.common.base.Preconditions.checkNotNull;

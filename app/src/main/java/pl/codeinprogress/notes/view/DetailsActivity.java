@@ -3,7 +3,6 @@ package pl.codeinprogress.notes.view;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -35,7 +33,7 @@ import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
 import pl.codeinprogress.notes.util.SchedulerProvider;
-import pl.codeinprogress.notes.view.image.ImageTransformation;
+import pl.codeinprogress.notes.util.ImageTransformation;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsActivity extends BaseActivity implements DetailsView {
@@ -141,6 +139,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void noteContentsLoaded(String contents) {
+        log("noteContentsLoaded called");
         EditText contentView = (EditText) findViewById(R.id.contentView);
 
         contentView.setText(contents);
