@@ -43,8 +43,11 @@ public class DetailsPresenter {
         repository.getNote(noteId)
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())
-                .subscribe(note -> showNote(note));
+                .subscribe(this::showNote);
     }
+
+
+
 
 
     private void showNote(Note note) {
@@ -53,7 +56,6 @@ public class DetailsPresenter {
     }
 
     private void getNoteContent(Note note) {
-        Log.d(this.getClass().getSimpleName(), "getNoteContent: called with " + note.getPath());
         if (noteFileExists(note)) {
             loadNoteContentsFromFile(note);
         } else {
@@ -62,7 +64,7 @@ public class DetailsPresenter {
     }
 
     private void saveToFile(final Note note, final String password, final String content) {
-        Runnable task = () -> {
+        schedulerProvider.io().createWorker().schedule(() -> {
             if (!content.isEmpty() && !note.getPath().isEmpty()) {
                 try {
                     Encryption encryption = new Encryption(password);
@@ -74,9 +76,7 @@ public class DetailsPresenter {
                     e.printStackTrace();
                 }
             }
-        };
-        Thread thread = new Thread(task);
-        thread.run();
+        });
     }
 
     private boolean noteFileExists(Note note) {
@@ -84,8 +84,7 @@ public class DetailsPresenter {
     }
 
     private void loadNoteContentsFromFile(final Note note) {
-        Log.d(this.getClass().getSimpleName(), "loadNoteContentsFromFile: called");
-        schedulerProvider.computation().createWorker().schedule(() -> {
+        schedulerProvider.io().createWorker().schedule(() -> {
             String contents = "";
             try {
                 FileInputStream inputStream = new FileInputStream(new File(note.getPath()));
@@ -101,30 +100,11 @@ public class DetailsPresenter {
                 displayContents("");
             }
         });
-        //Runnable task = () -> {
-        //    String contents = "";
-        //    try {
-        //        FileInputStream inputStream = new FileInputStream(new File(note.getPath()));
-        //        BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
-        //        String line;
-        //        while ((line = reader.readLine()) != null) {
-        //            contents = contents + line;
-        //        }
-        //        inputStream.close();
-        //        displayContents(contents);
-        //    } catch (Exception e) {
-        //        e.printStackTrace();
-        //        displayContents("");
-        //    }
-        //};
-        //Thread thread = new Thread(task);
-        //thread.run();
     }
 
     private void displayContents(final String content) {
         final Encryption encryption = new Encryption(password);
         schedulerProvider.ui().createWorker().schedule(() -> {
-            Log.d(this.getClass().getSimpleName(), "displayContents: called");
             view.noteContentsLoaded(encryption.decrypt(content));
         });
     }

@@ -139,7 +139,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void noteContentsLoaded(String contents) {
-        log("noteContentsLoaded called");
         EditText contentView = (EditText) findViewById(R.id.contentView);
 
         contentView.setText(contents);
