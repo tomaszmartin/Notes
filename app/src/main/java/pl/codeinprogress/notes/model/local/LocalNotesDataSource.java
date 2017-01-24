@@ -80,7 +80,7 @@ public class LocalNotesDataSource implements NotesDataSource {
                 MODIFIED,
                 SECURED
         };
-        String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID, noteId);
+        String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID);
         Log.d(this.getClass().getSimpleName(), "getNote: " + sql);
         return database.createQuery(TABLE_NAME, sql, noteId).mapToOne(this::getNote);
     }
@@ -120,8 +120,7 @@ public class LocalNotesDataSource implements NotesDataSource {
         values.put(CREATED, timestamp);
         values.put(MODIFIED, timestamp);
 
-        String selection = ENTRY_ID + " LIKE ?";
-        database.update(TABLE_NAME, values, selection, noteId);
+        database.insert(TABLE_NAME, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
 

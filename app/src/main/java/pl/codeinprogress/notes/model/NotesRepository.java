@@ -46,4 +46,9 @@ public class NotesRepository implements NotesDataSource {
         dataSource.deleteNote(noteId);
     }
 
+    @Override
+    public void addNote(@NonNull String noteId) {
+        dataSource.addNote(noteId);
+    }
+
 }

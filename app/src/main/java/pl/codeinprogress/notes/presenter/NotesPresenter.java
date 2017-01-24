@@ -61,7 +61,7 @@ public class NotesPresenter {
         Note note = new Note();
         String id = UUID.randomUUID().toString();
         note.setId(id);
-        repository.saveNote(note);
+        repository.addNote(id);
         view.openEditView(id);
     }
 

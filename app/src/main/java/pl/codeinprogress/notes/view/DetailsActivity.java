@@ -87,7 +87,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     protected void onPause() {
         super.onPause();
-        // saveNote();
+        saveNote();
     }
 
     @Override
