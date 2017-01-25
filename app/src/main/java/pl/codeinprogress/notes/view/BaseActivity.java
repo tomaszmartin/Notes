@@ -25,18 +25,19 @@ public class BaseActivity extends AppCompatActivity {
     NotesRepository injectedRepository;
     @Inject
     SchedulerProvider scheduler;
-    private Analytics analytics;
+    @Inject
+    Analytics analytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        analytics = Analytics.getInstance(this);
-        analytics.sendScreen(getTag());
         ApplicationComponent component = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .notesRepositoryModule(new NotesRepositoryModule(this))
                 .build();
         component.inject(this);
+        
+        analytics.sendScreen(getTag());
     }
 
     public String getTag() {
