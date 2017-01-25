@@ -50,9 +50,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        NotesDataSource notesDataSource = LocalNotesDataSource.getInstance(getApplicationContext(), SchedulerProvider.getInstance());
-        NotesRepository repository = NotesRepository.getInstance(notesDataSource);
-        presenter = new DetailsPresenter(this, repository, SchedulerProvider.getInstance());
+        presenter = new DetailsPresenter(this, getRepository(), SchedulerProvider.getInstance());
 
         setupListeners();
         setupView();

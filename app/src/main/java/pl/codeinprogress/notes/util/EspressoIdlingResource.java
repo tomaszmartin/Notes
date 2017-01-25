@@ -16,4 +16,5 @@ public class EspressoIdlingResource {
     public static SimpleCountingIdlingResource getIdlingResource() {
         return idlingResource;
     }
+
 }

@@ -27,7 +27,7 @@ public class SimpleCountingIdlingResource implements IdlingResource {
 
     @Override
     public void registerIdleTransitionCallback(ResourceCallback callback) {
-        this.resourceCallback = resourceCallback;
+        this.resourceCallback = callback;
     }
 
     public void increment() {

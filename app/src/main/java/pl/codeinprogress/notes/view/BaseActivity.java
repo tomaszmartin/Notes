@@ -7,12 +7,20 @@ import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import javax.inject.Inject;
+
 import io.realm.Realm;
 import pl.codeinprogress.notes.R;
+import pl.codeinprogress.notes.injection.ApplicationComponent;
+import pl.codeinprogress.notes.injection.DaggerApplicationComponent;
+import pl.codeinprogress.notes.injection.NotesRepositoryModule;
+import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Analytics;
 
 public class BaseActivity extends AppCompatActivity {
 
+    @Inject
+    NotesRepository injectedRepository;
     private Analytics analytics;
 
     @Override
@@ -20,6 +28,8 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         analytics = Analytics.getInstance(this);
         analytics.sendScreen(getTag());
+        ApplicationComponent component = DaggerApplicationComponent.builder().notesRepositoryModule(new NotesRepositoryModule(this)).build();
+        component.inject(this);
     }
 
     public String getTag() {
@@ -43,7 +53,9 @@ public class BaseActivity extends AppCompatActivity {
         analytics.sendEvent(category, action, label, value);
     }
 
-
+    public NotesRepository getRepository() {
+        return injectedRepository;
+    }
 
 
 
