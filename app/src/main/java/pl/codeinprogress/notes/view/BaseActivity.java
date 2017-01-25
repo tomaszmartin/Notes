@@ -12,15 +12,19 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.injection.ApplicationComponent;
+import pl.codeinprogress.notes.injection.ApplicationModule;
 import pl.codeinprogress.notes.injection.DaggerApplicationComponent;
 import pl.codeinprogress.notes.injection.NotesRepositoryModule;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Analytics;
+import pl.codeinprogress.notes.util.SchedulerProvider;
 
 public class BaseActivity extends AppCompatActivity {
 
     @Inject
     NotesRepository injectedRepository;
+    @Inject
+    SchedulerProvider scheduler;
     private Analytics analytics;
 
     @Override
@@ -28,7 +32,10 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         analytics = Analytics.getInstance(this);
         analytics.sendScreen(getTag());
-        ApplicationComponent component = DaggerApplicationComponent.builder().notesRepositoryModule(new NotesRepositoryModule(this)).build();
+        ApplicationComponent component = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(this))
+                .notesRepositoryModule(new NotesRepositoryModule(this))
+                .build();
         component.inject(this);
     }
 
@@ -55,6 +62,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public NotesRepository getRepository() {
         return injectedRepository;
+    }
+
+    public SchedulerProvider getScheduler() {
+        return scheduler;
     }
 
 

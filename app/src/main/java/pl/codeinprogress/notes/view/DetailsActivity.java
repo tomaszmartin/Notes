@@ -50,7 +50,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        presenter = new DetailsPresenter(this, getRepository(), SchedulerProvider.getInstance());
+        presenter = new DetailsPresenter(this, getRepository(), getScheduler());
 
         setupListeners();
         setupView();
