@@ -39,6 +39,10 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void sendEvent(String category, String action, String label, long value) {
+        analytics.sendEvent(category, action, label, value);
+    }
+
 
 
 
