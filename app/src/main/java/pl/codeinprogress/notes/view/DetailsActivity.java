@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -73,6 +74,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 case CAMERA_REQUEST_CODE:
                     break;
                 case AUDIO_REQUEST_CODE:
+                    String text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
+                    addTextToView(text);
                     break;
                 default:
                     break;
@@ -144,6 +147,11 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
 
+
+    private void addTextToView(String contents) {
+        EditText contentView = (EditText) findViewById(R.id.contentView);
+        contentView.setText(contentView.getText().toString() + "\n" + contents);
+    }
 
     private void setupView() {
         EditText contentView = (EditText) findViewById(R.id.contentView);

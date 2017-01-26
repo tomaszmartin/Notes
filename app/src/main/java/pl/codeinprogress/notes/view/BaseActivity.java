@@ -36,7 +36,7 @@ public class BaseActivity extends AppCompatActivity {
                 .notesRepositoryModule(new NotesRepositoryModule(this))
                 .build();
         component.inject(this);
-        
+
         analytics.sendScreen(getTag());
     }
 
@@ -55,10 +55,6 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             setNight();
         }
-    }
-
-    public void sendEvent(String category, String action, String label, long value) {
-        analytics.sendEvent(category, action, label, value);
     }
 
     public NotesRepository getRepository() {
