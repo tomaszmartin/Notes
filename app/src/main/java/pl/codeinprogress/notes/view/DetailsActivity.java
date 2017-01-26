@@ -219,16 +219,18 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void saveNote() {
-        EditText contentView = (EditText) findViewById(R.id.contentView);
-        EditText titleView = (EditText) findViewById(R.id.titleView);
+        if (null != note) {
+            EditText contentView = (EditText) findViewById(R.id.contentView);
+            EditText titleView = (EditText) findViewById(R.id.titleView);
 
-        String content = contentView.getText().toString();
-        String title = titleView.getText().toString();
-        note.setTitle(title);
-        note.setModified(new Date().getTime());
-        note.setDescription(content);
+            String content = contentView.getText().toString();
+            String title = titleView.getText().toString();
+            note.setTitle(title);
+            note.setModified(new Date().getTime());
+            note.setDescription(content);
 
-        presenter.saveNote(note, content);
+            presenter.saveNote(note, content);
+        }
     }
 
     private void setupData() {
