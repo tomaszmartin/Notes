@@ -63,7 +63,7 @@ public class DetailsPresenter {
         }
     }
 
-    private void saveToFile(final Note note, final String password, final String content) {
+    private void saveToFile(final Note note, @NonNull final String password, @NonNull final String content) {
         schedulerProvider.io().createWorker().schedule(() -> {
             if (!content.isEmpty() && !note.getPath().isEmpty()) {
                 try {

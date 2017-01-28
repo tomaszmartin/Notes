@@ -83,16 +83,6 @@
 
                 </LinearLayout>
 
-                <EditText
-                    android:id="@+id/titleView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/title"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    tools:text="@string/lorem_short" />
-
                 <pl.codeinprogress.notes.util.NoteEditorView
                     android:id="@+id/contentView"
                     android:layout_width="match_parent"

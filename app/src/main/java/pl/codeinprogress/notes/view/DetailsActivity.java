@@ -127,15 +127,15 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         log(note.toString());
         this.note = note;
 
-        EditText titleView = (EditText) findViewById(R.id.titleView);
-        titleView.setText(note.getTitle());
+        //EditText titleView = (EditText) findViewById(R.id.titleView);
+        //titleView.setText(note.getTitle());
     }
 
     @Override
     public void noteContentsLoaded(String contents) {
-        NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
-        contentView.setContent(contents);
-        contentView.setVisibility(View.VISIBLE);
+        //NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
+        //contentView.setContent(contents);
+        //contentView.setVisibility(View.VISIBLE);
     }
 
 
@@ -222,16 +222,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
 
-            NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
-            EditText titleView = (EditText) findViewById(R.id.titleView);
+            //NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
+            //EditText titleView = (EditText) findViewById(R.id.titleView);
 
-            String content = contentView.getContent();
-            String title = titleView.getText().toString();
-            note.setTitle(title);
+            //String content = contentView.getContent();
+            //String title = titleView.getText().toString();
+            //note.setTitle(title);
             note.setModified(new Date().getTime());
-            note.setDescription(content);
+            //note.setDescription(content);
 
-            presenter.saveNote(note, content);
+            presenter.saveNote(note, "");
         }
     }
 

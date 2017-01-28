@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class NoteEditorView extends WebView {
 
@@ -16,6 +18,7 @@ public class NoteEditorView extends WebView {
     @SuppressLint("SetJavaScriptEnabled")
     public NoteEditorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
         getSettings().setJavaScriptEnabled(true);
@@ -41,6 +44,21 @@ public class NoteEditorView extends WebView {
                 currentContent = contents[1];
             }
         });
+    }
+
+    public void startTextSelection() {
+        try {
+            WebView.class.getMethod("selectText").invoke(this);
+        } catch (Exception e) {
+            try {
+                WebView.class.getMethod("emulateShiftHeld").invoke(this);
+            } catch (Exception e1) {
+                KeyEvent shiftPressEvent = new KeyEvent(0, 0,
+                        KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_SHIFT_LEFT, 0, 0);
+                shiftPressEvent.dispatch(this);
+                Toast.makeText(getContext(), "lotafak", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public String getContent() {
