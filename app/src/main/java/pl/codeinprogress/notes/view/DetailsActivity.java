@@ -1,37 +1,28 @@
 package pl.codeinprogress.notes.view;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
-import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
+
+import jp.wasabeef.richeditor.RichEditor;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
-import pl.codeinprogress.notes.util.NoteEditorView;
-import pl.codeinprogress.notes.util.ImageTransformation;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsActivity extends BaseActivity implements DetailsView {
@@ -66,9 +57,10 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         if (resultCode == RESULT_OK && data != null) {
             switch(requestCode) {
                 case IMAGE_REQUEST_CODE:
-                    setImage(data.getData());
+                    presenter.transformImage(data.getData(), this);
                     break;
                 case CAMERA_REQUEST_CODE:
+                    presenter.transformImage(data.getData(), this);
                     break;
                 case AUDIO_REQUEST_CODE:
                     break;
@@ -108,9 +100,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             case R.id.action_camera:
                 takePhoto();
                 return true;
-            case R.id.action_dictate:
-                dictateNote();
-                return true;
             case R.id.action_read:
                 readNote();
                 return true;
@@ -124,18 +113,24 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void showNote(Note note) {
-        log(note.toString());
         this.note = note;
-
-        //EditText titleView = (EditText) findViewById(R.id.titleView);
-        //titleView.setText(note.getTitle());
     }
 
     @Override
-    public void noteContentsLoaded(String contents) {
-        //NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
-        //contentView.setContent(contents);
-        //contentView.setVisibility(View.VISIBLE);
+    public void showNoteContents(String contents) {
+        RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
+        contentView.setHtml(contents);
+        contentView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showErrorMessage(String message) {
+
+    }
+
+    @Override
+    public void insertImage(String imagePath) {
+        ((RichEditor) findViewById(R.id.contentView)).insertImage(imagePath, null);
     }
 
 
@@ -156,27 +151,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         presenter.getNote(noteId);
     }
 
-    private int getFontSize() {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int size = 14;
-        try {
-            size =  Integer.valueOf(prefs.getString(getString(R.string.font_size_preference), getString(R.string.font_size_default)));
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-
-        return size;
-    }
-
-    private void setFontSize(EditText view, int delta) {
-        float currentSize = view.getTextSize();
-        float defaultSize = 160f;
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dp = (currentSize / (displayMetrics.densityDpi / defaultSize)) + delta;
-
-        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, dp);
-    }
-
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         Uri photoUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), UUID.randomUUID().toString() + ".jpg"));
@@ -194,11 +168,12 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             }
         });
 
-        NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
-        findViewById(R.id.listBulleted).setOnClickListener(view -> contentView.setBulletedList());
-        findViewById(R.id.listNumbered).setOnClickListener(view -> contentView.setNumberedList());
-        findViewById(R.id.formatBold).setOnClickListener(view -> contentView.toggleBold());
-        findViewById(R.id.formatItalic).setOnClickListener(view -> contentView.toggleItalic());
+        RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
+        contentView.setEditorFontSize(14);
+        findViewById(R.id.listBulleted).setOnClickListener(view -> contentView.setBullets());
+        findViewById(R.id.listNumbered).setOnClickListener(view -> contentView.setNumbers());
+        findViewById(R.id.formatBold).setOnClickListener(view -> contentView.setBold());
+        findViewById(R.id.formatItalic).setOnClickListener(view -> contentView.setItalic());
     }
 
     private void pickImage() {
@@ -216,73 +191,38 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     private void saveNote() {
         if (null != note) {
-            View view = this.getCurrentFocus();
-            if (view != null) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-
-            //NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
-            //EditText titleView = (EditText) findViewById(R.id.titleView);
-
-            //String content = contentView.getContent();
-            //String title = titleView.getText().toString();
-            //note.setTitle(title);
-            note.setModified(new Date().getTime());
-            //note.setDescription(content);
-
-            presenter.saveNote(note, "");
-        }
-    }
-
-    private void dictateNote() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.speak_now));
-        try {
-            startActivityForResult(intent, AUDIO_REQUEST_CODE);
-        } catch (ActivityNotFoundException a) {
-            Toast.makeText(this.getApplicationContext(),
-                    getString(R.string.dictating_not_supported),
-                    Toast.LENGTH_SHORT).show();
+            presenter.saveNote(getNote(), getNoteHtml());
         }
     }
 
     private void readNote() {
-        NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
+        textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null);
+    }
 
-        String text = contentView.getContent();
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+    public Note getNote() {
+        note.setModified(new Date().getTime());
+        note.setDescription(getNoteContent());
+
+        return note;
+    }
+
+    public String getNoteContent() {
+        String note = Html.fromHtml(getNoteHtml()).toString();
+        return note;
+    }
+
+    public String getNoteHtml() {
+        String content = ((RichEditor) findViewById(R.id.contentView)).getHtml();
+        return content;
     }
 
     private void shareNote() {
-        EditText contentView = (EditText) findViewById(R.id.contentView);
-
-        String content = contentView.getText().toString();
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getNoteContent());
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
 
-    }
-
-    private void setImage(Uri imageUri) {
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
-
-        imageView.setVisibility(View.VISIBLE);
-        ImageTransformation imageTransformation = new ImageTransformation(this);
-
-        if (imageUri != null && !imageUri.toString().isEmpty()) {
-            Picasso.with(this)
-                    .load(imageUri)
-                    .transform(imageTransformation)
-                    .into(imageView);
-
-        }
     }
 
 }

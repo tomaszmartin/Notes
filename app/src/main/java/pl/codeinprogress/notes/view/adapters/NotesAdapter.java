@@ -1,6 +1,7 @@
 package pl.codeinprogress.notes.view.adapters;
 
 import android.support.annotation.NonNull;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,17 +47,15 @@ public class NotesAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.main_item, null);
         }
 
-        Note note = (Note) getItem(position);
-        if (note != null) {
-            TextView title = (TextView) view.findViewById(R.id.item_title);
-            TextView date = (TextView) view.findViewById(R.id.item_date);
+        Note note = getItem(position);
+        if (note != null && note.getDescription() != null) {
             TextView description = (TextView) view.findViewById(R.id.item_desc);
-
-            DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(parent.getContext());
-            title.setText(note.getTitle());
+            description.setText(Html.fromHtml(note.getDescription()));
+        }
+        if (note != null) {
+            DateFormat dateFormat = DateFormat.getDateInstance();
+            TextView date = (TextView) view.findViewById(R.id.item_date);
             date.setText(dateFormat.format(note.getModified()));
-            description.setText(note.getDescription());
-
         }
 
         return view;

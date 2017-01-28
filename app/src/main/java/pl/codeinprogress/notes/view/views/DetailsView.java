@@ -5,6 +5,8 @@ import pl.codeinprogress.notes.model.Note;
 public interface DetailsView {
 
     void showNote(Note note);
-    void noteContentsLoaded(String contents);
+    void showNoteContents(String htmlContents);
+    void showErrorMessage(String message);
+    void insertImage(String imagePath);
 
 }

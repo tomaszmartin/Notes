@@ -180,5 +180,6 @@
     <string name="last_name_error">Nazwisko nie może być puste</string>
     <string name="login">Zaloguj</string>
     <string name="logout">Wyloguj</string>
+    <string name="empty_list">Kiedy dodasz pierwszą notatkę, zobaczysz ją tutaj...</string>
 
 </resources>

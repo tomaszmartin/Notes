@@ -1,5 +1,7 @@
 package pl.codeinprogress.notes.model;
 
+import android.text.Html;
+
 import io.realm.RealmObject;
 
 public class Note extends RealmObject {
@@ -33,7 +35,7 @@ public class Note extends RealmObject {
     }
 
     public void setDescription(String description) {
-        int maxLength = 256;
+        int maxLength = 2048;
         if (null != description && description.length() > maxLength) {
             description = description.substring(0, maxLength);
             description = description.substring(0, description.lastIndexOf(" "));

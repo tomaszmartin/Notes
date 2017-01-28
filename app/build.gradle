@@ -81,6 +81,8 @@ dependencies {
     compile 'com.squareup.sqlbrite:sqlbrite:1.1.1'
     compile 'com.google.guava:guava:19.0-rc2'
 
+    compile 'jp.wasabeef:richeditor-android:1.2.1'
+
     compile 'io.reactivex:rxjava:1.1.8'
     compile 'io.reactivex:rxandroid:1.2.1'
 

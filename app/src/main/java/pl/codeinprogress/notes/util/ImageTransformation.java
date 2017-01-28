@@ -1,17 +1,16 @@
 package pl.codeinprogress.notes.util;
 
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
 import com.squareup.picasso.Transformation;
 
-import pl.codeinprogress.notes.view.BaseActivity;
-
 public class ImageTransformation implements Transformation {
 
-    private BaseActivity activity;
+    private AppCompatActivity activity;
 
-    public ImageTransformation(BaseActivity activity) {
+    public ImageTransformation(AppCompatActivity activity) {
         this.activity = activity;
     }
 
