@@ -18,22 +18,19 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
-import pl.codeinprogress.notes.model.NotesDataSource;
-import pl.codeinprogress.notes.model.NotesRepository;
-import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.NoteEditorView;
 import pl.codeinprogress.notes.util.ImageTransformation;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
@@ -74,8 +71,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 case CAMERA_REQUEST_CODE:
                     break;
                 case AUDIO_REQUEST_CODE:
-                    String text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0);
-                    addTextToView(text);
                     break;
                 default:
                     break;
@@ -106,8 +101,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 shareNote();
                 return true;
             case R.id.action_size:
-                EditText contentView = (EditText) findViewById(R.id.contentView);
-                setFontSize(contentView, 1);
                 return true;
             case R.id.action_image:
                 pickImage();
@@ -140,22 +133,15 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void noteContentsLoaded(String contents) {
-        EditText contentView = (EditText) findViewById(R.id.contentView);
-
-        contentView.setText(contents);
+        NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
+        contentView.setContent(contents);
         contentView.setVisibility(View.VISIBLE);
     }
 
 
 
-    private void addTextToView(String contents) {
-        EditText contentView = (EditText) findViewById(R.id.contentView);
-        contentView.setText(contentView.getText().toString() + "\n" + contents);
-    }
 
     private void setupView() {
-        EditText contentView = (EditText) findViewById(R.id.contentView);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -163,7 +149,11 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
-        contentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, getFontSize());
+    }
+
+    private void setupData() {
+        String noteId = getIntent().getStringExtra(NOTE_ID);
+        presenter.getNote(noteId);
     }
 
     private int getFontSize() {
@@ -203,6 +193,12 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 textToSpeech.setLanguage(current);
             }
         });
+
+        NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
+        findViewById(R.id.listBulleted).setOnClickListener(view -> contentView.setBulletedList());
+        findViewById(R.id.listNumbered).setOnClickListener(view -> contentView.setNumberedList());
+        findViewById(R.id.formatBold).setOnClickListener(view -> contentView.toggleBold());
+        findViewById(R.id.formatItalic).setOnClickListener(view -> contentView.toggleItalic());
     }
 
     private void pickImage() {
@@ -220,10 +216,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     private void saveNote() {
         if (null != note) {
-            EditText contentView = (EditText) findViewById(R.id.contentView);
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+
+            NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
             EditText titleView = (EditText) findViewById(R.id.titleView);
 
-            String content = contentView.getText().toString();
+            String content = contentView.getContent();
             String title = titleView.getText().toString();
             note.setTitle(title);
             note.setModified(new Date().getTime());
@@ -231,11 +233,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
             presenter.saveNote(note, content);
         }
-    }
-
-    private void setupData() {
-        String noteId = getIntent().getStringExtra(NOTE_ID);
-        presenter.getNote(noteId);
     }
 
     private void dictateNote() {
@@ -255,9 +252,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void readNote() {
-        EditText contentView = (EditText) findViewById(R.id.contentView);
+        NoteEditorView contentView = (NoteEditorView) findViewById(R.id.contentView);
 
-        String text = contentView.getText().toString();
+        String text = contentView.getContent();
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null);
     }
 

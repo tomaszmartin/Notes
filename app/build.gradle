@@ -9,7 +9,7 @@ android {
     buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId 'pl.codeinprogress.notes'
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 4
         versionName "1.2"
@@ -31,6 +31,7 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] }
     }
     dexOptions {
         javaMaxHeapSize "12g"
