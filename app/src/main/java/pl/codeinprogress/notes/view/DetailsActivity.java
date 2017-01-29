@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import java.io.File;
 import java.util.Date;
@@ -120,12 +120,12 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void showNoteContents(String contents) {
         RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
         contentView.setHtml(contents);
-        contentView.loadCSS("file:///android_asset/custom.css");
+        //contentView.loadCSS("file:///android_asset/custom.css");
     }
 
     @Override
     public void showErrorMessage(String message) {
-
+        Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

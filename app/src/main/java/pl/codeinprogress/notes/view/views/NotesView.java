@@ -7,9 +7,7 @@ import pl.codeinprogress.notes.model.Note;
 public interface NotesView {
 
     void showNotes(List<Note> notes);
-    void showLoadingError();
-    void showLoadingIndicator();
-    void hideLoadingIndicator();
+    void showErrorMessage(String message);
     void openEditView(String noteId);
 
 }
