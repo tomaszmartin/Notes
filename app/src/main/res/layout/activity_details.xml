@@ -48,11 +48,10 @@
 
                     <ImageButton
                         android:id="@+id/listBulleted"
-                        android:paddingLeft="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/translucent"
-                        android:src="@drawable/ic_format_list_bulleted_grey600_24dp" />
+                        android:src="@drawable/button_format_bulleted_list" />
 
                     <android.support.v4.widget.Space
                         android:layout_width="0dp"
@@ -64,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/translucent"
-                        android:src="@drawable/ic_format_list_numbers_grey600_24dp" />
+                        android:src="@drawable/button_format_numbered_list" />
 
                     <android.support.v4.widget.Space
                         android:layout_width="0dp"
@@ -76,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/translucent"
-                        android:src="@drawable/ic_format_bold_grey600_24dp" />
+                        android:src="@drawable/button_format_bold" />
 
                     <android.support.v4.widget.Space
                         android:layout_width="0dp"
@@ -88,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@color/translucent"
-                        android:src="@drawable/ic_format_italic_grey600_24dp" />
+                        android:src="@drawable/button_format_italic" />
 
                     <android.support.v4.widget.Space
                         android:layout_width="0dp"
@@ -96,12 +95,12 @@
                         android:layout_height="wrap_content" />
 
                     <ImageButton
-                        android:id="@+id/formatSize"
+                        android:id="@+id/formatUnderline"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="8dp"
                         android:background="@color/translucent"
-                        android:src="@drawable/ic_format_size_grey600_24dp" />
+                        android:src="@drawable/button_format_underline" />
 
                 </LinearLayout>
 

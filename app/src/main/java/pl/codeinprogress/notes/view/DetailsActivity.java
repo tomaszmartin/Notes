@@ -120,7 +120,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void showNoteContents(String contents) {
         RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
         contentView.setHtml(contents);
-        contentView.setVisibility(View.VISIBLE);
+        contentView.loadCSS("file:///android_asset/custom.css");
     }
 
     @Override
@@ -169,11 +169,26 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         });
 
         RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
-        contentView.setEditorFontSize(14);
-        findViewById(R.id.listBulleted).setOnClickListener(view -> contentView.setBullets());
-        findViewById(R.id.listNumbered).setOnClickListener(view -> contentView.setNumbers());
-        findViewById(R.id.formatBold).setOnClickListener(view -> contentView.setBold());
-        findViewById(R.id.formatItalic).setOnClickListener(view -> contentView.setItalic());
+        findViewById(R.id.listBulleted).setOnClickListener(view -> {
+            contentView.setBullets();
+            view.setSelected(!view.isSelected());
+        });
+        findViewById(R.id.listNumbered).setOnClickListener(view -> {
+            contentView.setNumbers();
+            view.setSelected(!view.isSelected());
+        });
+        findViewById(R.id.formatBold).setOnClickListener(view -> {
+            contentView.setBold();
+            view.setSelected(!view.isSelected());
+        });
+        findViewById(R.id.formatItalic).setOnClickListener(view -> {
+            contentView.setItalic();
+            view.setSelected(!view.isSelected());
+        });
+        findViewById(R.id.formatUnderline).setOnClickListener(view -> {
+            contentView.setUnderline();
+            view.setSelected(!view.isSelected());
+        });
     }
 
     private void pickImage() {
