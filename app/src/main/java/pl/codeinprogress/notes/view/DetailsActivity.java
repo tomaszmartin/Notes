@@ -92,19 +92,11 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             case R.id.action_share:
                 shareNote();
                 return true;
-            case R.id.action_size:
-                return true;
-            case R.id.action_image:
-                pickImage();
-                return true;
             case R.id.action_camera:
                 takePhoto();
                 return true;
             case R.id.action_read:
                 readNote();
-                return true;
-            case R.id.action_night_mode:
-                switchNightMode();
                 return true;
         }
 
