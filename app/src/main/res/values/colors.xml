@@ -14,11 +14,13 @@
     <color name="fab_dark">#d32f2f</color>
     <color name="fab_shadow">#88000000</color>
     <color name="item_background">#ffffff</color>
+    <color name="editor_text_color">#000000</color>
     <color name="item_background_selected">#000000</color>
     <color name="white">#ffffff</color>
-    <color name="translucent">#80ffffff</color>
+    <color name="translucent">#00ffffff</color>
     <color name="icon">#9e9e9e</color>
     <color name="action_bar_icon">#ffffff</color>
+    <color name="editor_background">#ffffff</color>
 
     <color name="black_overlay">#66000000</color>
     <color name="edit_text_hint">@color/white</color>

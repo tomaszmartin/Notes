@@ -2,5 +2,6 @@
 <resources>
 
     <bool name="isNight">true</bool>
+    <string name="css_file_path">file:///android_asset/night.css</string>
 
 </resources>

@@ -120,7 +120,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void showNoteContents(String contents) {
         RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
         contentView.setHtml(contents);
-        //contentView.loadCSS("file:///android_asset/custom.css");
     }
 
     @Override
@@ -144,6 +143,10 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
+
+        RichEditor editor = (RichEditor) findViewById(R.id.contentView);
+        editor.setBackgroundColor(getResources().getColor(R.color.item_background));
+        editor.setEditorFontColor(getResources().getColor(R.color.editor_text_color));
     }
 
     private void setupData() {
@@ -173,10 +176,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             contentView.setBullets();
             view.setSelected(!view.isSelected());
         });
-        findViewById(R.id.listNumbered).setOnClickListener(view -> {
-            contentView.setNumbers();
-            view.setSelected(!view.isSelected());
-        });
         findViewById(R.id.formatBold).setOnClickListener(view -> {
             contentView.setBold();
             view.setSelected(!view.isSelected());
@@ -188,6 +187,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         findViewById(R.id.formatUnderline).setOnClickListener(view -> {
             contentView.setUnderline();
             view.setSelected(!view.isSelected());
+        });
+        findViewById(R.id.formatImage).setOnClickListener(view -> {
+            pickImage();
         });
     }
 
