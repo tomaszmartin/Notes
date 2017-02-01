@@ -27,14 +27,13 @@ public class NotesPresenterTest {
     private NotesRepository notesRepository;
     @Mock
     private NotesView notesView;
-    private SchedulerProvider schedulerProvider;
     private NotesPresenter notesPresenter;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        schedulerProvider = new ImmediateSchedulerProvider();
-        notesPresenter = new NotesPresenter(notesView, notesRepository, schedulerProvider);
+        notesPresenter = new NotesPresenter(notesView, notesRepository,
+                new ImmediateSchedulerProvider());
 
         ArrayList<Note> notes = new ArrayList<>();
         notes.add(new Note());

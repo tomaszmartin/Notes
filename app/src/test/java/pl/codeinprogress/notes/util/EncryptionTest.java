@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.presenter;
+package pl.codeinprogress.notes.util;
 
 import org.junit.Test;
 

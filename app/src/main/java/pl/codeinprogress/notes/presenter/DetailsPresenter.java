@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Encryption;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
+import pl.codeinprogress.notes.util.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsPresenter {
@@ -29,30 +29,29 @@ public class DetailsPresenter {
     @NonNull
     private NotesRepository repository;
     @NonNull
-    private AndroidSchedulerProvider androidSchedulerProvider;
+    private SchedulerProvider schedulerProvider;
     private String password = "secret";
 
-    public DetailsPresenter(@NonNull DetailsView view, @NonNull NotesRepository repository, @NonNull AndroidSchedulerProvider provider) {
+    public DetailsPresenter(@NonNull DetailsView view, @NonNull NotesRepository repository, @NonNull SchedulerProvider provider) {
         this.view = view;
         this.repository = repository;
-        this.androidSchedulerProvider = provider;
+        this.schedulerProvider = provider;
     }
 
     public void saveNote(Note note, String contents) {
         repository.saveNote(note);
         saveToFile(note, password, contents);
-
     }
 
     public void getNote(String noteId) {
         repository.getNote(noteId)
-                .subscribeOn(androidSchedulerProvider.computation())
-                .observeOn(androidSchedulerProvider.ui())
+                .subscribeOn(schedulerProvider.computation())
+                .observeOn(schedulerProvider.ui())
                 .subscribe(this::showNote);
     }
 
     public void transformImage(Uri imageUri, AppCompatActivity context) {
-        androidSchedulerProvider.io().createWorker().schedule(() -> {
+        schedulerProvider.io().createWorker().schedule(() -> {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), imageUri);
 
@@ -68,7 +67,7 @@ public class DetailsPresenter {
                 FileOutputStream outputStream = new FileOutputStream(scaledImage);
                 scaledBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                 outputStream.close();
-                androidSchedulerProvider.ui().createWorker().schedule(() -> view.insertImage(scaledImage.getPath()));
+                schedulerProvider.ui().createWorker().schedule(() -> view.insertImage(scaledImage.getPath()));
             } catch (IOException exception) {
                 view.showErrorMessage("Error while retrieving image!");
             }
@@ -89,7 +88,7 @@ public class DetailsPresenter {
     }
 
     private void saveToFile(final Note note, @NonNull final String password, @NonNull final String content) {
-        androidSchedulerProvider.io().createWorker().schedule(() -> {
+        schedulerProvider.io().createWorker().schedule(() -> {
             if (!content.isEmpty() && !note.getPath().isEmpty()) {
                 try {
                     Encryption encryption = new Encryption(password);
@@ -109,7 +108,7 @@ public class DetailsPresenter {
     }
 
     private void loadNoteContentsFromFile(final Note note) {
-        androidSchedulerProvider.io().createWorker().schedule(() -> {
+        schedulerProvider.io().createWorker().schedule(() -> {
             String contents = "";
             try {
                 FileInputStream inputStream = new FileInputStream(new File(note.getPath()));
@@ -129,7 +128,7 @@ public class DetailsPresenter {
 
     private void displayContents(final String content) {
         final Encryption encryption = new Encryption(password);
-        androidSchedulerProvider.ui().createWorker().schedule(() -> {
+        schedulerProvider.ui().createWorker().schedule(() -> {
             view.showNoteContents(encryption.decrypt(content));
         });
     }
