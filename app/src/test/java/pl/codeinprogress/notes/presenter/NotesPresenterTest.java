@@ -16,6 +16,7 @@ import pl.codeinprogress.notes.view.views.NotesView;
 import rx.Observable;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,8 +32,10 @@ public class NotesPresenterTest {
 
     @Before
     public void setup() {
-        schedulerProvider = new ImmediateSchedulerProvider();
         MockitoAnnotations.initMocks(this);
+        schedulerProvider = new ImmediateSchedulerProvider();
+        notesPresenter = new NotesPresenter(notesView, notesRepository, schedulerProvider);
+
         ArrayList<Note> notes = new ArrayList<>();
         notes.add(new Note());
         when(notesRepository.getNotes()).thenReturn(Observable.just(notes));
@@ -40,30 +43,27 @@ public class NotesPresenterTest {
 
     @Test
     public void loadNotesShouldCallShowNotes() {
-        notesPresenter = new NotesPresenter(notesView, notesRepository, schedulerProvider);
         notesPresenter.loadNotes();
 
         verify(notesView, times(1)).showNotes(any());
     }
 
     @Test
-    public void deleteNoteWithEmptyStringShouldNotReturnError() {
-        notesPresenter.deleteNote("");
-    }
-
-    @Test
     public void deleteNoteShouldDeleteItFromRepository() {
-
+        notesPresenter.deleteNote("");
+        verify(notesRepository, times(1)).deleteNote(any());
     }
 
     @Test
     public void addNoteShouldAddItToRepository() {
-
+        notesPresenter.addNote();
+        verify(notesRepository, times(1)).addNote(any());
     }
 
     @Test
     public void addNoteShouldOpenEditView() {
-
+        notesPresenter.addNote();
+        verify(notesView, times(1)).openEditView(any());
     }
 
 }
