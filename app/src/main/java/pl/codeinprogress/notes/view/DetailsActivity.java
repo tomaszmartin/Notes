@@ -146,15 +146,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         presenter.getNote(noteId);
     }
 
-    private void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri photoUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), UUID.randomUUID().toString() + ".jpg"));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(intent, CAMERA_REQUEST_CODE);
-        }
-    }
-
     private void setupListeners() {
         textToSpeech = new TextToSpeech(this, status -> {
             Locale current = getResources().getConfiguration().locale;
@@ -185,6 +176,15 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         });
     }
 
+    private void takePhoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        Uri photoUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), UUID.randomUUID().toString() + ".jpg"));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        }
+    }
+
     private void pickImage() {
         Intent image = new Intent();
         image.setType("image/*");
@@ -208,19 +208,19 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null);
     }
 
-    public Note getNote() {
+    private Note getNote() {
         note.setModified(new Date().getTime());
         note.setDescription(getNoteContent());
 
         return note;
     }
 
-    public String getNoteContent() {
+    private String getNoteContent() {
         String note = Html.fromHtml(getNoteHtml()).toString();
         return note;
     }
 
-    public String getNoteHtml() {
+    private String getNoteHtml() {
         String content = ((RichEditor) findViewById(R.id.contentView)).getHtml();
         return content;
     }

@@ -12,7 +12,7 @@ public class NotesRepository implements NotesDataSource {
     @Nullable
     private static NotesRepository instance = null;
     @NonNull
-    private final NotesDataSource dataSource;
+    private NotesDataSource dataSource;
 
     private NotesRepository(@NonNull NotesDataSource dataSource) {
         this.dataSource = dataSource;
@@ -33,7 +33,12 @@ public class NotesRepository implements NotesDataSource {
 
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
-        return dataSource.getNote(noteId);
+        if (null != noteId && noteId.isEmpty()) {
+            return dataSource.getNote(noteId);
+        } else {
+            return null;
+        }
+
     }
 
     @Override
@@ -49,6 +54,11 @@ public class NotesRepository implements NotesDataSource {
     @Override
     public void addNote(@NonNull String noteId) {
         dataSource.addNote(noteId);
+    }
+
+    @NonNull
+    public NotesDataSource getDataSource() {
+        return dataSource;
     }
 
 }

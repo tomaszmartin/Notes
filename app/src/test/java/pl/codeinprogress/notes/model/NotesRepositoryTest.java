@@ -1,24 +1,31 @@
 package pl.codeinprogress.notes.model;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
 
-import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
+import rx.Observable;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class NotesRepositoryTest {
 
-    @Mock
-    private LocalNotesDataSource dataSource;
-    private NotesRepository repository;
+    private static NotesDataSource dataSource;
+    private static NotesRepository repository;
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.initMocks(this);
+    // Has to be executed once for all tests.
+    // Otherwise dataSource changes but in notesRepository it is always the first instance.
+    @BeforeClass
+    public static void setup() {
+        dataSource = Mockito.mock(NotesDataSource.class);
         repository = NotesRepository.getInstance(dataSource);
+    }
+
+    @Test
+    public void shouldContainDataSource() throws Exception {
+        assertEquals(dataSource, repository.getDataSource());
     }
 
     @Test
@@ -28,28 +35,19 @@ public class NotesRepositoryTest {
     }
 
     @Test
-    public void getNotes() throws Exception {
-
+    public void shouldReturnNullIfNull() throws Exception {
+        assertNull(repository.getNote(null));
     }
 
     @Test
-    public void getNote() throws Exception {
-
+    public void shouldReturnNullIfEmpty() throws Exception {
+        assertNull(repository.getNote(""));
     }
 
     @Test
-    public void saveNote() throws Exception {
-
-    }
-
-    @Test
-    public void deleteNote() throws Exception {
-
-    }
-
-    @Test
-    public void addNote() throws Exception {
-
+    public void shouldNotReturnNull() throws Exception {
+        Mockito.when(dataSource.getNotes()).thenReturn(Observable.empty());
+        assertNotNull(repository.getNotes());
     }
 
 }

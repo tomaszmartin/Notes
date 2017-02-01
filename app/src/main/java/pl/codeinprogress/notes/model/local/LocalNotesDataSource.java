@@ -127,7 +127,6 @@ public class LocalNotesDataSource implements NotesDataSource {
         database.insert(TABLE_NAME, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-
     @NonNull
     private Note getNote(@NonNull Cursor cursor) {
         Note note = new Note();
@@ -141,6 +140,22 @@ public class LocalNotesDataSource implements NotesDataSource {
         Log.d(this.getClass().getSimpleName(), "getNote: " + note.toString());
 
         return note;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        LocalNotesDataSource that = (LocalNotesDataSource) o;
+
+        return directory.equals(that.directory);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return directory.hashCode();
     }
 
 }
