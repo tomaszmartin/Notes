@@ -143,7 +143,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     private void setupData() {
         String noteId = getIntent().getStringExtra(NOTE_ID);
-        presenter.getNote(noteId);
+        presenter.loadNote(noteId);
     }
 
     private void setupListeners() {

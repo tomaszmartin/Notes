@@ -41,9 +41,14 @@ public class NotesPresenterTest {
     }
 
     @Test
+    public void loadNotesShouldCallLoadNotesOnRepository() {
+        notesPresenter.loadNotes();
+        verify(notesRepository, times(1)).getNotes();
+    }
+
+    @Test
     public void loadNotesShouldCallShowNotes() {
         notesPresenter.loadNotes();
-
         verify(notesView, times(1)).showNotes(any());
     }
 

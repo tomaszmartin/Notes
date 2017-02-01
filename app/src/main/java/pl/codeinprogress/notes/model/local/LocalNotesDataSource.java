@@ -73,7 +73,7 @@ public class LocalNotesDataSource implements NotesDataSource {
 
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
-        Log.d(this.getClass().getSimpleName(), "getNote: " + noteId);
+        Log.d(this.getClass().getSimpleName(), "loadNote: " + noteId);
         String[] projection = {
                 ENTRY_ID,
                 TITLE,
@@ -84,7 +84,7 @@ public class LocalNotesDataSource implements NotesDataSource {
                 SECURED
         };
         String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID);
-        Log.d(this.getClass().getSimpleName(), "getNote: " + sql);
+        Log.d(this.getClass().getSimpleName(), "loadNote: " + sql);
         return database.createQuery(TABLE_NAME, sql, noteId).mapToOne(this::getNote);
     }
 
@@ -136,7 +136,7 @@ public class LocalNotesDataSource implements NotesDataSource {
         note.setCreated(cursor.getLong(cursor.getColumnIndexOrThrow(CREATED)));
         note.setModified(cursor.getLong(cursor.getColumnIndexOrThrow(MODIFIED)));
         note.setSecured(cursor.getInt(cursor.getColumnIndexOrThrow(SECURED)) == 1);
-        Log.d(this.getClass().getSimpleName(), "getNote: " + note.toString());
+        Log.d(this.getClass().getSimpleName(), "loadNote: " + note.toString());
 
         return note;
     }

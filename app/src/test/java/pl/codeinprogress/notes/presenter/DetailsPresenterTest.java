@@ -3,15 +3,14 @@ package pl.codeinprogress.notes.presenter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.ImmediateSchedulerProvider;
 import pl.codeinprogress.notes.view.views.DetailsView;
+import rx.Observable;
 
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,12 +29,19 @@ public class DetailsPresenterTest {
         MockitoAnnotations.initMocks(this);
         detailsPresenter = new DetailsPresenter(detailsView, notesRepository,
                 new ImmediateSchedulerProvider());
+        when(notesRepository.getNote(any())).thenReturn(Observable.just(new Note()));
     }
 
     @Test
-    public void shouldSaveNote() {
+    public void shouldSaveNoteInRepository() {
         detailsPresenter.saveNote(new Note(), "");
         verify(notesRepository, times(1)).saveNote(any());
+    }
+
+    @Test
+    public void shouldCallGetNoteOnRepository() {
+        detailsPresenter.loadNote("test");
+        verify(notesRepository, times(1)).getNote("test");
     }
 
 }

@@ -43,7 +43,7 @@ public class DetailsPresenter {
         saveToFile(note, password, contents);
     }
 
-    public void getNote(String noteId) {
+    public void loadNote(String noteId) {
         repository.getNote(noteId)
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())
@@ -74,6 +74,10 @@ public class DetailsPresenter {
         });
     }
 
+
+
+
+
     private void showNote(Note note) {
         view.showNote(note);
         getNoteContent(note);
@@ -89,7 +93,7 @@ public class DetailsPresenter {
 
     private void saveToFile(final Note note, @NonNull final String password, @NonNull final String content) {
         schedulerProvider.io().createWorker().schedule(() -> {
-            if (!content.isEmpty() && !note.getPath().isEmpty()) {
+            if (!content.isEmpty() && note.getPath() != null && !note.getPath().isEmpty()) {
                 try {
                     Encryption encryption = new Encryption(password);
                     String result = encryption.encrypt(content);
@@ -104,26 +108,29 @@ public class DetailsPresenter {
     }
 
     private boolean noteFileExists(Note note) {
-        return new File(note.getPath()).exists();
+        return note.getPath() != null && new File(note.getPath()).exists();
+
     }
 
     private void loadNoteContentsFromFile(final Note note) {
-        schedulerProvider.io().createWorker().schedule(() -> {
-            String contents = "";
-            try {
-                FileInputStream inputStream = new FileInputStream(new File(note.getPath()));
-                BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    contents = contents + line;
+        if (note.getPath() != null) {
+            schedulerProvider.io().createWorker().schedule(() -> {
+                String contents = "";
+                try {
+                    FileInputStream inputStream = new FileInputStream(new File(note.getPath()));
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(inputStream)));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        contents = contents + line;
+                    }
+                    inputStream.close();
+                    displayContents(contents);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    displayContents("");
                 }
-                inputStream.close();
-                displayContents(contents);
-            } catch (Exception e) {
-                e.printStackTrace();
-                displayContents("");
-            }
-        });
+            });
+        }
     }
 
     private void displayContents(final String content) {
