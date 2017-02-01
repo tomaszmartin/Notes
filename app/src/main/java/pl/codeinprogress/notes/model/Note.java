@@ -1,7 +1,5 @@
 package pl.codeinprogress.notes.model;
 
-import android.text.Html;
-
 import io.realm.RealmObject;
 
 public class Note extends RealmObject {
@@ -35,7 +33,7 @@ public class Note extends RealmObject {
     }
 
     public void setDescription(String description) {
-        int maxLength = 2048;
+        int maxLength = 256;
         if (null != description && description.length() > maxLength) {
             description = description.substring(0, maxLength);
             description = description.substring(0, description.lastIndexOf(" "));
@@ -87,4 +85,35 @@ public class Note extends RealmObject {
                 ", secured=" + secured +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Note note = (Note) o;
+
+        if (created != note.created) return false;
+        if (modified != note.modified) return false;
+        if (secured != note.secured) return false;
+        if (id != null ? !id.equals(note.id) : note.id != null) return false;
+        if (title != null ? !title.equals(note.title) : note.title != null) return false;
+        if (description != null ? !description.equals(note.description) : note.description != null)
+            return false;
+        return path != null ? path.equals(note.path) : note.path == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (int) (created ^ (created >>> 32));
+        result = 31 * result + (int) (modified ^ (modified >>> 32));
+        result = 31 * result + (secured ? 1 : 0);
+        return result;
+    }
+
 }

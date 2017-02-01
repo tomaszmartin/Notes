@@ -6,10 +6,6 @@ import pl.codeinprogress.notes.util.Encryption;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by tomaszmartin on 09.07.2016.
- */
-
 public class EncryptionTest {
 
     @Test

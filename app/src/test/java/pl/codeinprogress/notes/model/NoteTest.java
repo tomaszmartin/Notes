@@ -29,4 +29,11 @@ public class NoteTest {
         assertNull(note.getDescription());
     }
 
+    @Test
+    public void sameNotesShouldBeEqual() {
+        Note note = new Note();
+        Note tested = new Note();
+        assertEquals(note, tested);
+    }
+
 }
