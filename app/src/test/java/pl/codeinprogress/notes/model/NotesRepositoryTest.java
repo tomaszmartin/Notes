@@ -9,6 +9,7 @@ import rx.Observable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
 
 public class NotesRepositoryTest {
 
@@ -21,6 +22,7 @@ public class NotesRepositoryTest {
     public static void setup() {
         dataSource = Mockito.mock(NotesDataSource.class);
         repository = NotesRepository.getInstance(dataSource);
+        when(dataSource.getNotes()).thenReturn(Observable.empty());
     }
 
     @Test
@@ -46,7 +48,6 @@ public class NotesRepositoryTest {
 
     @Test
     public void shouldNotReturnNull() throws Exception {
-        Mockito.when(dataSource.getNotes()).thenReturn(Observable.empty());
         assertNotNull(repository.getNotes());
     }
 

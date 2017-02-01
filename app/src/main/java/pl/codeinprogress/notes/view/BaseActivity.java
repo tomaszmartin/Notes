@@ -5,11 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
-
 import javax.inject.Inject;
 
-import io.realm.Realm;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.injection.ApplicationComponent;
 import pl.codeinprogress.notes.injection.ApplicationModule;
@@ -17,14 +14,14 @@ import pl.codeinprogress.notes.injection.DaggerApplicationComponent;
 import pl.codeinprogress.notes.injection.NotesRepositoryModule;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Analytics;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
 
 public class BaseActivity extends AppCompatActivity {
 
     @Inject
     NotesRepository injectedRepository;
     @Inject
-    SchedulerProvider scheduler;
+    AndroidSchedulerProvider scheduler;
     @Inject
     Analytics analytics;
 
@@ -61,7 +58,7 @@ public class BaseActivity extends AppCompatActivity {
         return injectedRepository;
     }
 
-    public SchedulerProvider getScheduler() {
+    public AndroidSchedulerProvider getScheduler() {
         return scheduler;
     }
 

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
+import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
 import pl.codeinprogress.notes.util.EspressoIdlingResource;
 import pl.codeinprogress.notes.util.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.NotesView;
@@ -21,12 +22,12 @@ public class NotesPresenter {
     @NonNull
     private NotesView view;
     @NonNull
-    private SchedulerProvider schedulerProvider;
+    private SchedulerProvider androidSchedulerProvider;
     @NonNull
     private CompositeSubscription subscriptions;
 
     public NotesPresenter(@NonNull NotesView view, @NonNull NotesRepository repository, @NonNull SchedulerProvider provider) {
-        this.schedulerProvider = checkNotNull(provider);
+        this.androidSchedulerProvider = checkNotNull(provider);
         this.repository = checkNotNull(repository);
         this.view = checkNotNull(view);
         this.subscriptions = new CompositeSubscription();
@@ -37,8 +38,8 @@ public class NotesPresenter {
         subscriptions.clear();
         Subscription subscription = repository
                 .getNotes()
-                .subscribeOn(schedulerProvider.computation())
-                .observeOn(schedulerProvider.ui())
+                .subscribeOn(androidSchedulerProvider.computation())
+                .observeOn(androidSchedulerProvider.ui())
                 .doOnTerminate(() -> {
                     if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                         EspressoIdlingResource.decrement();
@@ -49,7 +50,7 @@ public class NotesPresenter {
         subscriptions.add(subscription);
     }
 
-    public void deleteNote(String noteId) {
+    public void deleteNote(@NonNull String noteId) {
         repository.deleteNote(noteId);
     }
 

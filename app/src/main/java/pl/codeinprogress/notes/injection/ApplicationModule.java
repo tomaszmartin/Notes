@@ -7,18 +7,18 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import pl.codeinprogress.notes.util.Analytics;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
 
 @Module
 public class ApplicationModule {
 
     private Context context;
     private Analytics analytics;
-    private SchedulerProvider schedulerProvider;
+    private AndroidSchedulerProvider androidSchedulerProvider;
 
     public ApplicationModule(Context context) {
         this.context = context;
-        this.schedulerProvider = SchedulerProvider.getInstance();
+        this.androidSchedulerProvider = AndroidSchedulerProvider.getInstance();
         this.analytics = Analytics.getInstance(context);
     }
 
@@ -28,8 +28,8 @@ public class ApplicationModule {
     }
 
     @Provides @Singleton
-    public SchedulerProvider providesScheduler() {
-        return schedulerProvider;
+    public AndroidSchedulerProvider providesScheduler() {
+        return androidSchedulerProvider;
     }
 
     @Provides @Singleton

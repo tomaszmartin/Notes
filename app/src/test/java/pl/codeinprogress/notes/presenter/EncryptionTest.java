@@ -9,14 +9,14 @@ import static org.junit.Assert.*;
 public class EncryptionTest {
 
     @Test
-    public void savesPassword() throws Exception {
+    public void shouldSavePassword() throws Exception {
         String password = "password";
         Encryption encryption = new Encryption(password);
         assertEquals(password, encryption.getPassword());
     }
 
     @Test
-    public void encryptsMessage() throws Exception {
+    public void shouldEncryptsMessage() throws Exception {
         Encryption encryption = new Encryption("password");
         String message = "message";
 

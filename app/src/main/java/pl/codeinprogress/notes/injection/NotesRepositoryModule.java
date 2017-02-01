@@ -7,7 +7,7 @@ import dagger.Provides;
 import pl.codeinprogress.notes.model.NotesDataSource;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
 
 @Module
 public class NotesRepositoryModule {
@@ -17,8 +17,8 @@ public class NotesRepositoryModule {
 
     public NotesRepositoryModule(Context context) {
         this.context = context;
-        SchedulerProvider schedulerProvider = SchedulerProvider.getInstance();
-        NotesDataSource dataSource = LocalNotesDataSource.getInstance(context, schedulerProvider);
+        AndroidSchedulerProvider androidSchedulerProvider = AndroidSchedulerProvider.getInstance();
+        NotesDataSource dataSource = LocalNotesDataSource.getInstance(context, androidSchedulerProvider);
         this.repository = NotesRepository.getInstance(dataSource);
     }
 
