@@ -39,9 +39,22 @@ public class DetailsPresenterTest {
     }
 
     @Test
+    public void shouldSaveNoteEvenIfContentsAreNull() {
+        detailsPresenter.saveNote(new Note(), null);
+        verify(notesRepository, times(1)).saveNote(any());
+    }
+
+    @Test
     public void shouldCallGetNoteOnRepository() {
         detailsPresenter.loadNote("test");
         verify(notesRepository, times(1)).getNote("test");
+    }
+
+    @Test
+    public void shouldLoadContentsIntoView() {
+        detailsPresenter.displayContents("test");
+        String encrypted = detailsPresenter.getEncrypted("test");
+        verify(detailsView, times(1)).showNoteContents(encrypted);
     }
 
 }

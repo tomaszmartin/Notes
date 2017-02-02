@@ -83,7 +83,7 @@ public class DetailsPresenter {
         getNoteContent(note);
     }
 
-    private void getNoteContent(Note note) {
+    void getNoteContent(Note note) {
         if (noteFileExists(note)) {
             loadNoteContentsFromFile(note);
         } else {
@@ -91,20 +91,22 @@ public class DetailsPresenter {
         }
     }
 
-    private void saveToFile(final Note note, @NonNull final String password, @NonNull final String content) {
-        schedulerProvider.io().createWorker().schedule(() -> {
-            if (!content.isEmpty() && note.getPath() != null && !note.getPath().isEmpty()) {
-                try {
-                    Encryption encryption = new Encryption(password);
-                    String result = encryption.encrypt(content);
-                    FileOutputStream outputStream = new FileOutputStream(new File(note.getPath()));
-                    outputStream.write(result.getBytes());
-                    outputStream.close();
-                } catch (Exception e) {
-                    view.showErrorMessage("Error while saving note!");
+    private void saveToFile(final Note note, final String password, final String content) {
+        if (note != null && content != null) {
+            schedulerProvider.io().createWorker().schedule(() -> {
+                if (!content.isEmpty() && note.getPath() != null && !note.getPath().isEmpty()) {
+                    try {
+                        Encryption encryption = new Encryption(password);
+                        String result = encryption.encrypt(content);
+                        FileOutputStream outputStream = new FileOutputStream(new File(note.getPath()));
+                        outputStream.write(result.getBytes());
+                        outputStream.close();
+                    } catch (Exception e) {
+                        view.showErrorMessage("Error while saving note!");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private boolean noteFileExists(Note note) {
@@ -133,11 +135,15 @@ public class DetailsPresenter {
         }
     }
 
-    private void displayContents(final String content) {
-        final Encryption encryption = new Encryption(password);
+    void displayContents(final String content) {
         schedulerProvider.ui().createWorker().schedule(() -> {
-            view.showNoteContents(encryption.decrypt(content));
+            view.showNoteContents(getEncrypted(content));
         });
+    }
+
+    String getEncrypted(String message) {
+        Encryption encryption = new Encryption(password);
+        return encryption.decrypt(message);
     }
 
 }

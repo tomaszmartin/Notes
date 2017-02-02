@@ -12,10 +12,6 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-/**
- * Created by tomaszmartin on 22.06.2016.
- */
-
 public class Encryption {
     private String encryption;
     private Cipher cipher;
