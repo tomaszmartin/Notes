@@ -35,6 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/appbar"
                 android:padding="16dp"
+                android:textSize="14sp"
+                android:background="@color/translucent"
                 tools:text="@string/lorem_long"/>
 
         </RelativeLayout>
