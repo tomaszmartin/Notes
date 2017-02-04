@@ -29,100 +29,13 @@
 
             </android.support.design.widget.AppBarLayout>
 
-            <LinearLayout
-                android:id="@+id/main"
+            <EditText
+                android:id="@+id/editor"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/appbar"
-                android:background="@color/item_background"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/appbar"
                 android:padding="16dp"
-                >
-
-                <LinearLayout
-                    android:id="@+id/buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="16dp"
-                    >
-
-                    <ImageButton
-                        android:id="@+id/listBulleted"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/translucent"
-                        android:src="@drawable/button_format_bulleted_list" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-
-                    <ImageButton
-                        android:id="@+id/formatBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/translucent"
-                        android:src="@drawable/button_format_bold" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-
-                    <ImageButton
-                        android:id="@+id/formatItalic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/translucent"
-                        android:src="@drawable/button_format_italic" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-
-                    <ImageButton
-                        android:id="@+id/formatUnderline"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/translucent"
-                        android:src="@drawable/button_format_underline" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-
-                    <ImageButton
-                        android:id="@+id/formatImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/translucent"
-                        android:src="@drawable/button_format_image" />
-
-                    <android.support.v4.widget.Space
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content" />
-
-                    <ImageButton
-                        android:id="@+id/formatMicrophone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="8dp"
-                        android:background="@color/translucent"
-                        android:src="@drawable/button_format_microphone" />
-
-                </LinearLayout>
-
-                <jp.wasabeef.richeditor.RichEditor
-                    android:id="@+id/contentView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
-
-            </LinearLayout>
+                tools:text="@string/lorem_long"/>
 
         </RelativeLayout>
 

@@ -13,13 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import java.io.File;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-import jp.wasabeef.richeditor.RichEditor;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
@@ -110,8 +110,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void showNoteContents(String contents) {
-        RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
-        contentView.setHtml(contents);
+        EditText editor = (EditText) findViewById(R.id.editor);
+        editor.setText(contents);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void insertImage(String imagePath) {
-        ((RichEditor) findViewById(R.id.contentView)).insertImage(imagePath, null);
+        // Todo: add image capabilities
     }
 
 
@@ -135,10 +135,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
-
-        RichEditor editor = (RichEditor) findViewById(R.id.contentView);
-        editor.setBackgroundColor(getResources().getColor(R.color.item_background));
-        editor.setEditorFontColor(getResources().getColor(R.color.editor_text_color));
     }
 
     private void setupData() {
@@ -152,27 +148,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             if (status == TextToSpeech.SUCCESS) {
                 textToSpeech.setLanguage(current);
             }
-        });
-
-        RichEditor contentView = (RichEditor) findViewById(R.id.contentView);
-        findViewById(R.id.listBulleted).setOnClickListener(view -> {
-            contentView.setBullets();
-            view.setSelected(!view.isSelected());
-        });
-        findViewById(R.id.formatBold).setOnClickListener(view -> {
-            contentView.setBold();
-            view.setSelected(!view.isSelected());
-        });
-        findViewById(R.id.formatItalic).setOnClickListener(view -> {
-            contentView.setItalic();
-            view.setSelected(!view.isSelected());
-        });
-        findViewById(R.id.formatUnderline).setOnClickListener(view -> {
-            contentView.setUnderline();
-            view.setSelected(!view.isSelected());
-        });
-        findViewById(R.id.formatImage).setOnClickListener(view -> {
-            pickImage();
         });
     }
 
@@ -200,7 +175,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     private void saveNote() {
         if (null != note) {
-            presenter.saveNote(getNote(), getNoteHtml());
+            presenter.saveNote(getNote(), getNoteContent());
         }
     }
 
@@ -216,12 +191,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private String getNoteContent() {
-        String note = Html.fromHtml(getNoteHtml()).toString();
-        return note;
-    }
-
-    private String getNoteHtml() {
-        String content = ((RichEditor) findViewById(R.id.contentView)).getHtml();
+        String content = ((EditText) findViewById(R.id.editor)).getText().toString();
         return content;
     }
 

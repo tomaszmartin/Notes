@@ -43,7 +43,8 @@ public class DetailsPresenter {
         saveToFile(note, password, contents);
     }
 
-    public void loadNote(String noteId) {
+    public void loadNote(@NonNull String noteId) {
+        Log.d(DetailsPresenter.class.getSimpleName(), "loadNote: called with id" + noteId);
         repository.getNote(noteId)
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())

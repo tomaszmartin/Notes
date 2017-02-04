@@ -2,6 +2,7 @@ package pl.codeinprogress.notes.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class NotesRepository implements NotesDataSource {
 
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
-        if (null != noteId && noteId.isEmpty()) {
+        if (null != noteId && !noteId.isEmpty()) {
             return dataSource.getNote(noteId);
         } else {
             return null;
