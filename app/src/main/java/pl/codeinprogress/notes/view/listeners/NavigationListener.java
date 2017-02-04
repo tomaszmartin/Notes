@@ -30,8 +30,6 @@ public class NavigationListener implements NavigationView.OnNavigationItemSelect
             case R.id.drawer_settings:
                 startActivity(SettingsActivity.class);
                 return true;
-            case R.id.drawer_logout:
-                return true;
         }
         return false;
     }
