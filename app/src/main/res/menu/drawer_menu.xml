@@ -11,27 +11,10 @@
             />
 
         <item
-            android:id="@+id/drawer_basket"
-            android:title="@string/basket"
+            android:id="@+id/drawer_settings"
+            android:title="@string/action_settings"
             />
 
     </group>
-
-    <item android:title="@string/information">
-        <menu>
-            <item
-                android:id="@+id/drawer_logout"
-                android:title="@string/logout"
-                />
-            <item
-                android:id="@+id/drawer_settings"
-                android:title="@string/action_settings"
-                />
-            <item
-                android:id="@+id/drawer_about"
-                android:title="@string/about"
-                />
-        </menu>
-    </item>
 
 </menu>

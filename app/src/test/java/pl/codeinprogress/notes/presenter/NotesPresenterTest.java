@@ -9,14 +9,11 @@ import java.util.ArrayList;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
-import pl.codeinprogress.notes.util.ImmediateSchedulerProvider;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.ImmediateSchedulerProvider;
 import pl.codeinprogress.notes.view.views.NotesView;
 import rx.Observable;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.util;
+package pl.codeinprogress.notes.util.espresso;
 
 import android.support.test.espresso.IdlingResource;
 

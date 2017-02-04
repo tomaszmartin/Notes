@@ -14,7 +14,7 @@ import pl.codeinprogress.notes.injection.DaggerApplicationComponent;
 import pl.codeinprogress.notes.injection.NotesRepositoryModule;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Analytics;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.AndroidSchedulerProvider;
 
 public class BaseActivity extends AppCompatActivity {
 

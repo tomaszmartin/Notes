@@ -19,7 +19,7 @@ import java.io.InputStreamReader;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Encryption;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsPresenter {
@@ -92,7 +92,7 @@ public class DetailsPresenter {
         }
     }
 
-    private void saveToFile(final Note note, final String password, final String content) {
+    void saveToFile(final Note note, final String password, final String content) {
         if (note != null && content != null) {
             schedulerProvider.io().createWorker().schedule(() -> {
                 if (!content.isEmpty() && note.getPath() != null && !note.getPath().isEmpty()) {
@@ -110,12 +110,12 @@ public class DetailsPresenter {
         }
     }
 
-    private boolean noteFileExists(Note note) {
+    boolean noteFileExists(Note note) {
         return note.getPath() != null && new File(note.getPath()).exists();
 
     }
 
-    private void loadNoteContentsFromFile(final Note note) {
+    void loadNoteContentsFromFile(final Note note) {
         if (note.getPath() != null) {
             schedulerProvider.io().createWorker().schedule(() -> {
                 String contents = "";

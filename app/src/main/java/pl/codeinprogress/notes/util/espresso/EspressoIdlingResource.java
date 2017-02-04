@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.util;
+package pl.codeinprogress.notes.util.espresso;
 
 public class EspressoIdlingResource {
 

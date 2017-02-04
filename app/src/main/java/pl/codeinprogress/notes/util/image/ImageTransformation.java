@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.util;
+package pl.codeinprogress.notes.util.image;
 
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;

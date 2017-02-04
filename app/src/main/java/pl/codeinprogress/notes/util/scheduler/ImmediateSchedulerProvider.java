@@ -1,4 +1,4 @@
-package pl.codeinprogress.notes.util;
+package pl.codeinprogress.notes.util.scheduler;
 
 import android.support.annotation.NonNull;
 

@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import pl.codeinprogress.notes.util.Analytics;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.AndroidSchedulerProvider;
 
 @Module
 public class ApplicationModule {

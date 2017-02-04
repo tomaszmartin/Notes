@@ -7,7 +7,7 @@ import dagger.Provides;
 import pl.codeinprogress.notes.model.NotesDataSource;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.model.local.LocalNotesDataSource;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.AndroidSchedulerProvider;
 
 @Module
 public class NotesRepositoryModule {

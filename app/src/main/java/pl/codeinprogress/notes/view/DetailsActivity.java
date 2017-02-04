@@ -30,10 +30,11 @@ import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsActivity extends BaseActivity implements DetailsView {
 
-    public static String NOTE_ID = "noteId";
-    private static final int IMAGE_REQUEST_CODE = 1;
-    private static final int AUDIO_REQUEST_CODE = 2;
-    private static final int CAMERA_REQUEST_CODE = 3;
+    public static final String NOTE_ID = "noteId";
+    public static final int IMAGE_REQUEST_CODE = 1;
+    public static final int AUDIO_REQUEST_CODE = 2;
+    public static final int CAMERA_REQUEST_CODE = 3;
+
     private TextToSpeech textToSpeech;
     private DetailsPresenter presenter;
     private Note note;

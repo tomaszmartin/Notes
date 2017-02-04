@@ -6,9 +6,8 @@ import java.util.UUID;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
-import pl.codeinprogress.notes.util.EspressoIdlingResource;
-import pl.codeinprogress.notes.util.SchedulerProvider;
+import pl.codeinprogress.notes.util.espresso.EspressoIdlingResource;
+import pl.codeinprogress.notes.util.scheduler.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.NotesView;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;

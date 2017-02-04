@@ -18,7 +18,7 @@ import java.util.List;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesDataSource;
-import pl.codeinprogress.notes.util.AndroidSchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.AndroidSchedulerProvider;
 import rx.Observable;
 
 import static com.google.common.base.Preconditions.checkNotNull;

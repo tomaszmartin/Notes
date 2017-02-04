@@ -7,7 +7,7 @@ import org.mockito.MockitoAnnotations;
 
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
-import pl.codeinprogress.notes.util.ImmediateSchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.ImmediateSchedulerProvider;
 import pl.codeinprogress.notes.view.views.DetailsView;
 import rx.Observable;
 

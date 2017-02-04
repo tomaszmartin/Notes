@@ -55,7 +55,7 @@
             android:label="@string/title_activity_settings" />
 
         <service
-            android:name=".util.FirebaseService">
+            android:name=".util.services.FirebaseMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
