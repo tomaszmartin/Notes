@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import static pl.codeinprogress.notes.model.local.NotesContract.*;
 
-public class LocalNotesDatabaseHelper extends SQLiteOpenHelper {
+class LocalNotesDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "notes.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "notes.db";
     private final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME + "("
             + _ID + " TEXT PRIMARY KEY, "
             + ENTRY_ID + " TEXT, "

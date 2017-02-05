@@ -9,6 +9,8 @@ import rx.Observable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class NotesRepositoryTest {
@@ -49,6 +51,33 @@ public class NotesRepositoryTest {
     @Test
     public void shouldNotReturnNull() throws Exception {
         assertNotNull(repository.getNotes());
+    }
+
+    @Test
+    public void shouldCallDataSourceWhenGetHasId() throws Exception {
+        repository.getNote("test");
+        verify(dataSource, times(1)).getNote("test");
+    }
+
+    @Test
+    public void shouldCallDataSourceWhenSave() throws Exception {
+        Note tested = new Note();
+        repository.saveNote(tested);
+        verify(dataSource, times(1)).saveNote(tested);
+    }
+
+    @Test
+    public void shouldCallDataSourceWhenDelete() throws Exception {
+        String tested = "test";
+        repository.deleteNote(tested);
+        verify(dataSource, times(1)).deleteNote(tested);
+    }
+
+    @Test
+    public void shouldCallDataSourceWhenAdd() throws Exception {
+        String tested = "test";
+        repository.addNote(tested);
+        verify(dataSource, times(1)).addNote(tested);
     }
 
 }

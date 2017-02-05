@@ -69,6 +69,7 @@
     <string name="create_shortcut_long_label">Create note</string>
     <string name="create_shortcut_disabled_label">Note creation disabled</string>
     <string name="empty_list">Nothing to see here yet…</string>
+    <string name="calendar_icon_description">Calendar icon</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

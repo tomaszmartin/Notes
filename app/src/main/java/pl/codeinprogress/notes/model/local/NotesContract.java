@@ -2,17 +2,17 @@ package pl.codeinprogress.notes.model.local;
 
 import android.provider.BaseColumns;
 
-public final class NotesContract implements BaseColumns {
+final class NotesContract implements BaseColumns {
 
     private NotesContract() {}
 
-    public static final String TABLE_NAME = "notes";
-    public static final String ENTRY_ID = "id";
-    public static final String TITLE = "title";
-    public static final String DESCRIPTION = "description";
-    public static final String PATH = "path";
-    public static final String CREATED = "created";
-    public static final String MODIFIED = "modified";
-    public static final String SECURED = "secured";
+    static final String TABLE_NAME = "notes";
+    static final String ENTRY_ID = "id";
+    static final String TITLE = "title";
+    static final String DESCRIPTION = "description";
+    static final String PATH = "path";
+    static final String CREATED = "created";
+    static final String MODIFIED = "modified";
+    static final String SECURED = "secured";
 
 }

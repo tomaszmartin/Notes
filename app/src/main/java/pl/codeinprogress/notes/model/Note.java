@@ -1,8 +1,6 @@
 package pl.codeinprogress.notes.model;
 
-import io.realm.RealmObject;
-
-public class Note extends RealmObject {
+public class Note {
 
     private String id;
     private String title;

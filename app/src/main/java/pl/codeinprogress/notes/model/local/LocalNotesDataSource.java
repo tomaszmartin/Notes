@@ -19,6 +19,7 @@ import java.util.List;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesDataSource;
 import pl.codeinprogress.notes.util.scheduler.AndroidSchedulerProvider;
+import pl.codeinprogress.notes.util.scheduler.SchedulerProvider;
 import rx.Observable;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -40,14 +41,14 @@ public class LocalNotesDataSource implements NotesDataSource {
     @NonNull
     private final File directory;
 
-    private LocalNotesDataSource(@NonNull Context context, @NonNull AndroidSchedulerProvider androidSchedulerProvider) {
+    private LocalNotesDataSource(@NonNull Context context, @NonNull SchedulerProvider androidSchedulerProvider) {
         LocalNotesDatabaseHelper databaseHelper = new LocalNotesDatabaseHelper(context);
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
         database = sqlBrite.wrapDatabaseHelper(databaseHelper, androidSchedulerProvider.io());
         directory = context.getFilesDir();
     }
 
-    public static LocalNotesDataSource getInstance(@NonNull Context context, @NonNull AndroidSchedulerProvider androidSchedulerProvider) {
+    public static LocalNotesDataSource getInstance(@NonNull Context context, @NonNull SchedulerProvider androidSchedulerProvider) {
         if (instance == null) {
             instance = new LocalNotesDataSource(context, androidSchedulerProvider);
         }
