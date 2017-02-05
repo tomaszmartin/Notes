@@ -12,11 +12,9 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.Date;
@@ -154,9 +152,15 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         presenter.loadNote(noteId);
     }
 
+    @SuppressWarnings("deprecation")
     private void setupListeners() {
         textToSpeech = new TextToSpeech(this, status -> {
-            Locale current = getResources().getConfiguration().locale;
+            Locale current = null;
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+                current = getResources().getConfiguration().getLocales().get(0);
+            } else {
+                current = getResources().getConfiguration().locale;
+            }
             if (status == TextToSpeech.SUCCESS) {
                 textToSpeech.setLanguage(current);
             }

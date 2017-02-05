@@ -3,9 +3,9 @@ package pl.codeinprogress.notes.view;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 
 import pl.codeinprogress.notes.R;
@@ -42,11 +42,9 @@ public class SettingsActivity extends BaseActivity {
     private void attachFragment() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(getTag());
         if (currentFragment != null) {
-            getSupportFragmentManager().beginTransaction().remove(currentFragment);
+            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
         }
-        getFragmentManager().beginTransaction()
-                .add(R.id.container, new SettingsFragment(), getTag())
-                .commit();
+        getFragmentManager().beginTransaction().add(R.id.container, new SettingsFragment(), getTag()).commit();
 
     }
 
@@ -54,7 +52,7 @@ public class SettingsActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            drawer.openDrawer(Gravity.LEFT);
+            drawer.openDrawer(GravityCompat.START);
         }
 
         return super.onOptionsItemSelected(item);

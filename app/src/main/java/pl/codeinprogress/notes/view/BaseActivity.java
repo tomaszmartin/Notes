@@ -29,7 +29,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .detectAll()
                 .penaltyLog()
