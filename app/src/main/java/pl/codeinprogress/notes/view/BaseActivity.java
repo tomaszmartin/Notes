@@ -1,6 +1,7 @@
 package pl.codeinprogress.notes.view;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
@@ -28,6 +29,13 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .build();
+        StrictMode.setThreadPolicy(policy);
+
         ApplicationComponent component = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .notesRepositoryModule(new NotesRepositoryModule(this))

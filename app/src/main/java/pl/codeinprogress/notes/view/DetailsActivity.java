@@ -139,20 +139,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         editor.setText(getNoteContent() + "\n" + txt);
     }
 
-    private void dictate() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.speak_now));
-        try {
-            startActivityForResult(intent, AUDIO_REQUEST_CODE);
-        } catch (ActivityNotFoundException a) {
-            showErrorMessage(getString(R.string.dictating_not_supported));
-        }
-    }
-
     private void setupView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -186,6 +172,43 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         }
     }
 
+    private void saveNote() {
+        if (null != note) {
+            presenter.saveNote(getNote(), getNoteContent());
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void readNote() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null, null);
+
+        } else {
+            textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
+
+    private Note getNote() {
+        note.setModified(new Date().getTime());
+        note.setDescription(getNoteContent());
+
+        return note;
+    }
+
+    private String getNoteContent() {
+        return  ((EditText) findViewById(R.id.editor)).getText().toString();
+    }
+
+    private void shareNote() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getNoteContent());
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+
+    }
+
+    @SuppressWarnings("unused")
     private void pickImage() {
         Intent image = new Intent();
         image.setType("image/*");
@@ -199,35 +222,19 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         startActivityForResult(image, IMAGE_REQUEST_CODE);
     }
 
-    private void saveNote() {
-        if (null != note) {
-            presenter.saveNote(getNote(), getNoteContent());
+    @SuppressWarnings("unused")
+    private void dictate() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speak_now));
+        try {
+            startActivityForResult(intent, AUDIO_REQUEST_CODE);
+        } catch (ActivityNotFoundException a) {
+            showErrorMessage(getString(R.string.dictating_not_supported));
         }
-    }
-
-    private void readNote() {
-        textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null);
-    }
-
-    private Note getNote() {
-        note.setModified(new Date().getTime());
-        note.setDescription(getNoteContent());
-
-        return note;
-    }
-
-    private String getNoteContent() {
-        String content = ((EditText) findViewById(R.id.editor)).getText().toString();
-        return content;
-    }
-
-    private void shareNote() {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, getNoteContent());
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);
-
     }
 
 }
