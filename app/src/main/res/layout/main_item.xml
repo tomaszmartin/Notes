@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:paddingLeft="4dp"
-            android:textColor="@color/note_title"
+            android:textColor="@color/item_title"
             android:textSize="12sp"
             tools:text="@string/date" />
 

@@ -1,7 +1,9 @@
 package pl.codeinprogress.notes.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
@@ -25,6 +27,8 @@ public class BaseActivity extends AppCompatActivity {
     AndroidSchedulerProvider scheduler;
     @Inject
     Analytics analytics;
+    @Inject
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public AndroidSchedulerProvider getScheduler() {
         return scheduler;
+    }
+
+    public SharedPreferences getPreferences() {
+        return preferences;
     }
 
 

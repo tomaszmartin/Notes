@@ -10,6 +10,6 @@
     <color name="action_bar_icon">#ffffff</color>
 
     <color name="black_overlay">#66000000</color>
-    <color name="note_title">#000000</color>
+    <color name="item_title">#000000</color>
 
 </resources>

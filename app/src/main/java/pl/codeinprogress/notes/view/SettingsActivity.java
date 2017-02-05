@@ -42,9 +42,15 @@ public class SettingsActivity extends BaseActivity {
     private void attachFragment() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentByTag(getTag());
         if (currentFragment != null) {
-            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .remove(currentFragment)
+                    .commit();
         }
-        getFragmentManager().beginTransaction().add(R.id.container, new SettingsFragment(), getTag()).commit();
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.container, new SettingsFragment(), getTag())
+                .commit();
 
     }
 

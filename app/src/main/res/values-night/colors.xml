@@ -7,6 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="translucent">#00ffffff</color>
 
-    <color name="note_title">#ffffff</color>
+    <color name="item_title">#ffffff</color>
 
 </resources>

@@ -1,6 +1,8 @@
 package pl.codeinprogress.notes.injection;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
 
@@ -25,6 +27,11 @@ public class ApplicationModule {
     @Provides @Singleton
     public Context providesContext() {
         return context;
+    }
+
+    @Provides @Singleton
+    public SharedPreferences providesPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     @Provides @Singleton
