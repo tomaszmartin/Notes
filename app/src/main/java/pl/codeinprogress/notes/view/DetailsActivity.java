@@ -140,9 +140,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     private void setupView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        EditText editor = (EditText) findViewById(R.id.editor);
-        // todo: fix resizing font
-        // editor.setTextSize(getPreferences().getFloat(getString(R.string.font_size_preference), 14));
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
