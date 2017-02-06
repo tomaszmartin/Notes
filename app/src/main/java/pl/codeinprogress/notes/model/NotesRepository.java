@@ -43,6 +43,11 @@ public class NotesRepository implements NotesDataSource {
     }
 
     @Override
+    public Observable<List<Note>> queryNotes(@NonNull String query) {
+        return dataSource.queryNotes(query);
+    }
+
+    @Override
     public void saveNote(@NonNull Note note) {
         dataSource.saveNote(note);
     }

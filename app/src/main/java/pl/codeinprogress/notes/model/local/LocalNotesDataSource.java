@@ -74,7 +74,6 @@ public class LocalNotesDataSource implements NotesDataSource {
 
     @Override
     public Observable<Note> getNote(@NonNull String noteId) {
-        Log.d(this.getClass().getSimpleName(), "loadNote: " + noteId);
         String[] projection = {
                 ENTRY_ID,
                 TITLE,
@@ -85,8 +84,22 @@ public class LocalNotesDataSource implements NotesDataSource {
                 SECURED
         };
         String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, ENTRY_ID);
-        Log.d(this.getClass().getSimpleName(), "loadNote: " + sql);
         return database.createQuery(TABLE_NAME, sql, noteId).mapToOne(this::getNote);
+    }
+
+    @Override
+    public Observable<List<Note>> queryNotes(@NonNull String query) {
+        String[] projection = {
+                ENTRY_ID,
+                TITLE,
+                DESCRIPTION,
+                PATH,
+                CREATED,
+                MODIFIED,
+                SECURED
+        };
+        String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, DESCRIPTION);
+        return database.createQuery(TABLE_NAME, sql, query).mapToList(this::getNote);
     }
 
     @Override

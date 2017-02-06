@@ -53,6 +53,19 @@ public class NotesPresenter {
         repository.deleteNote(noteId);
     }
 
+    public void queryNotes(@NonNull String query) {
+        EspressoIdlingResource.increment();
+        repository.queryNotes(query)
+                .subscribeOn(androidSchedulerProvider.computation())
+                .observeOn(androidSchedulerProvider.ui())
+                .doOnTerminate(() -> {
+                    if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
+                        EspressoIdlingResource.decrement();
+                    }
+                })
+                .subscribe(notes -> {view.showNotes(notes);});
+    }
+
     public void addNote() {
         Note note = new Note();
         String id = UUID.randomUUID().toString();

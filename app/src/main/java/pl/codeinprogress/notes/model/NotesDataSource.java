@@ -11,6 +11,7 @@ public interface NotesDataSource {
 
     Observable<List<Note>> getNotes();
     Observable<Note> getNote(@NonNull String noteId);
+    Observable<List<Note>> queryNotes(@NonNull String query);
     void saveNote(@NonNull Note note);
     void deleteNote(@NonNull String noteId);
     void addNote(@NonNull String noteId);
