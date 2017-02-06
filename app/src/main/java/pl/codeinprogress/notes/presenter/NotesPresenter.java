@@ -22,21 +22,16 @@ public class NotesPresenter {
     private NotesView view;
     @NonNull
     private SchedulerProvider androidSchedulerProvider;
-    @NonNull
-    private CompositeSubscription subscriptions;
 
     public NotesPresenter(@NonNull NotesView view, @NonNull NotesRepository repository, @NonNull SchedulerProvider provider) {
         this.androidSchedulerProvider = checkNotNull(provider);
         this.repository = checkNotNull(repository);
         this.view = checkNotNull(view);
-        this.subscriptions = new CompositeSubscription();
     }
 
     public void loadNotes() {
         EspressoIdlingResource.increment();
-        subscriptions.clear();
-        Subscription subscription = repository
-                .getNotes()
+        repository.getNotes()
                 .subscribeOn(androidSchedulerProvider.computation())
                 .observeOn(androidSchedulerProvider.ui())
                 .doOnTerminate(() -> {
@@ -45,8 +40,6 @@ public class NotesPresenter {
                     }
                 })
                 .subscribe(notes -> {view.showNotes(notes);});
-
-        subscriptions.add(subscription);
     }
 
     public void deleteNote(@NonNull String noteId) {

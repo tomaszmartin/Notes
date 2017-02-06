@@ -12,12 +12,21 @@
         <item name="actionModeBackground">@color/primary</item>
         <item name="android:actionModeCloseDrawable">@mipmap/ic_arrow_left</item>
         <item name="android:title">@string/app_name</item>
+        <item name="android:titleTextStyle">@style/actionbar</item>
         <item name="android:actionModeCopyDrawable">@mipmap/ic_copy</item>
         <item name="android:actionModeCutDrawable">@mipmap/ic_cut</item>
         <item name="android:actionModePasteDrawable">@mipmap/ic_paste</item>
         <item name="android:actionModeSelectAllDrawable">@mipmap/ic_select_all</item>
         <item name="searchViewStyle">@style/searchView</item>
         <item name="alertDialogTheme">@style/dialogStyle</item>
+    </style>
+
+    <style name="actionbar" parent="@android:style/Widget.ActionBar">
+        <item name="android:titleTextStyle">@style/title</item>
+    </style>
+
+    <style name="title">
+        <item name="android:textColor">@color/white_transparent</item>
     </style>
 
     <style name="Fullscreen" parent="@style/NoActionBar">
