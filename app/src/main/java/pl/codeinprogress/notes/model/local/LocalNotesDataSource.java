@@ -99,7 +99,7 @@ public class LocalNotesDataSource implements NotesDataSource {
                 SECURED
         };
         String sql = String.format("SELECT %s FROM %s WHERE %s LIKE ?", TextUtils.join(",", projection), TABLE_NAME, DESCRIPTION);
-        return database.createQuery(TABLE_NAME, sql, query).mapToList(this::getNote);
+        return database.createQuery(TABLE_NAME, sql, "%"+query+"%").mapToList(this::getNote);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class LocalNotesDataSource implements NotesDataSource {
         note.setCreated(cursor.getLong(cursor.getColumnIndexOrThrow(CREATED)));
         note.setModified(cursor.getLong(cursor.getColumnIndexOrThrow(MODIFIED)));
         note.setSecured(cursor.getInt(cursor.getColumnIndexOrThrow(SECURED)) == 1);
-        Log.d(this.getClass().getSimpleName(), "loadNote: " + note.toString());
+        Log.d(this.getClass().getSimpleName(), "getNote: " + note.toString());
 
         return note;
     }
