@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.Encryption;
@@ -44,10 +45,10 @@ public class DetailsPresenter {
     }
 
     public void loadNote(@NonNull String noteId) {
-        Log.d(DetailsPresenter.class.getSimpleName(), "loadNote: called with id" + noteId);
         repository.getNote(noteId)
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())
+                .doOnError(error -> {view.showErrorMessage(R.string.error_loading);})
                 .subscribe(this::showNote);
     }
 
@@ -70,7 +71,7 @@ public class DetailsPresenter {
                 outputStream.close();
                 schedulerProvider.ui().createWorker().schedule(() -> view.insertImage(scaledImage.getPath()));
             } catch (IOException exception) {
-                view.showErrorMessage("Error while retrieving image!");
+                view.showErrorMessage(R.string.image_error);
             }
         });
     }
@@ -103,7 +104,7 @@ public class DetailsPresenter {
                         outputStream.write(result.getBytes());
                         outputStream.close();
                     } catch (Exception e) {
-                        view.showErrorMessage("Error while saving note!");
+                        view.showErrorMessage(R.string.error_saving);
                     }
                 }
             });
@@ -129,7 +130,7 @@ public class DetailsPresenter {
                     inputStream.close();
                     displayContents(contents);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    view.showErrorMessage(R.string.error_loading);
                     displayContents("");
                 }
             });

@@ -6,7 +6,7 @@ public interface DetailsView {
 
     void showNote(Note note);
     void showNoteContents(String htmlContents);
-    void showErrorMessage(String message);
+    void showErrorMessage(int messageId);
     void insertImage(String imagePath);
 
 }

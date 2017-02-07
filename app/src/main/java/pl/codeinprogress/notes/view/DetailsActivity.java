@@ -119,8 +119,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     @Override
-    public void showErrorMessage(String message) {
-        Snackbar.make(findViewById(R.id.coordinator), message, Snackbar.LENGTH_LONG).show();
+    public void showErrorMessage(int messageId) {
+        Snackbar.make(findViewById(R.id.coordinator), getString(messageId), Snackbar.LENGTH_LONG).show();
     }
 
     @Override

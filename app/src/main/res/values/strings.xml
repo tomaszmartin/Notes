@@ -71,6 +71,9 @@
     <string name="empty_list">Nothing to see here yet…</string>
     <string name="calendar_icon_description">Calendar icon</string>
     <string name="empty_note_hint">Enter note here...</string>
+    <string name="image_error">Error while retrieving image!</string>
+    <string name="error_saving">Error while saving note!</string>
+    <string name="error_loading">Error loading message!</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>
