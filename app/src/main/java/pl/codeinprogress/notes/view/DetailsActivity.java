@@ -237,7 +237,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         try {
             startActivityForResult(intent, AUDIO_REQUEST_CODE);
         } catch (ActivityNotFoundException a) {
-            showErrorMessage(getString(R.string.dictating_not_supported));
+            showErrorMessage(R.string.dictating_not_supported);
         }
     }
 

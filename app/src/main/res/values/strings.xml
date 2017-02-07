@@ -74,6 +74,7 @@
     <string name="image_error">Error while retrieving image!</string>
     <string name="error_saving">Error while saving note!</string>
     <string name="error_loading">Error loading message!</string>
+    <string name="error_searching">Error while searching notes!</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

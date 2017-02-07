@@ -4,13 +4,12 @@ import android.support.annotation.NonNull;
 
 import java.util.UUID;
 
+import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.model.NotesRepository;
 import pl.codeinprogress.notes.util.espresso.EspressoIdlingResource;
 import pl.codeinprogress.notes.util.scheduler.SchedulerProvider;
 import pl.codeinprogress.notes.view.views.NotesView;
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -39,7 +38,8 @@ public class NotesPresenter {
                         EspressoIdlingResource.decrement();
                     }
                 })
-                .subscribe(notes -> {view.showNotes(notes);});
+                .doOnError(error -> view.showErrorMessage(R.string.error_loading))
+                .subscribe(notes -> view.showNotes(notes));
     }
 
     public void deleteNote(@NonNull String noteId) {
@@ -56,7 +56,8 @@ public class NotesPresenter {
                         EspressoIdlingResource.decrement();
                     }
                 })
-                .subscribe(notes -> {view.showNotes(notes);});
+                .doOnError(error -> view.showErrorMessage(R.string.error_searching))
+                .subscribe(notes -> view.showNotes(notes));
     }
 
     public void addNote() {
