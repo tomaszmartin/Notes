@@ -32,7 +32,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public static final int IMAGE_REQUEST_CODE = 1;
     public static final int AUDIO_REQUEST_CODE = 2;
     public static final int CAMERA_REQUEST_CODE = 3;
-
     private TextToSpeech textToSpeech;
     private DetailsPresenter presenter;
     private Note note;
@@ -57,7 +56,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && data != null) {
-            switch(requestCode) {
+            switch (requestCode) {
                 case IMAGE_REQUEST_CODE:
                     presenter.transformImage(data.getData(), this);
                     break;
@@ -92,7 +91,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id) {
+        switch (id) {
             case R.id.action_share:
                 shareNote();
                 return true;
@@ -127,9 +126,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public void insertImage(String imagePath) {
         // Todo: add image capabilities
     }
-
-
-
 
 
     private void insertText(String txt) {
@@ -200,7 +196,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private String getNoteContent() {
-        return  ((EditText) findViewById(R.id.editor)).getText().toString();
+        return ((EditText) findViewById(R.id.editor)).getText().toString();
     }
 
     private void shareNote() {

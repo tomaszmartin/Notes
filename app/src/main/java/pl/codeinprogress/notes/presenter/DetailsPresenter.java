@@ -41,14 +41,16 @@ public class DetailsPresenter {
 
     public void saveNote(Note note, String contents) {
         repository.saveNote(note);
-        saveToFile(note, password, contents);
+        saveNoteContentsToFile(note, password, contents);
     }
 
     public void loadNote(@NonNull String noteId) {
         repository.getNote(noteId)
                 .subscribeOn(schedulerProvider.computation())
                 .observeOn(schedulerProvider.ui())
-                .doOnError(error -> {view.showErrorMessage(R.string.error_loading);})
+                .doOnError(error -> {
+                    view.showErrorMessage(R.string.error_loading);
+                })
                 .subscribe(this::showNote);
     }
 
@@ -77,23 +79,18 @@ public class DetailsPresenter {
     }
 
 
-
-
-
-    private void showNote(Note note) {
+    void showNote(Note note) {
         view.showNote(note);
-        getNoteContent(note);
+        loadNoteContentsFromFile(note);
     }
 
-    void getNoteContent(Note note) {
-        if (noteFileExists(note)) {
-            loadNoteContentsFromFile(note);
-        } else {
-            displayContents("");
-        }
+    void showNoteContents(final String content) {
+        schedulerProvider.ui().createWorker().schedule(() -> {
+            view.showNoteContents(getEncrypted(content));
+        });
     }
 
-    void saveToFile(final Note note, final String password, final String content) {
+    void saveNoteContentsToFile(final Note note, final String password, final String content) {
         if (note != null && content != null) {
             schedulerProvider.io().createWorker().schedule(() -> {
                 if (!content.isEmpty() && note.getPath() != null && !note.getPath().isEmpty()) {
@@ -111,13 +108,8 @@ public class DetailsPresenter {
         }
     }
 
-    boolean noteFileExists(Note note) {
-        return note.getPath() != null && new File(note.getPath()).exists();
-
-    }
-
     void loadNoteContentsFromFile(final Note note) {
-        if (note.getPath() != null) {
+        if (note.getPath() != null && new File(note.getPath()).exists()) {
             schedulerProvider.io().createWorker().schedule(() -> {
                 String contents = "";
                 try {
@@ -128,19 +120,15 @@ public class DetailsPresenter {
                         contents = contents + line;
                     }
                     inputStream.close();
-                    displayContents(contents);
+                    showNoteContents(contents);
                 } catch (Exception e) {
                     view.showErrorMessage(R.string.error_loading);
-                    displayContents("");
+                    showNoteContents("");
                 }
             });
+        } else {
+            showNoteContents("");
         }
-    }
-
-    void displayContents(final String content) {
-        schedulerProvider.ui().createWorker().schedule(() -> {
-            view.showNoteContents(getEncrypted(content));
-        });
     }
 
     String getEncrypted(String message) {
