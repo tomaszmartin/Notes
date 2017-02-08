@@ -63,10 +63,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
                 case CAMERA_REQUEST_CODE:
                     presenter.transformImage(data.getData(), this);
                     break;
-                case AUDIO_REQUEST_CODE:
-                    String text = data.getDataString();
-                    insertText(text);
-                    break;
                 default:
                     break;
             }
@@ -98,9 +94,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             case R.id.action_camera:
                 takePhoto();
                 return true;
-            case R.id.action_read:
-                readNote();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -125,12 +118,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     @Override
     public void insertImage(String imagePath) {
         // Todo: add image capabilities
-    }
-
-
-    private void insertText(String txt) {
-        EditText editor = (EditText) findViewById(R.id.editor);
-        editor.setText(getNoteContent() + "\n" + txt);
     }
 
     private void setupView() {
