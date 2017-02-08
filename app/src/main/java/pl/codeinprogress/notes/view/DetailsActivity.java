@@ -12,7 +12,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.Date;
@@ -22,6 +26,7 @@ import java.util.UUID;
 import pl.codeinprogress.notes.R;
 import pl.codeinprogress.notes.model.Note;
 import pl.codeinprogress.notes.presenter.DetailsPresenter;
+import pl.codeinprogress.notes.util.image.ImageTransformation;
 import pl.codeinprogress.notes.view.views.DetailsView;
 
 public class DetailsActivity extends BaseActivity implements DetailsView {
@@ -114,7 +119,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     @Override
     public void insertImage(String imagePath) {
-        // Todo: add image capabilities
+        ImageView imageView = (ImageView) findViewById(R.id.imageView);
+        imageView.setVisibility(View.VISIBLE);
+        ImageTransformation imageTransformation = new ImageTransformation(this);
+
+        if (imagePath != null && !imagePath.isEmpty()) {
+            Picasso.with(this)
+                    .load(imagePath)
+                    .transform(imageTransformation)
+                    .into(imageView);
+        }
     }
 
     private void setupView() {
