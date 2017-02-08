@@ -1,13 +1,11 @@
 package pl.codeinprogress.notes.view;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -30,8 +28,7 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     public static final String NOTE_ID = "noteId";
     public static final int IMAGE_REQUEST_CODE = 1;
-    public static final int AUDIO_REQUEST_CODE = 2;
-    public static final int CAMERA_REQUEST_CODE = 3;
+    public static final int CAMERA_REQUEST_CODE = 2;
     private TextToSpeech textToSpeech;
     private DetailsPresenter presenter;
     private Note note;
@@ -165,16 +162,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    private void readNote() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-            textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null, null);
-
-        } else {
-            textToSpeech.speak(getNoteContent(), TextToSpeech.QUEUE_FLUSH, null);
-        }
-    }
-
     private Note getNote() {
         note.setModified(new Date().getTime());
         note.setDescription(getNoteContent());
@@ -207,21 +194,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         }
 
         startActivityForResult(image, IMAGE_REQUEST_CODE);
-    }
-
-    @SuppressWarnings("unused")
-    private void dictate() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.speak_now));
-        try {
-            startActivityForResult(intent, AUDIO_REQUEST_CODE);
-        } catch (ActivityNotFoundException a) {
-            showErrorMessage(R.string.dictating_not_supported);
-        }
     }
 
 }
