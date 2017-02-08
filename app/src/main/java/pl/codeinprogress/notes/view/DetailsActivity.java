@@ -10,6 +10,8 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -139,7 +141,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("");
         }
+        changeFontSize();
     }
+
 
     private void setupData() {
         String noteId = getIntent().getStringExtra(NOTE_ID);
@@ -208,6 +212,17 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         }
 
         startActivityForResult(image, IMAGE_REQUEST_CODE);
+    }
+
+    private void changeFontSize() {
+        try {
+            int size =  Integer.valueOf(getPreferences().getString(getString(R.string.font_size_preference),
+                    getString(R.string.font_size_normal)));
+            EditText editor = (EditText) findViewById(R.id.editor);
+            editor.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
+        } catch (NumberFormatException e) {
+
+        }
     }
 
 }

@@ -52,7 +52,7 @@ public class DetailsPresenterTest {
 
     @Test
     public void shouldLoadContentsIntoView() {
-        detailsPresenter.displayContents("test");
+        detailsPresenter.showNoteContents("test");
         String encrypted = detailsPresenter.getEncrypted("test");
         verify(detailsView, times(1)).showNoteContents(encrypted);
     }
