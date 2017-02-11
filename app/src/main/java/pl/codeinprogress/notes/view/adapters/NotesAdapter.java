@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import pl.codeinprogress.notes.R;
@@ -68,6 +71,26 @@ public class NotesAdapter extends BaseAdapter {
 
     public void setData(List<Note> notes) {
         this.notes = notes;
+        notifyDataSetChanged();
+    }
+
+    public void sortAlphabetically() {
+        Collections.sort(notes, (object1, object2) -> {
+            Note first = (Note) object1;
+            Note second = (Note) object2;
+
+            return first.getDescription().compareTo(second.getDescription());
+        });
+        notifyDataSetChanged();
+    }
+
+    public void sortByLastModified() {
+        Collections.sort(notes, (object1, object2) -> {
+            Note first = (Note) object1;
+            Note second = (Note) object2;
+
+            return ((Long) first.getModified()).compareTo(second.getModified());
+        });
         notifyDataSetChanged();
     }
 
