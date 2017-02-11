@@ -78,7 +78,6 @@ public class DetailsPresenter {
         });
     }
 
-
     void showNote(Note note) {
         view.showNote(note);
         loadNoteContentsFromFile(note);

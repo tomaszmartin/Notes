@@ -15,9 +15,9 @@
     <string name="font_size_preference_default">Normal</string>
 
     <string-array name="font_size_preference_values">
-        <item>14</item>
-        <item>16</item>
         <item>20</item>
+        <item>24</item>
+        <item>28</item>
     </string-array>
     <string-array name="font_size_preference_options">
         <item>@string/font_size_small</item>
@@ -75,6 +75,7 @@
     <string name="error_saving">Error while saving note!</string>
     <string name="error_loading">Error loading message!</string>
     <string name="error_searching">Error while searching notes!</string>
+    <string name="error_photo">Error while trying to take photo.</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

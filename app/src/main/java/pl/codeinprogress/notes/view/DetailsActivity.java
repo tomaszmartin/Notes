@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -145,6 +148,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
 
+
+
+
     private void setupData() {
         String noteId = getIntent().getStringExtra(NOTE_ID);
         presenter.loadNote(noteId);
@@ -166,11 +172,20 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     }
 
     private void takePhoto() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        Uri photoUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), UUID.randomUUID().toString() + ".jpg"));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(intent, CAMERA_REQUEST_CODE);
+        File imageFile = createImageFile();
+        if (imageFile != null) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            Uri photoUri = FileProvider.getUriForFile(this,
+                    getApplicationContext().getPackageName() + ".provider",
+                    createImageFile());
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, CAMERA_REQUEST_CODE);
+            }
+        } else {
+            showErrorMessage(R.string.error_photo);
         }
     }
 
@@ -223,6 +238,24 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         } catch (NumberFormatException e) {
 
         }
+    }
+
+    private File createImageFile() {
+        try {
+            File storageDir = new File(Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_DCIM), "Camera");
+
+            return File.createTempFile(
+                    UUID.randomUUID().toString(),
+                    ".jpg",
+                    storageDir
+            );
+        } catch (IOException exception) {
+            log(exception.toString());
+            showErrorMessage(R.string.error_photo);
+        }
+
+        return null;
     }
 
 }
