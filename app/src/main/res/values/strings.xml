@@ -76,6 +76,7 @@
     <string name="error_loading">Error loading message!</string>
     <string name="error_searching">Error while searching notes!</string>
     <string name="error_photo">Error while trying to take photo.</string>
+    <string name="error_font">Error while changing font.</string>
 
     <plurals name="selected_notes">
         <item quantity="zero">Nothing chosen</item>

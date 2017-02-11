@@ -37,8 +37,6 @@ import pl.codeinprogress.notes.view.views.DetailsView;
 public class DetailsActivity extends BaseActivity implements DetailsView {
 
     public static final String NOTE_ID = "noteId";
-    public static final int IMAGE_REQUEST_CODE = 1;
-    public static final int CAMERA_REQUEST_CODE = 2;
     private TextToSpeech textToSpeech;
     private DetailsPresenter presenter;
     private Note note;
@@ -58,22 +56,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_details, menu);
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && data != null) {
-            switch (requestCode) {
-                case IMAGE_REQUEST_CODE:
-                    presenter.transformImage(data.getData(), this);
-                    break;
-                case CAMERA_REQUEST_CODE:
-                    presenter.transformImage(data.getData(), this);
-                    break;
-                default:
-                    break;
-            }
-        }
     }
 
     @Override
@@ -97,9 +79,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         switch (id) {
             case R.id.action_share:
                 shareNote();
-                return true;
-            case R.id.action_camera:
-                takePhoto();
                 return true;
         }
 
@@ -171,24 +150,6 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
         });
     }
 
-    private void takePhoto() {
-        File imageFile = createImageFile();
-        if (imageFile != null) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-            Uri photoUri = FileProvider.getUriForFile(this,
-                    getApplicationContext().getPackageName() + ".provider",
-                    createImageFile());
-
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
-            }
-        } else {
-            showErrorMessage(R.string.error_photo);
-        }
-    }
-
     private void saveNote() {
         if (null != note) {
             presenter.saveNote(getNote(), getNoteContent());
@@ -215,47 +176,14 @@ public class DetailsActivity extends BaseActivity implements DetailsView {
 
     }
 
-    @SuppressWarnings("unused")
-    private void pickImage() {
-        Intent image = new Intent();
-        image.setType("image/*");
-
-        if (Build.VERSION.SDK_INT <= 19) {
-            image.setAction(Intent.ACTION_GET_CONTENT);
-        } else {
-            image.setAction(Intent.ACTION_OPEN_DOCUMENT);
-        }
-
-        startActivityForResult(image, IMAGE_REQUEST_CODE);
-    }
-
     private void changeFontSize() {
         try {
-            int size =  Integer.valueOf(getPreferences().getString(getString(R.string.font_size_preference),
-                    getString(R.string.font_size_normal)));
+            int size =  Integer.valueOf(getPreferences().getString(getString(R.string.font_size_preference), getString(R.string.font_size_normal)));
             EditText editor = (EditText) findViewById(R.id.editor);
             editor.setTextSize(TypedValue.COMPLEX_UNIT_SP, size);
         } catch (NumberFormatException e) {
-
+            showErrorMessage(R.string.error_font);
         }
-    }
-
-    private File createImageFile() {
-        try {
-            File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DCIM), "Camera");
-
-            return File.createTempFile(
-                    UUID.randomUUID().toString(),
-                    ".jpg",
-                    storageDir
-            );
-        } catch (IOException exception) {
-            log(exception.toString());
-            showErrorMessage(R.string.error_photo);
-        }
-
-        return null;
     }
 
 }
